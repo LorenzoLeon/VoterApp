@@ -67,7 +67,8 @@ class Poll: Equatable
         
         
     }
-    /*
+    
+    /* TODO
     func addNewAnswers(newAnswers: [String]) -> Bool {
         
         
@@ -77,8 +78,9 @@ class Poll: Equatable
         return isOpen
     }*/
     
+    
     func isFinished() -> Bool { //check if it is still open, close if not
-        isOpen = !(creationDate.timeIntervalSince(Foundation.Date.init()) > Values.oneWeek) //older than 2 weeks
+        isOpen = !(creationDate.timeIntervalSince(Foundation.Date.init()) > Values.oneWeek) //older than  1 week
         return isOpen
     }
     
