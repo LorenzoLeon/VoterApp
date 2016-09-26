@@ -29,9 +29,16 @@ class User {
         return verified
     }
     
+    func addToRequest(newRequest: URLRequest) -> URLRequest {
+        var request = newRequest
+        request.addValue(username, forHTTPHeaderField: "Username")
+        request.addValue(password, forHTTPHeaderField: "Password")
+        return request
+    }
+    
 }
 
-class FullUser: User {
+class FullUser: User, CustomStringConvertible{
     let gender: Gender
     let division: Set<Division>
     let age: Int
@@ -63,10 +70,8 @@ class FullUser: User {
     }
     
     func putInURLRequest(newRequest: URLRequest) -> URLRequest {
-        var request = newRequest
-        request.addValue(username, forHTTPHeaderField: "Username")
-        request.addValue(password, forHTTPHeaderField: "Password")
-        request.addValue(gender.getString(), forHTTPHeaderField: "Gender")
+        var request = self.putInURLRequest(newRequest: newRequest)
+        request.addValue("\(gender)", forHTTPHeaderField: "Gender")
         request.addValue(getDivisions(), forHTTPHeaderField: "Divisions")
         
         if let sem = semester {
@@ -84,20 +89,22 @@ class FullUser: User {
         }
         return divString
     }
-    
+    var description: String {
+        return "User: \(username) has password: \(password) and is a \(age) years old \(gender), at the \(division) in CIDE in his \(semester)º semester"
+    }
     
 }
 
-enum Gender {
+enum Gender: CustomStringConvertible{
     case Male
     case Female
     case Else
-    func getString() -> String{
+    var description: String {
         switch self {
         case .Male:
-            return "M"
+            return "Male"
         case .Female:
-            return "F"
+            return "Female"
         default: return "NS"
         }
     }
@@ -112,26 +119,12 @@ enum Gender {
     }
 }
 
-enum Division {
-    case DAP
-    case DE
-    case DIE
-    case DEJ
-    case DEP
-    case DH
-    case DAE
-    case BIB
-    case DG
-    case SG
-    case SA
-    
-    func getString() -> String {
-        switch self {
-        case .BIB:
-            return "BIB"
-        //TODO
-        default:
-            return "DAE"
-        }
+enum Division: String {
+    case DAP, DE, DEI, DEJ, DEP, DH, DAE, BIB, DG, SG, SA
+    static func allValues() -> [String] {
+        return Division.allValuesD().map { $0.rawValue }
+    }
+    static func allValuesD() -> [Division] {
+         return [DAP, DE, DEI, DEJ, DEP, DH, DAE, BIB, DG, SG, SA]
     }
 }

@@ -31,10 +31,7 @@ class PollPHPConnector {
     func signIn() {
         if session == nil {
             session = URLSession(configuration: PollPHPConnector.sesConfig, delegate: pollStore, delegateQueue: nil)
-            var request = getRequest(urlS: PollPHPConnector.urlSignIn)
-            request.addValue(pollStore.user.username, forHTTPHeaderField: "User")
-            request.addValue(pollStore.user.password, forHTTPHeaderField: "Password")
-            doToSession(request: request)
+            doToSession(request: pollStore.user.addToRequest(newRequest: getRequest(urlS: PollPHPConnector.urlSignIn)))
         } else {
             signOut()
             signIn()
@@ -42,7 +39,19 @@ class PollPHPConnector {
         
     }
     
-    func signUp(newUser: FullUser) {
+    func signUp(newUser: FullUser) -> String {
+        if session == nil {
+            let url = URL(string: PollPHPConnector.urlSignUp)
+            var request = URLRequest(url: url!)
+            request = newUser.putInURLRequest(newRequest: request)
+            session = URLSession(configuration: PollPHPConnector.sesConfig, delegate: pollStore, delegateQueue: nil)
+            doToSession(request: request)
+        } else {
+            signOut()
+            return signUp(newUser: newUser)
+        }
+        
+        return "FALSE"
         
     }
     
@@ -51,17 +60,14 @@ class PollPHPConnector {
         if session != nil {
             let request = getRequest(urlS: PollPHPConnector.urlSignOut)
             doToSession(request: request)
-            if session != nil {
-                session!.invalidateAndCancel()
-            } else {
-                session = nil
-            }
+            session!.invalidateAndCancel()
+            session = nil
         }
     }
     
     func isActivated() {
         let request = getRequest(urlS: PollPHPConnector.urlSignOut)
-       
+        
         doToSession(request: request)
     }
     
@@ -75,15 +81,17 @@ class PollPHPConnector {
         let url = URL(string: urlS)!
         var request = URLRequest(url: url)
         request.addValue(pollStore.user.userID!, forHTTPHeaderField: "UserID")
+        request.httpMethod = "POST"
         return request
     }
     
     private func addUserToRequest(user: User, request: URLRequest) -> URLRequest {
+        return user.addToRequest(newRequest: request)
     }
 }
 
 
-protocol PollStore: class, URLSessionDelegate {
+protocol PollStore: class, URLSessionDataDelegate {
     func insertPolls(newPollList: [Poll])
     var user: User {
         get

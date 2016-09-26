@@ -1,29 +1,42 @@
 //
-//  PollContainerModel.swift
+//  trydownloader.swift
 //  VoterApp
 //
-//  Created by Lorenzo Leon Robles on 9/18/16.
+//  Created by Lorenzo Leon Robles on 9/22/16.
 //  Copyright © 2016 Lorenzo Leon Robles. All rights reserved.
 //
 
 import Foundation
 
-class PollContainerModel: NSObject, PollStore {
+protocol HomeModelProtocal: class {
+    func itemsDownloaded(items: [Poll])
+}
+
+
+class HomeModel: NSObject, URLSessionDataDelegate {
     
-    private var polls = [Poll]()
-    private var data1 =  Data()
-    var user: User
+    //properties
     
-    init(newUser: User) {
-        user = newUser
-    }
+    weak var delegate: HomeModelProtocal!
     
-    func insertPolls(newPollList: [Poll]) {
-    }
+    var data1 = Data()
     
-    func changeUser(newUser: User) {
-        polls = [Poll]()
-        user = newUser
+    let urlPath: String = "http://iosquiz.com/service.php" //this will be changed to the path where service.php lives
+    
+    
+    func downloadItems() {
+        
+        let url: URL = URL(string: urlPath)!
+        var session: URLSession!
+        let configuration = URLSessionConfiguration.default
+        
+        
+        session = URLSession(configuration: configuration, delegate: self, delegateQueue: nil)
+        
+        let task = session.dataTask(with: url)
+        
+        task.resume()
+        
     }
     
     func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
@@ -40,7 +53,6 @@ class PollContainerModel: NSObject, PollStore {
         }
         
     }
-    
     func parseJSON() {
         
         var jsonResult = [Any]()
@@ -56,15 +68,12 @@ class PollContainerModel: NSObject, PollStore {
         for (_, poll ) in jsonResult.enumerated() {
             let newPoll = Poll(jsonResults: poll as! [String: Any], nuserID: "")
             add += [newPoll]
-            
+           
             
         }
         
         DispatchQueue.global().async {
-            self.insertPolls(newPollList: add)
+            self.delegate.itemsDownloaded(items: add)
         }
     }
-
-    
 }
-

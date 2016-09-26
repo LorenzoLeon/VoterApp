@@ -51,7 +51,7 @@ class Poll: Equatable
         creationDate  = newcreationDate
     }
     
-    convenience init(jsonResults: NSDictionary, nuserID: String) {
+    convenience init(jsonResults: [String: Any], nuserID: String) {
         let npollID = jsonResults["PollID"] as! String
         let ncreator = jsonResults["Creator"] as! String
         let nquestion = jsonResults["Question"] as! String
