@@ -8,9 +8,34 @@
 
 import UIKit
 
-class VoterAppViewController: UIViewController {
+protocol GodMaker: class  {
+    func getPHPConnector() -> PollPHPConnector?
+    var user: User? {
+        get
+        set
+    }
+}
+
+class VoterAppViewController: UIViewController, GodMaker {
+
     
-    var isLoggedIn: Bool?
+    var isLoggedIn: Bool? = false
+    var pollConnector: PollPHPConnector?
+    var pollStore: PollContainerModel?
+    var user: User? {
+        get {
+            return pollStore?.user
+        }
+        set {
+            if newValue != nil {
+            pollStore = PollContainerModel(newUser: newValue!)
+            pollConnector = PollPHPConnector(newPollStore: pollStore!)
+            } else {
+                pollConnector = nil
+                pollStore = nil
+            }
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,7 +50,7 @@ class VoterAppViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         if isLoggedIn == nil || isLoggedIn == false {
-        performSegue(withIdentifier: "LoginModalView", sender: self)
+        performSegue(withIdentifier: "LogIn", sender: self)
         }
     }
 
@@ -33,9 +58,12 @@ class VoterAppViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-        
-        
+        let loginview = segue.destination as? LoginViewController
+        loginview?.setMaker(maker: self)
     }
 
+    func getPHPConnector() -> PollPHPConnector? {
+        return pollConnector
+    }
 
 }

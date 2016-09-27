@@ -12,6 +12,7 @@
 		582FE3651D9898B700990D77 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582FE3641D9898B700990D77 /* LoginViewController.swift */; };
 		582FE3691D98A35600990D77 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582FE3681D98A35600990D77 /* RegisterViewController.swift */; };
 		582FE36B1D98A83500990D77 /* VoterAppViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582FE36A1D98A83500990D77 /* VoterAppViewController.swift */; };
+		585A78F41D9A27F5005839D5 /* ForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 585A78F31D9A27F5005839D5 /* ForgotPasswordViewController.swift */; };
 		586D211B1D94A64E004C45FF /* trydownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 586D211A1D94A64E004C45FF /* trydownloader.swift */; };
 		58F3E7911D8A49DA001E4C65 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F3E7901D8A49DA001E4C65 /* AppDelegate.swift */; };
 		58F3E7961D8A49DA001E4C65 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 58F3E7941D8A49DA001E4C65 /* Main.storyboard */; };
@@ -28,6 +29,7 @@
 		582FE3641D9898B700990D77 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		582FE3681D98A35600990D77 /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		582FE36A1D98A83500990D77 /* VoterAppViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoterAppViewController.swift; sourceTree = "<group>"; };
+		585A78F31D9A27F5005839D5 /* ForgotPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewController.swift; sourceTree = "<group>"; };
 		586D211A1D94A64E004C45FF /* trydownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = trydownloader.swift; sourceTree = "<group>"; };
 		58F3E78D1D8A49DA001E4C65 /* VoterApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VoterApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		58F3E7901D8A49DA001E4C65 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -97,6 +99,7 @@
 				582FE3641D9898B700990D77 /* LoginViewController.swift */,
 				582FE3681D98A35600990D77 /* RegisterViewController.swift */,
 				582FE36A1D98A83500990D77 /* VoterAppViewController.swift */,
+				585A78F31D9A27F5005839D5 /* ForgotPasswordViewController.swift */,
 			);
 			path = VoterApp;
 			sourceTree = "<group>";
@@ -187,6 +190,7 @@
 			files = (
 				582FE3651D9898B700990D77 /* LoginViewController.swift in Sources */,
 				582FE3691D98A35600990D77 /* RegisterViewController.swift in Sources */,
+				585A78F41D9A27F5005839D5 /* ForgotPasswordViewController.swift in Sources */,
 				58F3E7AA1D8FA619001E4C65 /* PollContainerModel.swift in Sources */,
 				582FE36B1D98A83500990D77 /* VoterAppViewController.swift in Sources */,
 				58F3E7A41D8A4A29001E4C65 /* Poll.swift in Sources */,

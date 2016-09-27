@@ -28,13 +28,17 @@ class PollPHPConnector {
         pollStore = newPollStore
     }
     
-    func signIn() {
+    //TODO: set response
+    func signIn() -> (String?,Bool) {
         if session == nil {
             session = URLSession(configuration: PollPHPConnector.sesConfig, delegate: pollStore, delegateQueue: nil)
-            doToSession(request: pollStore.user.addToRequest(newRequest: getRequest(urlS: PollPHPConnector.urlSignIn)))
+            let url = URL(string: PollPHPConnector.urlSignIn)!
+            let request = URLRequest(url: url)
+            doToSession(request: pollStore.user.addToRequest(newRequest: request))
+            return (nil,false)
         } else {
             signOut()
-            signIn()
+            return signIn()
         }
         
     }

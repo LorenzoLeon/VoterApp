@@ -11,7 +11,7 @@ import Foundation
 class User {
     let username: String
     let password: String
-    let userID: String?
+    var userID: String?
     private var verified: Bool
     
     init(newUsername: String, newPassword: String, newUserID: String?, isVerified: Bool) {
@@ -43,11 +43,11 @@ class FullUser: User, CustomStringConvertible{
     let division: Set<Division>
     let age: Int
     let email: String
-    let semester: Int?
-    private static let num = Set<Int>(1...20)
+    let semester: Int
+    private static let num = Set<Int>(0...20)
     
     
-    init(newUsername: String, newPassword: String, isVerified: Bool, newGender: Gender, newDivision: Set<Division>, newSemester: Int?, newAge: Int, newEmail: String) {
+    init(newUsername: String, newPassword: String, isVerified: Bool, newGender: Gender, newDivision: Set<Division>, newSemester: Int, newAge: Int, newEmail: String) {
         gender = newGender
         division = newDivision
         semester = FullUser.semester(newNum: newSemester)
@@ -57,15 +57,11 @@ class FullUser: User, CustomStringConvertible{
         super.init(newUsername: newUsername, newPassword: newPassword, newUserID: nil, isVerified: false)
     }
     
-    static func semester(newNum: Int?) -> Int{
-        if let newSemester = newNum {
-            if FullUser.num.contains(newSemester) {
-                return newSemester
-            } else {
-                return 1
-            }
+    static func semester(newNum: Int) -> Int{
+        if FullUser.num.contains(newNum) {
+            return newNum
         } else {
-            return 1
+            return 0
         }
     }
     
@@ -73,10 +69,7 @@ class FullUser: User, CustomStringConvertible{
         var request = self.putInURLRequest(newRequest: newRequest)
         request.addValue("\(gender)", forHTTPHeaderField: "Gender")
         request.addValue(getDivisions(), forHTTPHeaderField: "Divisions")
-        
-        if let sem = semester {
-            request.addValue("\(sem)", forHTTPHeaderField: "Semester")
-        }
+        request.addValue("\(semester)", forHTTPHeaderField: "Semester")
         request.addValue("\(age)", forHTTPHeaderField: "Age")
         request.addValue(email, forHTTPHeaderField: "Email")
         return request
@@ -90,7 +83,8 @@ class FullUser: User, CustomStringConvertible{
         return divString
     }
     var description: String {
-        return "User: \(username) has password: \(password) and is a \(age) years old \(gender), at the \(division) in CIDE in his \(semester)º semester"
+        
+        return "User: \(username) has password: \(password) and is a \(age) years old \(gender), at the \(division.first!) in CIDE in his \(semester)º semester"
     }
     
 }
@@ -125,6 +119,6 @@ enum Division: String {
         return Division.allValuesD().map { $0.rawValue }
     }
     static func allValuesD() -> [Division] {
-         return [DAP, DE, DEI, DEJ, DEP, DH, DAE, BIB, DG, SG, SA]
+        return [DAP, DE, DEI, DEJ, DEP, DH, DAE, BIB, DG, SG, SA]
     }
 }
