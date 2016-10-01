@@ -8,40 +8,28 @@
 
 import Foundation
 
-class PollContainerModel: NSObject, PollStore {
+class PollContainerModel: NSObject, URLSessionDataDelegate {
     
-    private var polls = [Poll]()
-    private var data1 =  Data()
-    var user: User
+    private var polls = Set<Poll>()
+    var user: User? {
+        didSet {
+            polls = Set<Poll>()
+        }
+    }
     
-    init(newUser: User) {
+    init(newUser: User?) {
         user = newUser
     }
     
-    func insertPolls(newPollList: [Poll]) {
-    }
-    
-    func changeUser(newUser: User) {
-        polls = [Poll]()
-        user = newUser
-    }
     
     func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
-        data1.append(data);
         
     }
     
     func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
-        if error != nil {
-            print("Failed to download data")
-        }else {
-            print("Data downloaded")
-            parseJSON()
-        }
-        
     }
     
-    func parseJSON() {
+    func parseJSON(data1: Data) {
         
         var jsonResult = [Any]()
         
@@ -60,8 +48,10 @@ class PollContainerModel: NSObject, PollStore {
             
         }
         
-        DispatchQueue.global().async {
-            self.insertPolls(newPollList: add)
+        DispatchQueue.global().async { [unowned self] in
+            for newpoll in add {
+                self.polls.insert(newpoll)
+            }
         }
     }
 

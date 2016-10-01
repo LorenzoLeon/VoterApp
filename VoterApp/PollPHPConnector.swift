@@ -10,32 +10,28 @@ import Foundation
 
 class PollPHPConnector {
     
-    static let urlSignIn = "www.VoterApp.com/signin.php"
-    static let urlSignUp = "www.VoterApp.com/signup.php"
-    static let urlIsActivated = "www.VoterApp.com/isactivated.php"
-    static let urlPopulatePolls = "www.VoterApp.com/populatepolls.php"
-    static let urlVote = "www.VoterApp.com/vote.php"
-    static let urlAddAnswersToPoll = "www.VoterApp.com/addanswerstopoll.php"
-    static let urlUpdatePoll = "www.VoterApp.com/updatepoll.php"
-    static let urlDeletePoll = "www.VoterApp.com/deletepoll.php"
+    static let urlSignIn = "localhost/signin.php"
+    static let urlSignUp = "localhost/signup.php"
+    static let urlVote = "localhost/vote.php"
+    //static let urlAddAnswersToPoll = "www.VoterApp.com/addanswerstopoll.php"
+    static let urlUpdatePoll = "localhost/update.php"
+    static let urlDeletePoll = "www.VoterApp.com/delete.php"
     static let urlSignOut = "www.VoterApp.com/signout.php"
     static let sesConfig = URLSessionConfiguration.default
     
     private var session: URLSession?
-    private let pollStore: PollStore
+    var pollStore: PollContainerModel?
     
-    init(newPollStore: PollStore) {
-        pollStore = newPollStore
-    }
+    
     
     //TODO: set response
     func signIn() -> (String?,Bool) {
         if session == nil {
             session = URLSession(configuration: PollPHPConnector.sesConfig, delegate: pollStore, delegateQueue: nil)
             let url = URL(string: PollPHPConnector.urlSignIn)!
-            let request = URLRequest(url: url)
-            doToSession(request: pollStore.user.addToRequest(newRequest: request))
-            return (nil,false)
+            let _ = URLRequest(url: url)
+           // doToSession(request: pollStore.user.addToRequest(newRequest: request))
+            return ("12345",true)
         } else {
             signOut()
             return signIn()
@@ -49,7 +45,7 @@ class PollPHPConnector {
             var request = URLRequest(url: url!)
             request = newUser.putInURLRequest(newRequest: request)
             session = URLSession(configuration: PollPHPConnector.sesConfig, delegate: pollStore, delegateQueue: nil)
-            doToSession(request: request)
+            //doToSession(request: request)
         } else {
             signOut()
             return signUp(newUser: newUser)
@@ -62,17 +58,9 @@ class PollPHPConnector {
     func signOut() {
         //signout
         if session != nil {
-            let request = getRequest(urlS: PollPHPConnector.urlSignOut)
-            doToSession(request: request)
             session!.invalidateAndCancel()
             session = nil
         }
-    }
-    
-    func isActivated() {
-        let request = getRequest(urlS: PollPHPConnector.urlSignOut)
-        
-        doToSession(request: request)
     }
     
     private func doToSession(request: URLRequest){
@@ -81,23 +69,8 @@ class PollPHPConnector {
         }
     }
     
-    private func getRequest(urlS: String) -> URLRequest {
-        let url = URL(string: urlS)!
-        var request = URLRequest(url: url)
-        request.addValue(pollStore.user.userID!, forHTTPHeaderField: "UserID")
-        request.httpMethod = "POST"
-        return request
-    }
     
     private func addUserToRequest(user: User, request: URLRequest) -> URLRequest {
         return user.addToRequest(newRequest: request)
-    }
-}
-
-
-protocol PollStore: class, URLSessionDataDelegate {
-    func insertPolls(newPollList: [Poll])
-    var user: User {
-        get
     }
 }

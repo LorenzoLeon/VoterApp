@@ -23,22 +23,27 @@ class ForgotPasswordViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     // TODO: set connection
-    @IBAction func sendPass(_ sender: UIButton) {
+    @IBAction func sendPass(_ sender: AnyObject) {
         
         
-        
-        self.performSegue(withIdentifier: "GoBackToLogIn", sender: self)
+    self.performSegue(withIdentifier: "exitToLogin", sender: self)
+       
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    @IBAction func emailEnter(_ sender: AnyObject) {
+        sendPass(sender)
     }
-    */
+    
+    
+    @IBAction func goBack(_ sender: UIBarButtonItem) {
+        //send alert
+        self.performSegue(withIdentifier: "exitToLogin", sender: self)
+    }
+   
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if let dest = segue.destination as? LoginViewController {
+//            dest.username.text = emailField.text
+//        }
+    }
 
 }

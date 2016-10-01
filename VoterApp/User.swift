@@ -12,20 +12,20 @@ class User {
     let username: String
     let password: String
     var userID: String?
-    private var verified: Bool
+    private var verified: Bool?
     
-    init(newUsername: String, newPassword: String, newUserID: String?, isVerified: Bool) {
+    init(newUsername: String, newPassword: String, newUserID: String?, isVerified: Bool?) {
         username = newUsername
         password = newPassword
         userID = newUserID
         verified = isVerified
     }
     
-    func setVerified(ver: Bool) {
+    func setVerified(ver: Bool?) {
         verified = ver
     }
     
-    func isVerified() -> Bool {
+    func isVerified() -> Bool? {
         return verified
     }
     
@@ -47,7 +47,7 @@ class FullUser: User, CustomStringConvertible{
     private static let num = Set<Int>(0...20)
     
     
-    init(newUsername: String, newPassword: String, isVerified: Bool, newGender: Gender, newDivision: Set<Division>, newSemester: Int, newAge: Int, newEmail: String) {
+    init(newUsername: String, newPassword: String, isVerified: Bool?, newGender: Gender, newDivision: Set<Division>, newSemester: Int, newAge: Int, newEmail: String) {
         gender = newGender
         division = newDivision
         semester = FullUser.semester(newNum: newSemester)
@@ -78,7 +78,7 @@ class FullUser: User, CustomStringConvertible{
     private func getDivisions() -> String{
         var divString = ""
         for div in division {
-            divString.append(", \(div)")
+            divString.append(",'\(div)'")
         }
         return divString
     }

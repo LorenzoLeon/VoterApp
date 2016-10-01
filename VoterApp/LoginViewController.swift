@@ -25,7 +25,7 @@ class LoginViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func signIn(_ sender: UIButton) {
+    @IBAction func signIn(_ sender: AnyObject) {
         if username.hasText && password.hasText {
             
             if !username.text!.hasSuffix("@cide.edu") && !username.text!.hasSuffix("@alumnos.cide.edu")
@@ -50,7 +50,7 @@ class LoginViewController: UIViewController {
                 username.text = nil
                 password.text = nil
             } else {
-                self.dismiss(animated: true, completion: nil)
+                self.performSegue(withIdentifier: "goToMain", sender: self)
             }
         } else {
             showAlert(message: "Please Fill in all the fields")
@@ -63,6 +63,11 @@ class LoginViewController: UIViewController {
         cancellationAlert.addAction(okAction)
         self.present(cancellationAlert, animated: true, completion: nil)
     }
+    
+    @IBAction func enterOnPassword(_ sender: UITextField) {
+        signIn(sender)
+    }
+    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "registrationSegue" {
@@ -82,9 +87,8 @@ class LoginViewController: UIViewController {
         self.maker = maker
     }
 
-    @IBAction func fromForgot(maker: UIStoryboardSegue) {
-        if let forgot = maker.source as? ForgotPasswordViewController {
-            username.text = forgot.emailField.text
-        }
+    @IBAction func goBackToLogIn(maker: UIStoryboardSegue) {
+    }
+    @IBAction func comeFromForget(maker: UIStoryboardSegue) {
     }
 }

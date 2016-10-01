@@ -14,7 +14,7 @@ struct Values {
     static let oneWeek: Double = 60*60*24*7 //one week in seconds
 }
 
-class Poll: Equatable
+class Poll: Hashable
 {
     var pollID: String
     private var creator: String?
@@ -126,9 +126,11 @@ class Poll: Equatable
         }
         return mappedResults
     }
-}
-
-
-func == (object1: Poll, object2: Poll) -> Bool {
-    return object1.pollID == object2.pollID
+    var hashValue: Int {
+        return pollID.hashValue
+    }
+    
+    static func == (lhs: Poll, rhs: Poll) -> Bool {
+        return lhs.pollID == rhs.pollID
+    }
 }

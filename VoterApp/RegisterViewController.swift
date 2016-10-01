@@ -42,18 +42,17 @@ class RegisterViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         // Do any additional setup after loading the view.
         genderPicker.delegate = self
         genderPicker.dataSource = self
-        scrollView.contentSize = CGSize(width: maxView.bounds.width, height: CGFloat(integerLiteral: 1000))
-        scrollView.isScrollEnabled = true
+      
        
     }
     
     @IBAction func signUp(_ sender: UIButton) {
-        if let emailText = email.text, let password1Text = password.text, let password2Text = passwordRepeat.text {
-            if password1Text != password2Text {
+        if email.hasText && password.hasText && passwordRepeat.hasText {
+            if password.text! != passwordRepeat.text! {
                 presentModalView(textForAlert: "Passwords don't match")
                 return
             }
-            if !emailText.hasSuffix("@cide.edu") && !emailText.hasSuffix("@alumnos.cide.edu")
+            if !email.text!.hasSuffix("@cide.edu") && !email.text!.hasSuffix("@alumnos.cide.edu")
             {
                 presentModalView(textForAlert: "Please input a valid CIDE address")
                 return
@@ -73,7 +72,7 @@ class RegisterViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
             let message = "maker"//maker?.getPHPConnector().signUp(newUser: fullUser)
             let successfullAlert = UIAlertController(title: "Alert", message: message, preferredStyle: UIAlertControllerStyle.alert)
             let okAction = UIAlertAction(title: "ok", style: UIAlertActionStyle.default) { _ in
-                
+                self.performSegue(withIdentifier: "GoBackToLogIn", sender: self)
                 
             }
             successfullAlert.addAction(okAction)
@@ -97,7 +96,7 @@ class RegisterViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         let cancellationAlert = UIAlertController(title: "Your registration will cancel", message: "Are you sure you want to cancel? All registration will be stopped and the account won't be created", preferredStyle: UIAlertControllerStyle.alert)
         let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil)
         let returnToLogin = UIAlertAction(title: "Return to login", style: UIAlertActionStyle.destructive) { _ in
-            self.dismiss(animated: true, completion: nil)
+            self.performSegue(withIdentifier: "GoBackToLogIn", sender: self)
         }
         cancellationAlert.addAction(cancelAction)
         cancellationAlert.addAction(returnToLogin)
@@ -120,14 +119,17 @@ class RegisterViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         self.maker = maker
     }
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        if let login = segue.destination as? LoginViewController {
+            login.username.text = email.text
+        }
     }
-    */
+    
 
 }
