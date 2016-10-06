@@ -12,7 +12,7 @@ class RegisterViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
 
     
     //TODO
-    var maker: GodMaker?
+    var maker: Poller?
     @IBOutlet weak var genderPicker: UIPickerView!
     
     @IBOutlet weak var password: UITextField!
@@ -62,12 +62,10 @@ class RegisterViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
             let index: Int = user.distance(from: user.startIndex, to: range!.lowerBound)
             let username = user.substring(to: user.index(user.startIndex, offsetBy: index))
             let gender: Gender = genderPicker.selectedRow(inComponent: 0) == 0 ? Gender.Male : Gender.Female
-            let division: Set<Division> = [Division.allValuesD()[genderPicker.selectedRow(inComponent: 1)]]
+            let division = Division.allValuesD()[genderPicker.selectedRow(inComponent: 1)]
             let semester = genderPicker.selectedRow(inComponent: 2)
             let dateChosen = dateofBirth.date
-            let datech  = dateChosen.timeIntervalSinceNow
-            let age = -Int(datech/(60*60*24*365))
-            let _ = FullUser(newUsername: username, newPassword: password.text!, isVerified: false, newGender: gender, newDivision: division, newSemester: semester, newAge: age, newEmail: email.text!)
+            let _ = FullUser(newUsername: username, newPassword: password.text!, isVerified: false, newGender: gender, newDivision: division, newSemester: semester, newBday: dateChosen, newEmail: email.text!)
             //TODO: check php response
             let message = "maker"//maker?.getPHPConnector().signUp(newUser: fullUser)
             let successfullAlert = UIAlertController(title: "Alert", message: message, preferredStyle: UIAlertControllerStyle.alert)
@@ -113,10 +111,6 @@ class RegisterViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     }
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return pickerOptions[component].count
-    }
-    
-    func setMaker(maker: GodMaker?) {
-        self.maker = maker
     }
 
     

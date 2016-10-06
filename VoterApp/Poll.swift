@@ -69,14 +69,14 @@ class Poll: Hashable
     }
     
     /* TODO
-    func addNewAnswers(newAnswers: [String]) -> Bool {
-        
-        
-        if isOpen {
-            answers += newAnswers //TODO check size of array.... put zeroes where necessary?
-        }
-        return isOpen
-    }*/
+     func addNewAnswers(newAnswers: [String]) -> Bool {
+     
+     
+     if isOpen {
+     answers += newAnswers //TODO check size of array.... put zeroes where necessary?
+     }
+     return isOpen
+     }*/
     
     
     func isFinished() -> Bool { //check if it is still open, close if not
@@ -84,21 +84,22 @@ class Poll: Hashable
         return isOpen
     }
     
-    func hasBeenUpdated(lastUpdateInServer: Date) -> Bool {
+    func hasBeenUpdated(since lastUpdateInServer: Date) -> Bool {
         return updateTime.timeIntervalSince(lastUpdateInServer) > Values.timeToUpdate
     }
     
-    func update(newTime: Date, newAnswers: [String], newHasVoted: Bool, newVoters: [String]?, newVote: [[Int]] ) {
-        if !hasBeenUpdated(lastUpdateInServer: newTime) {return}
-        updateTime = newTime
-        answers = newAnswers
-        hasVoted = newHasVoted
-        voters = newVoters!.isEmpty ? (hasVoted ? [userID] : [String]()) : newVoters! // if anonymous, voters is only current user (if he has voted)
-        vote = newVote
+    func updateWith(newTime: Date, newAnswers: [String], newHasVoted: Bool, newVoters: [String]?, newVote: [[Int]] ) {
+        if hasBeenUpdated(since: newTime) {
+            updateTime = newTime
+            answers = newAnswers
+            hasVoted = newHasVoted
+            voters = newVoters!.isEmpty ? (hasVoted ? [userID] : [String]()) : newVoters! // if anonymous, voters is only current user (if he has voted)
+            vote = newVote
+        }
     }
     
     //TODO
-    func setVotes(newVotes: [[Int]]) -> Bool{
+    func setVotes(to newVotes: [[Int]]) -> Bool{
         if !hasVoted  || canChangeVote {
             vote = newVotes
             if !hasVoted { voters += [userID] }
@@ -112,13 +113,13 @@ class Poll: Hashable
     func getMappedVotes() -> [String:[Int]] {
         var mappedVotes = [String:[Int]]()
         for (i, voter) in voters.enumerated() {
-           mappedVotes[voter] = vote[i]
+            mappedVotes[voter] = vote[i]
         }
         return mappedVotes
     }
     
     
-    func poll(pollingMethod:([[Int]]) -> [Double]) -> [String:Double] {
+    func getPollResults(pollingMethod:([[Int]]) -> [Double]) -> [String:Double] {
         var results = pollingMethod(vote)
         var mappedResults =  [String:Double]()
         for (index, answer) in answers.enumerated() {

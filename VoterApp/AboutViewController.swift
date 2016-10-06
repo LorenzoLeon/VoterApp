@@ -23,7 +23,7 @@ class AboutViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
+//TODO: link to appstore
     @IBAction func rateApp(_ sender: AnyObject) {
     }
 

@@ -14,16 +14,16 @@ enum PollMethod {
     case CONDORCET
     case BORDA
     case OTHER
-    func pollingMethod(_ array: [[Int]]) -> [Double] {
+    func getResults(of voteArray: [[Int]]) -> [Double] {
         switch self {
         case .MAYORITY:
-            return mayority(votes: array)
+            return mayorityResults(with: voteArray)
         case .CONDORCET:
-            return condorcet(votes: array)
+            return condorcetResults(with: voteArray)
         case .SECONDROUND:
-            return secondRound(votes: array)
+            return secondRoundResults(with: voteArray)
         case .BORDA:
-            return borda(votes: array)
+            return bordaResults(with: voteArray)
         default:
             return [Double]()
             
@@ -31,7 +31,7 @@ enum PollMethod {
     }
     
     
-    private func mayority(votes: [[Int]]) -> [Double]{
+    private func mayorityResults(with votes: [[Int]]) -> [Double]{
         let votesNum = votes.count
         let candidatesNum = votes[votesNum].count
         var answers = [Double](repeating: 0.0, count: candidatesNum)
@@ -46,12 +46,12 @@ enum PollMethod {
         }
         return answers
     }
-    private func secondRound(votes: [[Int]]) -> [Double] {
+    private func secondRoundResults(with votes: [[Int]]) -> [Double] {
         let votesNum = votes.count
         let candidatesNum = votes[votesNum].count
         
         
-        var orderedWinners = mayority(votes: votes)
+        var orderedWinners = mayorityResults(with: votes)
         let firstWinner = orderedWinners.max()! //find first firstPreference winner
         let firstWinnersIndex = orderedWinners.index(of: firstWinner)!
         orderedWinners[firstWinnersIndex] = 0
@@ -72,7 +72,7 @@ enum PollMethod {
         return answers
     }
     
-    private func condorcet(votes: [[Int]]) -> [Double] {
+    private func condorcetResults(with votes: [[Int]]) -> [Double] {
         let votesNum = votes.count
         let candidatesNum = votes[votesNum].count
         let answers = [Double](repeating: 0.0, count: candidatesNum)
@@ -82,7 +82,7 @@ enum PollMethod {
         return answers
     }
     
-    private func borda(votes: [[Int]]) -> [Double] {
+    private func bordaResults(with votes: [[Int]]) -> [Double] {
         let votesNum = votes.count
         let candidatesNum = votes[votesNum].count
         let answers = [Double](repeating: 0.0, count: candidatesNum)

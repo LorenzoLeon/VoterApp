@@ -8,9 +8,9 @@
 
 import UIKit
 
-class PollListViewController: UIViewController/*, UITableViewDelegate, UITableViewDataSource*/ {
+class PollListViewController: UIViewController, PollListener/*, UITableViewDelegate, UITableViewDataSource*/ {
     
-    var pollStore: PollContainerModel?
+    var pollMaker: Poller?
 
     @IBOutlet weak var pollTable1: UITableView!
     
@@ -24,5 +24,7 @@ class PollListViewController: UIViewController/*, UITableViewDelegate, UITableVi
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    func pollsHaveChanged() {
+        //doSomething
+    }
 }

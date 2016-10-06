@@ -36,17 +36,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="tumblr2" translatesAutoresizingMaskIntoConstraints="NO" id="zBa-jk-Xcw">
-                                <frame key="frameInset" minY="32" width="375" height="603"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                            <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5b7-Xb-vzs">
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="jJw-sc-682">
-                                    <frame key="frameInset"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                </view>
-                                <blurEffect style="light"/>
-                            </visualEffectView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zg1-gN-0FE">
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -132,7 +121,6 @@
                             <constraint firstItem="pkG-C8-lLf" firstAttribute="leading" secondItem="SQp-rE-0pY" secondAttribute="trailing" constant="8" symbolic="YES" id="DmK-GX-HWr"/>
                             <constraint firstAttribute="trailingMargin" secondItem="1qo-A3-017" secondAttribute="trailing" id="JKf-dl-f3y"/>
                             <constraint firstItem="1qo-A3-017" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="Jm2-nX-I8T"/>
-                            <constraint firstAttribute="trailing" secondItem="5b7-Xb-vzs" secondAttribute="trailing" id="KVD-pT-rbA"/>
                             <constraint firstItem="pkG-C8-lLf" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="LrN-nP-95z"/>
                             <constraint firstAttribute="leadingMargin" secondItem="k7U-TI-ULa" secondAttribute="leading" id="S5T-x2-ECx"/>
                             <constraint firstItem="1qo-A3-017" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="TLu-gr-2Gf"/>
@@ -140,15 +128,12 @@
                             <constraint firstItem="1qo-A3-017" firstAttribute="top" secondItem="k7U-TI-ULa" secondAttribute="bottom" constant="25" id="Td1-DQ-QiI"/>
                             <constraint firstItem="SQp-rE-0pY" firstAttribute="baseline" secondItem="Zg1-gN-0FE" secondAttribute="baseline" id="VdZ-c8-c7o"/>
                             <constraint firstItem="k7U-TI-ULa" firstAttribute="top" secondItem="ZG5-G7-I8u" secondAttribute="bottom" constant="25" id="kYi-n6-RVf"/>
-                            <constraint firstItem="5b7-Xb-vzs" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="nc3-mq-HPP"/>
                             <constraint firstItem="Zg1-gN-0FE" firstAttribute="top" secondItem="tBT-id-r6R" secondAttribute="bottom" constant="8" symbolic="YES" id="oBm-JH-1fO"/>
                             <constraint firstItem="pkG-C8-lLf" firstAttribute="top" secondItem="tBT-id-r6R" secondAttribute="bottom" constant="8" symbolic="YES" id="piW-eD-TQ8"/>
                             <constraint firstItem="ZG5-G7-I8u" firstAttribute="top" secondItem="jLc-z2-W39" secondAttribute="bottom" constant="25" id="puu-D4-iso"/>
                             <constraint firstItem="SQp-rE-0pY" firstAttribute="top" secondItem="tBT-id-r6R" secondAttribute="bottom" constant="8" symbolic="YES" id="qvu-xr-zbo"/>
                             <constraint firstItem="Zg1-gN-0FE" firstAttribute="width" secondItem="SQp-rE-0pY" secondAttribute="width" id="r4I-fZ-wEJ"/>
-                            <constraint firstItem="5b7-Xb-vzs" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="syA-HU-smE"/>
                             <constraint firstItem="Zg1-gN-0FE" firstAttribute="leading" secondItem="pkG-C8-lLf" secondAttribute="trailing" constant="8" symbolic="YES" id="uw5-Dm-kj7"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="5b7-Xb-vzs" secondAttribute="bottom" id="wSz-vv-yqs"/>
                             <constraint firstItem="ZG5-G7-I8u" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="y5N-et-25x"/>
                         </constraints>
                     </view>
@@ -342,19 +327,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="tumblr2" translatesAutoresizingMaskIntoConstraints="NO" id="BMZ-vT-vUg">
-                                <frame key="frameInset" width="375" height="667"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                            <visualEffectView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="t7c-Tx-Cth">
-                                <frame key="frameInset" width="375" height="667"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" id="AH5-6r-dUJ">
-                                    <frame key="frameInset"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                </view>
-                                <blurEffect style="light"/>
-                            </visualEffectView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="9" translatesAutoresizingMaskIntoConstraints="NO" id="wG8-h2-oTj">
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="It5-Ml-8rR">
@@ -383,6 +355,9 @@
                                                         <integer key="value" value="25"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <action selector="makeANewPoll:" destination="Sm8-mC-gbV" eventType="touchUpInside" id="zyd-GC-Dtd"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" verticalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iuh-Kz-U1W">
                                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -395,7 +370,7 @@
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                                 <connections>
-                                                    <segue destination="Akn-Xn-Wmu" kind="show" id="Ney-Q9-6c3"/>
+                                                    <action selector="checkMyPolls:" destination="Sm8-mC-gbV" eventType="touchUpInside" id="Ybc-yA-9Ga"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -430,7 +405,7 @@
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                                 <connections>
-                                                    <segue destination="x1P-3a-8ZJ" kind="show" id="1H2-vD-65A"/>
+                                                    <action selector="contactVoter:" destination="Sm8-mC-gbV" eventType="touchUpInside" id="h8j-SX-z1y"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -448,7 +423,7 @@
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                                 <connections>
-                                                    <action selector="logOut:" destination="Sm8-mC-gbV" eventType="touchUpInside" id="Cke-xL-SeB"/>
+                                                    <action selector="logOut:" destination="Sm8-mC-gbV" eventType="touchUpInside" id="yee-Rs-yIm"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -476,6 +451,9 @@
                     <connections>
                         <outlet property="logOutButton" destination="Ufc-A0-bF0" id="d3I-pw-4tO"/>
                         <segue destination="BYZ-38-t0r" kind="show" identifier="LogIn" id="LHy-ZU-jbn"/>
+                        <segue destination="Akn-Xn-Wmu" kind="show" identifier="ShowPollTableView" id="jeg-yw-qwz"/>
+                        <segue destination="7ss-cf-HKf" kind="show" identifier="MakeAPoll" id="FWD-XV-7MZ"/>
+                        <segue destination="x1P-3a-8ZJ" kind="show" identifier="ContactVoterApp" id="57q-HM-3wJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="taJ-SW-AH0" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -703,14 +681,6 @@
             </objects>
             <point key="canvasLocation" x="4066" y="-962"/>
         </scene>
-        <!--Page View Controller-->
-        <scene sceneID="wwI-N2-YeJ">
-            <objects>
-                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="pageCurl" navigationOrientation="horizontal" spineLocation="min" id="RWb-ZZ-rZQ" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="StS-oF-7mi" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1561" y="-2167"/>
-        </scene>
         <!--Poll List-->
         <scene sceneID="TIn-jT-pnO">
             <objects>
@@ -727,21 +697,21 @@
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="detailDisclosureButton" indentationWidth="10" reuseIdentifier="PollTableItem" textLabel="fH5-Qg-ofd" detailTextLabel="GJ9-aC-ZG2" style="IBUITableViewCellStyleSubtitle" id="9df-eA-yrD">
-                                        <rect key="frame" x="0.0" y="120" width="335" height="44"/>
+                                        <rect key="frame" x="0.0" y="119.5" width="335" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="9df-eA-yrD" id="TfU-JG-fjM">
-                                            <frame key="frameInset" width="268" height="43"/>
+                                            <frame key="frameInset" width="268" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="fH5-Qg-ofd">
-                                                    <frame key="frameInset" minX="15" minY="4" width="34" height="21"/>
+                                                    <frame key="frameInset" minX="15" minY="5" width="33.5" height="20.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="GJ9-aC-ZG2">
-                                                    <frame key="frameInset" minX="15" minY="25" width="33" height="15"/>
+                                                    <frame key="frameInset" minX="15" minY="25.5" width="33" height="14.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <nil key="textColor"/>
@@ -806,14 +776,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tumblr2" translatesAutoresizingMaskIntoConstraints="NO" id="hjh-CE-0SR"/>
-                            <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bd4-bM-usM">
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="QLN-dA-yhR">
-                                    <frame key="frameInset"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                </view>
-                                <blurEffect style="light"/>
-                            </visualEffectView>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="hTQ-Ut-BXK">
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="textColor"/>
@@ -914,9 +876,7 @@
                             <constraint firstItem="nBW-DB-jsl" firstAttribute="baseline" secondItem="EI1-ET-huG" secondAttribute="baseline" id="0w4-82-d2a"/>
                             <constraint firstItem="AzB-3r-T8p" firstAttribute="centerX" secondItem="Jt2-7Q-j0S" secondAttribute="centerX" id="0zm-3I-aUq"/>
                             <constraint firstItem="h1f-nv-WuB" firstAttribute="centerX" secondItem="Jt2-7Q-j0S" secondAttribute="centerX" id="1aH-Ti-PvL"/>
-                            <constraint firstItem="h1H-d9-CPe" firstAttribute="top" secondItem="hjh-CE-0SR" secondAttribute="bottom" id="3WT-94-XQA"/>
                             <constraint firstItem="Gfc-TG-U5Q" firstAttribute="width" secondItem="hTQ-Ut-BXK" secondAttribute="width" id="3uN-nd-LY4"/>
-                            <constraint firstItem="Bd4-bM-usM" firstAttribute="top" secondItem="Jt2-7Q-j0S" secondAttribute="top" id="57N-rg-5qY"/>
                             <constraint firstItem="CXT-Yq-nWY" firstAttribute="width" secondItem="hTQ-Ut-BXK" secondAttribute="width" id="AgT-V6-jEB"/>
                             <constraint firstItem="nBW-DB-jsl" firstAttribute="top" secondItem="DjR-YT-07J" secondAttribute="bottom" constant="8" symbolic="YES" id="Btm-e5-8h4"/>
                             <constraint firstItem="SRO-6u-otU" firstAttribute="top" secondItem="Jt2-7Q-j0S" secondAttribute="top" symbolic="YES" id="Clx-bB-QeY"/>
@@ -928,28 +888,22 @@
                             <constraint firstItem="EI1-ET-huG" firstAttribute="top" secondItem="DjR-YT-07J" secondAttribute="bottom" constant="8" symbolic="YES" id="LwF-YN-QVH"/>
                             <constraint firstItem="nBW-DB-jsl" firstAttribute="centerX" secondItem="hIE-O5-6Ol" secondAttribute="centerX" id="MHd-1y-26J"/>
                             <constraint firstItem="DjR-YT-07J" firstAttribute="centerY" secondItem="Jt2-7Q-j0S" secondAttribute="centerY" id="N6P-JH-2qo"/>
-                            <constraint firstItem="hjh-CE-0SR" firstAttribute="top" secondItem="Jt2-7Q-j0S" secondAttribute="top" id="NLO-q9-pNs"/>
                             <constraint firstItem="AzB-3r-T8p" firstAttribute="width" secondItem="CXT-Yq-nWY" secondAttribute="width" id="NwE-U9-ewC"/>
                             <constraint firstItem="DjR-YT-07J" firstAttribute="centerX" secondItem="Jt2-7Q-j0S" secondAttribute="centerX" id="PqR-3q-24o"/>
-                            <constraint firstItem="hjh-CE-0SR" firstAttribute="leading" secondItem="Jt2-7Q-j0S" secondAttribute="leading" id="Qe2-eT-jhT"/>
                             <constraint firstItem="AzB-3r-T8p" firstAttribute="top" secondItem="hIE-O5-6Ol" secondAttribute="bottom" constant="8" symbolic="YES" id="TtR-WZ-ahO"/>
                             <constraint firstAttribute="trailing" secondItem="SRO-6u-otU" secondAttribute="trailing" symbolic="YES" id="Wie-Ig-JDD"/>
                             <constraint firstItem="gEh-M0-kX6" firstAttribute="top" secondItem="AzB-3r-T8p" secondAttribute="bottom" constant="25" id="XJe-IH-hjj"/>
                             <constraint firstItem="CXT-Yq-nWY" firstAttribute="centerX" secondItem="Jt2-7Q-j0S" secondAttribute="centerX" id="Yod-BP-k7a"/>
                             <constraint firstItem="CXT-Yq-nWY" firstAttribute="top" secondItem="hTQ-Ut-BXK" secondAttribute="bottom" constant="25" id="aPG-ic-ia4"/>
-                            <constraint firstItem="Bd4-bM-usM" firstAttribute="leading" secondItem="Jt2-7Q-j0S" secondAttribute="leading" id="amP-4Z-1YD"/>
                             <constraint firstItem="h1f-nv-WuB" firstAttribute="top" secondItem="CXT-Yq-nWY" secondAttribute="bottom" constant="8" symbolic="YES" id="bLL-jC-rwh"/>
                             <constraint firstItem="Gfc-TG-U5Q" firstAttribute="centerX" secondItem="Jt2-7Q-j0S" secondAttribute="centerX" id="bXl-vJ-fzh"/>
                             <constraint firstItem="ooU-x5-thM" firstAttribute="top" secondItem="DjR-YT-07J" secondAttribute="bottom" constant="8" symbolic="YES" id="dL7-bb-HQi"/>
-                            <constraint firstAttribute="trailing" secondItem="hjh-CE-0SR" secondAttribute="trailing" id="gfr-jj-C5t"/>
                             <constraint firstItem="ooU-x5-thM" firstAttribute="baseline" secondItem="nBW-DB-jsl" secondAttribute="baseline" id="jPj-At-4f8"/>
                             <constraint firstItem="gEh-M0-kX6" firstAttribute="centerX" secondItem="Jt2-7Q-j0S" secondAttribute="centerX" id="mTR-qY-PyD"/>
                             <constraint firstItem="hTQ-Ut-BXK" firstAttribute="centerX" secondItem="Jt2-7Q-j0S" secondAttribute="centerX" id="qcC-d5-xmn"/>
                             <constraint firstItem="DjR-YT-07J" firstAttribute="width" secondItem="CXT-Yq-nWY" secondAttribute="width" id="rFQ-qT-amL"/>
-                            <constraint firstAttribute="trailing" secondItem="Bd4-bM-usM" secondAttribute="trailing" id="tU1-HA-VxV"/>
                             <constraint firstItem="hIE-O5-6Ol" firstAttribute="top" secondItem="nBW-DB-jsl" secondAttribute="bottom" constant="8" symbolic="YES" id="wzE-78-pm8"/>
                             <constraint firstItem="ooU-x5-thM" firstAttribute="trailing" secondItem="DjR-YT-07J" secondAttribute="trailing" id="y5m-Tr-Qj1"/>
-                            <constraint firstItem="h1H-d9-CPe" firstAttribute="top" secondItem="Bd4-bM-usM" secondAttribute="bottom" id="yly-7A-VXc"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Registration" id="KXb-8B-JRs"/>

@@ -10,6 +10,8 @@ import UIKit
 
 class ContactViewController: UIViewController {
 
+    var maker: Poller?
+    
     @IBOutlet weak var senderTextField: UITextField!
     @IBOutlet weak var commentTextField: UITextView!
     override func viewDidLoad() {

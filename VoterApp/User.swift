@@ -12,27 +12,19 @@ class User {
     let username: String
     let password: String
     var userID: String?
-    private var verified: Bool?
+    var isVerified: Bool?
     
-    init(newUsername: String, newPassword: String, newUserID: String?, isVerified: Bool?) {
+    init(newUsername: String, newPassword: String, newUserID: String?, newIsVerified: Bool?) {
         username = newUsername
         password = newPassword
         userID = newUserID
-        verified = isVerified
-    }
-    
-    func setVerified(ver: Bool?) {
-        verified = ver
-    }
-    
-    func isVerified() -> Bool? {
-        return verified
+        isVerified = newIsVerified
     }
     
     func addToRequest(newRequest: URLRequest) -> URLRequest {
         var request = newRequest
-        request.addValue(username, forHTTPHeaderField: "Username")
-        request.addValue(password, forHTTPHeaderField: "Password")
+        request.addValue(username, forHTTPHeaderField: "u")
+        request.addValue(password, forHTTPHeaderField: "p")
         return request
     }
     
@@ -40,21 +32,21 @@ class User {
 
 class FullUser: User, CustomStringConvertible{
     let gender: Gender
-    let division: Set<Division>
-    let age: Int
+    let division: Division
+    let bday: Date
     let email: String
     let semester: Int
     private static let num = Set<Int>(0...20)
     
     
-    init(newUsername: String, newPassword: String, isVerified: Bool?, newGender: Gender, newDivision: Set<Division>, newSemester: Int, newAge: Int, newEmail: String) {
+    init(newUsername: String, newPassword: String, newIsVerified: Bool?, newGender: Gender, newDivision: Division, newSemester: Int, newBday: Date, newEmail: String) {
         gender = newGender
         division = newDivision
         semester = FullUser.semester(newNum: newSemester)
-        age = newAge
+        bday = newBday
         email = newEmail
         
-        super.init(newUsername: newUsername, newPassword: newPassword, newUserID: nil, isVerified: false)
+        super.init(newUsername: newUsername, newPassword: newPassword, newUserID: nil, newIsVerified: false)
     }
     
     static func semester(newNum: Int) -> Int{
@@ -66,25 +58,22 @@ class FullUser: User, CustomStringConvertible{
     }
     
     func putInURLRequest(newRequest: URLRequest) -> URLRequest {
-        var request = self.putInURLRequest(newRequest: newRequest)
-        request.addValue("\(gender)", forHTTPHeaderField: "Gender")
-        request.addValue(getDivisions(), forHTTPHeaderField: "Divisions")
-        request.addValue("\(semester)", forHTTPHeaderField: "Semester")
-        request.addValue("\(age)", forHTTPHeaderField: "Age")
-        request.addValue(email, forHTTPHeaderField: "Email")
+        //"u="+u+"&e="+e+"&p="+p1+"&g="+g+"&b="+b+"&d="+d+"&s="+s
+        let age = DateFormatter.localizedString(from: bday, dateStyle: DateFormatter.Style.short, timeStyle: DateFormatter.Style.none).replacingOccurrences(of: "/", with: "-")
+        var request = addToRequest(newRequest: newRequest)
+        request.addValue("\(email)", forHTTPHeaderField: "e")
+        request.addValue("\(gender)", forHTTPHeaderField: "g")
+        request.addValue("\(division)", forHTTPHeaderField: "d")
+        request.addValue("\(semester)", forHTTPHeaderField: "s")
+        request.addValue("\(age)", forHTTPHeaderField: "b")
         return request
     }
     
-    private func getDivisions() -> String{
-        var divString = ""
-        for div in division {
-            divString.append(",'\(div)'")
-        }
-        return divString
-    }
     var description: String {
-        
-        return "User: \(username) has password: \(password) and is a \(age) years old \(gender), at the \(division.first!) in CIDE in his \(semester)º semester"
+        let dateChosen = bday
+        let datech  = dateChosen.timeIntervalSinceNow
+        let age = -Int(datech/(60*60*24*365))
+        return "User: \(username) has password: \(password) and is a \(age) years old \(gender), at the \(division) in CIDE in his \(semester)º semester"
     }
     
 }

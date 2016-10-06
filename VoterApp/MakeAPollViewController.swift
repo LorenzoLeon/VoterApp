@@ -9,6 +9,8 @@
 import UIKit
 
 class MakeAPollViewController: UIViewController {
+    
+    var maker: Poller?
 
     override func viewDidLoad() {
         super.viewDidLoad()
