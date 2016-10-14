@@ -31,7 +31,7 @@ protocol PollListener: class {
     func pollsHaveChanged()
 }
 
-class VoterAppViewController: UIViewController, Poller {
+class VoterAppViewController: UIViewController, Poller, Announcer {
     
     @IBOutlet weak var logOutButton: UIButton!
     
@@ -45,9 +45,9 @@ class VoterAppViewController: UIViewController, Poller {
         didSet {
             polls = [Poll]()
             if user == nil {
-                pollConnector?.signOut()
+                pollConnector?.signOut(delegate: self)
             } else {
-                pollConnector?.signIn()
+                pollConnector?.signIn(with: user!, delegate: self)
             }
         }
     }
@@ -66,11 +66,12 @@ class VoterAppViewController: UIViewController, Poller {
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        //load old sign in data?
         checkLogIn()
     }
     
     override func viewDidLoad() {
-        pollConnector = PollPHPConnector(storer: self)
+        pollConnector = PollPHPConnector(announcer: self)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -120,7 +121,7 @@ class VoterAppViewController: UIViewController, Poller {
             logOutButton.setTitle("Log In", for: UIControlState.normal)
         } else {
             logOutButton.setTitle("Log Out", for: UIControlState.normal)
-            if let veryfied =  user?.isVerified() {
+            if let veryfied =  user?.isVerified {
                 setTouchable(to: veryfied)
             }
         }
@@ -144,5 +145,9 @@ class VoterAppViewController: UIViewController, Poller {
         let okAction = UIAlertAction(title: "ok", style: UIAlertActionStyle.default, handler: nil)
         cancellationAlert.addAction(okAction)
         self.present(cancellationAlert, animated: true, completion: nil)
+    }
+    
+    func receiveAnnouncement(id: String, announcement: String) {
+        //something with message
     }
 }

@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum PollMethod {
+enum PollMethod: String {
     case MAYORITY
     case SECONDROUND
     case CONDORCET

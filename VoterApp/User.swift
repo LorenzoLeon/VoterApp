@@ -78,19 +78,11 @@ class FullUser: User, CustomStringConvertible{
     
 }
 
-enum Gender: CustomStringConvertible{
+enum Gender: String {
     case Male
     case Female
     case Else
-    var description: String {
-        switch self {
-        case .Male:
-            return "Male"
-        case .Female:
-            return "Female"
-        default: return "NS"
-        }
-    }
+    
     static func set(gender: String) -> Gender {
         if gender.contains("F"){
             return Gender.Female

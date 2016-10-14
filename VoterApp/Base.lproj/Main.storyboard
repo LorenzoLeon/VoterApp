@@ -846,6 +846,10 @@
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
+                                <connections>
+                                    <action selector="textDidChange:" destination="GyR-4f-vKg" eventType="editingDidEnd" id="vBO-iu-Nwb"/>
+                                    <action selector="textWillChange:" destination="GyR-4f-vKg" eventType="editingDidBegin" id="3hJ-za-ju4"/>
+                                </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AzB-3r-T8p">
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -870,6 +874,11 @@
                                     <navigationItem title="Register" id="ls5-Ez-7u4"/>
                                 </items>
                             </navigationBar>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="lala" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3ID-3L-hFx">
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.22242123420000001" green="0.76358264590000002" blue="0.07528584545" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -881,9 +890,9 @@
                             <constraint firstItem="nBW-DB-jsl" firstAttribute="top" secondItem="DjR-YT-07J" secondAttribute="bottom" constant="8" symbolic="YES" id="Btm-e5-8h4"/>
                             <constraint firstItem="SRO-6u-otU" firstAttribute="top" secondItem="Jt2-7Q-j0S" secondAttribute="top" symbolic="YES" id="Clx-bB-QeY"/>
                             <constraint firstItem="EI1-ET-huG" firstAttribute="leading" secondItem="DjR-YT-07J" secondAttribute="leading" id="ETL-mv-cbM"/>
-                            <constraint firstItem="hTQ-Ut-BXK" firstAttribute="top" secondItem="Gfc-TG-U5Q" secondAttribute="bottom" constant="25" id="Fs3-4u-Jvd"/>
                             <constraint firstItem="DjR-YT-07J" firstAttribute="top" secondItem="h1f-nv-WuB" secondAttribute="bottom" constant="8" symbolic="YES" id="Gk7-C6-1dD"/>
                             <constraint firstItem="nBW-DB-jsl" firstAttribute="centerX" secondItem="Jt2-7Q-j0S" secondAttribute="centerX" id="GlU-Bh-yhx"/>
+                            <constraint firstItem="3ID-3L-hFx" firstAttribute="centerX" secondItem="Jt2-7Q-j0S" secondAttribute="centerX" id="IO2-Tt-pKv"/>
                             <constraint firstItem="SRO-6u-otU" firstAttribute="leading" secondItem="Jt2-7Q-j0S" secondAttribute="leading" symbolic="YES" id="Ia2-Jy-Hal"/>
                             <constraint firstItem="EI1-ET-huG" firstAttribute="top" secondItem="DjR-YT-07J" secondAttribute="bottom" constant="8" symbolic="YES" id="LwF-YN-QVH"/>
                             <constraint firstItem="nBW-DB-jsl" firstAttribute="centerX" secondItem="hIE-O5-6Ol" secondAttribute="centerX" id="MHd-1y-26J"/>
@@ -894,9 +903,11 @@
                             <constraint firstAttribute="trailing" secondItem="SRO-6u-otU" secondAttribute="trailing" symbolic="YES" id="Wie-Ig-JDD"/>
                             <constraint firstItem="gEh-M0-kX6" firstAttribute="top" secondItem="AzB-3r-T8p" secondAttribute="bottom" constant="25" id="XJe-IH-hjj"/>
                             <constraint firstItem="CXT-Yq-nWY" firstAttribute="centerX" secondItem="Jt2-7Q-j0S" secondAttribute="centerX" id="Yod-BP-k7a"/>
-                            <constraint firstItem="CXT-Yq-nWY" firstAttribute="top" secondItem="hTQ-Ut-BXK" secondAttribute="bottom" constant="25" id="aPG-ic-ia4"/>
+                            <constraint firstItem="CXT-Yq-nWY" firstAttribute="top" secondItem="hTQ-Ut-BXK" secondAttribute="bottom" constant="8" symbolic="YES" id="aPG-ic-ia4"/>
+                            <constraint firstItem="hTQ-Ut-BXK" firstAttribute="top" secondItem="3ID-3L-hFx" secondAttribute="bottom" constant="8" symbolic="YES" id="aQm-pQ-Bbd"/>
                             <constraint firstItem="h1f-nv-WuB" firstAttribute="top" secondItem="CXT-Yq-nWY" secondAttribute="bottom" constant="8" symbolic="YES" id="bLL-jC-rwh"/>
                             <constraint firstItem="Gfc-TG-U5Q" firstAttribute="centerX" secondItem="Jt2-7Q-j0S" secondAttribute="centerX" id="bXl-vJ-fzh"/>
+                            <constraint firstItem="3ID-3L-hFx" firstAttribute="top" secondItem="Gfc-TG-U5Q" secondAttribute="bottom" constant="8" symbolic="YES" id="cv0-A5-s8s"/>
                             <constraint firstItem="ooU-x5-thM" firstAttribute="top" secondItem="DjR-YT-07J" secondAttribute="bottom" constant="8" symbolic="YES" id="dL7-bb-HQi"/>
                             <constraint firstItem="ooU-x5-thM" firstAttribute="baseline" secondItem="nBW-DB-jsl" secondAttribute="baseline" id="jPj-At-4f8"/>
                             <constraint firstItem="gEh-M0-kX6" firstAttribute="centerX" secondItem="Jt2-7Q-j0S" secondAttribute="centerX" id="mTR-qY-PyD"/>
@@ -910,6 +921,7 @@
                     <connections>
                         <outlet property="dateofBirth" destination="DjR-YT-07J" id="VEb-yq-z8x"/>
                         <outlet property="email" destination="Gfc-TG-U5Q" id="itj-Q7-g8Q"/>
+                        <outlet property="emailVerificationLabel" destination="3ID-3L-hFx" id="DV6-Ki-331"/>
                         <outlet property="genderPicker" destination="hIE-O5-6Ol" id="cLc-6B-Lk2"/>
                         <outlet property="maxView" destination="Jt2-7Q-j0S" id="1Te-Wz-N9T"/>
                         <outlet property="password" destination="hTQ-Ut-BXK" id="sLt-dC-Xv1"/>

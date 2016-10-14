@@ -21,82 +21,96 @@ class PollPHPConnector {
     let sesConfig = URLSessionConfiguration.default
     
     private var session: URLSession?
-    var pollStore: Poller
     
-    init(storer: Poller) {
-        pollStore = storer
+    var mainAnnouncer : Announcer
+    
+    init(announcer main: Announcer) {
+        mainAnnouncer = main
     }
     
     
-    
     //TODO: set response
-    func signIn(){
+    func signIn(with user: User, delegate: Announcer?){
         if session == nil {
-            session = URLSession(configuration: sesConfig, delegate: nil, delegateQueue: nil)
             let url = URL(string: PollPHPConnector.urlSignIn)!
-            let signInURLRequest = URLRequest(url: url)
+            let request =  user.addToRequest(newRequest: URLRequest(url: url))
             
-            
-            let signInTask = session!.dataTask(with: signInURLRequest) { [unowned self] data, response, error in
-                guard let data = data, error == nil else {                                    // check for fundamental networking error
-                    print("error=\(error)")
-                    return
-                }
-                //if successful change user... validation and etc
-                let responseString = String(data: data, encoding: .utf8)
-                if responseString == "success_signin" {
-                    //is validated
-                    self.pollStore.user?.isVerified = false
-                } else {
-                    //error handling
-                    self.pollStore.failAlert(with: responseString!)
-                    print("responseString = \(responseString)")
-                }
-                
-                
-            }
-            signInTask.resume()
-            // doToSession(request: pollStore.user.addToRequest(newRequest: request))
+            doTask(request: request, delegate: delegate, idString: "Sign In")
         } else {
-            signOut()
-            signIn()
+            signOut(delegate: delegate)
+            signIn(with: user, delegate: delegate)
         }
         
     }
     
-    func signUp(newUser: FullUser){
-        //do we need a session?
-        if session == nil {
-            session = URLSession(configuration: sesConfig, delegate: nil, delegateQueue: nil)
-            let url = URL(string: PollPHPConnector.urlSignUp)
-            var request = URLRequest(url: url!)
-            request = newUser.putInURLRequest(newRequest: request)
-            session!.dataTask(with: request) { [unowned self] data, response, error in
-                guard let data = data, error == nil else {                                    // check for fundamental networking error
-                    print("error=\(error)")
-                    return
-                }
-                let responseString = String(data: data, encoding: .utf8)
-                self.pollStore.failAlert(with: responseString!)
-                print("responseString = \(responseString)")
-            }
-        } else {
-            signUp(newUser: newUser)
-        }
+    func signUp(newUser: FullUser, delegate: Announcer?){
+        //do we need a session? a shared session?
+        //session = nil
+        let url = URL(string: PollPHPConnector.urlSignUp)
+        let request = newUser.putInURLRequest(newRequest: URLRequest(url: url!))
+        doTask(request: request, delegate: delegate, idString: "Sign Up")
+        //kill session?
+        
     }
     
-    func signOut() {
+    func signOut(delegate: Announcer?) {
         if session != nil {
             //signout
+            let url = URL(string: PollPHPConnector.urlSignOut)
+            let request = URLRequest(url: url!)
+            doTask(request: request, delegate: delegate, idString: "Sign Out")
             session!.invalidateAndCancel()
             session = nil
+        } else {
+            //not necessary to sign out
+            //send message to delegate
+            let delegate2 = delegate == nil ? mainAnnouncer : delegate!
+            delegate2.receiveAnnouncement(id: "No Sign Out", announcement: "user not signed in")
         }
     }
     
-    private func doToSession(this request: URLRequest){
-        if session != nil{
-            session!.dataTask(with: request).resume()
+    func checkEmailAvailability(with email: String, delegate: Announcer?){
+        //post to usernamecheck2 signup.php
+        let url = URL(string: PollPHPConnector.urlSignUp)
+        var request = URLRequest(url: url!)
+        print("checking request email check")
+        request.httpBody = "usernamecheck2=\(email)".data(using: .utf8)
+        doTask(request: request, delegate: delegate, idString: "Availability")
+        
+    }
+    
+    func vote() {
+        
+    }
+    
+    func getUpdatedPoll(){
+        
+    }
+    
+    func deletePoll() {
+        
+    }
+    
+
+    
+    private func doTask(request: URLRequest, delegate: Announcer?, idString: String) {
+        if session == nil {
+            session = URLSession(configuration: sesConfig, delegate: nil, delegateQueue: nil)
         }
+        let delegate2 = delegate == nil ? mainAnnouncer : delegate!
+        
+        let task = session!.dataTask(with: request) { [unowned delegate2] data, response, error in
+            guard let data = data, error == nil else {
+                // check for fundamental networking error
+                print("error=\(error)")
+                return
+            }
+            if let responseString = String(data: data, encoding: .utf8) {
+                delegate2.receiveAnnouncement(id: idString, announcement: responseString)
+                print("responseString = \(responseString)")
+            }
+        }
+        task.resume()
     }
     
     //TODO: CHECK
@@ -119,10 +133,14 @@ class PollPHPConnector {
             
         }
         
-        DispatchQueue.global().async { [unowned self] in
-            for newpoll in add {
-                self.pollStore.polls += [newpoll]
-            }
-        }
+        //DispatchQueue.global().async { [unowned self] in
+        //  for newpoll in add {
+        //self.pollStore.polls += [newpoll]
+        //}
+        //}
     }
+}
+
+protocol Announcer: class {
+    func receiveAnnouncement(id: String, announcement: String)
 }

@@ -28,8 +28,9 @@ class Poll: Hashable
     private var hasVoted: Bool
     private var isOpen: Bool
     private var userID: String
+    private let type: PollMethod
     
-    init(newPollID: String, newCreator: String?, newQuestion: String, newAnswers: [String], canChange: Bool, newCreationDate: Date, newHasVoted: Bool, newVote: [[Int]], newUserID: String, newIsOpen: Bool, newVoters: [String]?) {
+    init(newPollID: String, newCreator: String?, newQuestion: String, newAnswers: [String], canChange: Bool, newCreationDate: Date, newHasVoted: Bool, newVote: [[Int]], newUserID: String, newIsOpen: Bool, newVoters: [String]?, newType: PollMethod) {
         creationDate = newCreationDate
         updateTime = Date()
         userID = newUserID
@@ -42,10 +43,11 @@ class Poll: Hashable
         canChangeVote = canChange
         isOpen = newIsOpen
         voters = newVoters!.isEmpty ? (hasVoted ? [userID] : [String](repeating: "", count: vote.count)) : newVoters! // if anonymous, voters is only current user (if he has voted)
+        type = newType
     }
     
-    convenience init(newPollID: String, newQuestion: String, newAnswers: [String], newcreationDate: Date, newHasVoted: Bool, newVote: [[Int]], newUserID: String) {
-        self.init(newPollID: newPollID, newCreator: nil, newQuestion: newQuestion, newAnswers: newAnswers, canChange: false, newCreationDate: Date() , newHasVoted: newHasVoted, newVote: newVote, newUserID: newUserID, newIsOpen: false, newVoters: [String]())
+    convenience init(newPollID: String, newQuestion: String, newAnswers: [String], newcreationDate: Date, newHasVoted: Bool, newVote: [[Int]], newUserID: String, newType: PollMethod) {
+        self.init(newPollID: newPollID, newCreator: nil, newQuestion: newQuestion, newAnswers: newAnswers, canChange: false, newCreationDate: Date() , newHasVoted: newHasVoted, newVote: newVote, newUserID: newUserID, newIsOpen: false, newVoters: [String](), newType: newType)
         voters = hasVoted ? [userID] : [String](repeating: "", count: vote.count) // if anonymous, voters is only current user (if he has voted)
         isOpen = false
         creationDate  = newcreationDate
@@ -62,8 +64,9 @@ class Poll: Hashable
         let nvote = jsonResults["Vote"] as! [[Int]]
         let nisOpen = jsonResults["IsOpen"] as! Bool
         let nvoters = jsonResults["Voters"] as! [String]
+        let nType = jsonResults["Type"] as! PollMethod
         
-        self.init(newPollID: npollID, newCreator: ncreator, newQuestion: nquestion, newAnswers: nanswers, canChange: nchange, newCreationDate: ncreationDate, newHasVoted: nhasVoted, newVote: nvote, newUserID: nuserID, newIsOpen: nisOpen, newVoters: nvoters)
+        self.init(newPollID: npollID, newCreator: ncreator, newQuestion: nquestion, newAnswers: nanswers, canChange: nchange, newCreationDate: ncreationDate, newHasVoted: nhasVoted, newVote: nvote, newUserID: nuserID, newIsOpen: nisOpen, newVoters: nvoters, newType: nType)
         
         
     }

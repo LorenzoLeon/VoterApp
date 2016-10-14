@@ -8,8 +8,8 @@
 
 import UIKit
 
-class RegisterViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
-
+class RegisterViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, Announcer {
+    
     
     //TODO
     var maker: Poller?
@@ -25,6 +25,8 @@ class RegisterViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     @IBOutlet weak var scrollView: UIScrollView!
     
     @IBOutlet var maxView: UIView!
+    
+    @IBOutlet weak var emailVerificationLabel: UILabel!
     
     let pickerOptions = [["Male", "Female"], Division.allValues(), (0...20).map {
         if $0 == 0 {
@@ -42,8 +44,8 @@ class RegisterViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         // Do any additional setup after loading the view.
         genderPicker.delegate = self
         genderPicker.dataSource = self
-      
-       
+        //email.inputDelegate = self
+        emailVerificationLabel.isHidden = true
     }
     
     @IBAction func signUp(_ sender: UIButton) {
@@ -65,7 +67,7 @@ class RegisterViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
             let division = Division.allValuesD()[genderPicker.selectedRow(inComponent: 1)]
             let semester = genderPicker.selectedRow(inComponent: 2)
             let dateChosen = dateofBirth.date
-            let _ = FullUser(newUsername: username, newPassword: password.text!, isVerified: false, newGender: gender, newDivision: division, newSemester: semester, newBday: dateChosen, newEmail: email.text!)
+            let _ = FullUser(newUsername: username, newPassword: password.text!, newIsVerified: false, newGender: gender, newDivision: division, newSemester: semester, newBday: dateChosen, newEmail: email.text!)
             //TODO: check php response
             let message = "maker"//maker?.getPHPConnector().signUp(newUser: fullUser)
             let successfullAlert = UIAlertController(title: "Alert", message: message, preferredStyle: UIAlertControllerStyle.alert)
@@ -75,14 +77,14 @@ class RegisterViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
             }
             successfullAlert.addAction(okAction)
             self.present(successfullAlert, animated: true, completion: nil)
-
-
+            
+            
         } else {
             presentModalView(textForAlert: "Please fill in all input fields!")
         }
         
     }
-
+    
     func presentModalView(textForAlert text: String) {
         let cancellationAlert = UIAlertController(title: "Alert", message: text, preferredStyle: UIAlertControllerStyle.alert)
         let okAction = UIAlertAction(title: "ok", style: UIAlertActionStyle.default, handler: nil)
@@ -102,6 +104,31 @@ class RegisterViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         
     }
     
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let login = segue.destination as? LoginViewController {
+            login.username.text = email.text
+        }
+    }
+    
+ 
+    @IBAction func textDidChange(_ sender: AnyObject) {
+        print("textdidChange")
+        if let input = email.text {                checkIfEmailIsAvailable(with: input)
+        }
+    }
+    
+    func checkIfEmailIsAvailable(with email: String) {
+        print("checking email")
+        maker!.pollConnector!.checkEmailAvailability(with: email, delegate: self)
+    }
+    
+    @IBAction func textWillChange(_ sender: AnyObject) {
+        print("textwillchange")
+        emailVerificationLabel.isHidden = true
+    }
+    
+    
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return pickerOptions[component][row]
     }
@@ -112,18 +139,18 @@ class RegisterViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return pickerOptions[component].count
     }
-
     
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-        if let login = segue.destination as? LoginViewController {
-            login.username.text = email.text
+    func receiveAnnouncement(id: String, announcement: String) {
+        if id == "Availability" {
+            emailVerificationLabel.text = announcement
+            emailVerificationLabel.isHidden = false
+            if announcement.hasSuffix("is OK") {
+                emailVerificationLabel.textColor = UIColor.green
+            } else {
+                emailVerificationLabel.textColor = UIColor.red
+            }
+            
         }
     }
     
-
 }
