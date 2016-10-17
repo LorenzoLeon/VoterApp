@@ -14,16 +14,7 @@ class LoginViewController: UIViewController {
     
     @IBOutlet weak var username: UITextField!
     @IBOutlet weak var password: UITextField!
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        // Do any additional setup after loading the view.
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
+
     
     @IBAction func signIn(_ sender: AnyObject) {
         if username.hasText && password.hasText {
@@ -41,6 +32,7 @@ class LoginViewController: UIViewController {
             
             let user = User(newUsername: name, newPassword: password.text!, newUserID: nil, newIsVerified: false)
             maker!.user = user
+            //make a loading wait screen
             self.performSegue(withIdentifier: "goToMain", sender: self)
             
         } else {
@@ -48,8 +40,8 @@ class LoginViewController: UIViewController {
         }
     }
     
-    func showAlert(message: String) {
-        let cancellationAlert = UIAlertController(title: "Alert", message: message, preferredStyle: UIAlertControllerStyle.alert)
+    func showAlert(message: String, title: String = "Alert!") {
+        let cancellationAlert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
         let okAction = UIAlertAction(title: "ok", style: UIAlertActionStyle.default, handler: nil)
         cancellationAlert.addAction(okAction)
         self.present(cancellationAlert, animated: true, completion: nil)
@@ -58,8 +50,7 @@ class LoginViewController: UIViewController {
     @IBAction func enterOnPassword(_ sender: UITextField) {
         signIn(sender)
     }
-    
-    
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "registrationSegue" {
             if let register = segue.destination as? RegisterViewController {
@@ -69,6 +60,7 @@ class LoginViewController: UIViewController {
         if segue.identifier == "Forgot you Password" {
             if let forgot = segue.destination as? ForgotPasswordViewController, let email = username.text{
                 forgot.emailField.text = email
+                forgot.maker = self.maker
             }
         }
     }

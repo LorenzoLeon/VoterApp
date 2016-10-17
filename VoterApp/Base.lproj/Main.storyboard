@@ -67,17 +67,17 @@
                                     <segue destination="GyR-4f-vKg" kind="presentation" identifier="registrationSegue" id="TpX-Dl-eyp"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" textAlignment="center" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="k7U-TI-ULa">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="center" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="k7U-TI-ULa">
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="21"/>
-                                <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="next"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="1qo-A3-017">
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="21"/>
-                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" secureTextEntry="YES"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tBT-id-r6R">
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -94,7 +94,7 @@
                                     <action selector="signIn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="8Rt-nl-Zfc"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please input your email or username and password to log in to VoterApp" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZG5-G7-I8u">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please input your email and password to log in to VoterApp" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZG5-G7-I8u">
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -228,14 +228,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tumblr2" translatesAutoresizingMaskIntoConstraints="NO" id="ugo-9K-NPG"/>
-                            <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xIA-aC-359">
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="SMV-10-wmW">
-                                    <frame key="frameInset"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                </view>
-                                <blurEffect style="light"/>
-                            </visualEffectView>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="5Uc-6P-h8o">
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="textColor"/>
@@ -283,23 +275,15 @@
                             <constraint firstItem="5Uc-6P-h8o" firstAttribute="centerY" secondItem="JmW-kD-2Zf" secondAttribute="centerY" id="1GI-UU-ofC"/>
                             <constraint firstAttribute="trailingMargin" secondItem="5Uc-6P-h8o" secondAttribute="trailing" id="3wn-gw-vc9"/>
                             <constraint firstAttribute="leadingMargin" secondItem="wPf-ud-UA4" secondAttribute="leading" id="Lhk-Hq-1vW"/>
-                            <constraint firstItem="xIA-aC-359" firstAttribute="top" secondItem="JmW-kD-2Zf" secondAttribute="top" id="MV8-fV-guz"/>
-                            <constraint firstAttribute="trailing" secondItem="ugo-9K-NPG" secondAttribute="trailing" id="PsV-5K-EAE"/>
-                            <constraint firstAttribute="trailing" secondItem="xIA-aC-359" secondAttribute="trailing" id="QkI-3h-d0H"/>
-                            <constraint firstItem="ugo-9K-NPG" firstAttribute="top" secondItem="JmW-kD-2Zf" secondAttribute="top" id="dBc-ad-2Om"/>
                             <constraint firstItem="wPf-ud-UA4" firstAttribute="top" secondItem="5Uc-6P-h8o" secondAttribute="bottom" constant="8" symbolic="YES" id="gJb-Db-YWr"/>
                             <constraint firstAttribute="leadingMargin" secondItem="5Uc-6P-h8o" secondAttribute="leading" id="gW1-en-bdT"/>
                             <constraint firstItem="Evg-ih-sqw" firstAttribute="leading" secondItem="JmW-kD-2Zf" secondAttribute="leading" constant="20" symbolic="YES" id="goj-p9-VAi"/>
-                            <constraint firstItem="ugo-9K-NPG" firstAttribute="leading" secondItem="JmW-kD-2Zf" secondAttribute="leading" id="kpy-sJ-9Uo"/>
-                            <constraint firstItem="tUO-Cq-n5x" firstAttribute="top" secondItem="ugo-9K-NPG" secondAttribute="bottom" id="lwn-4Q-rsA"/>
                             <constraint firstAttribute="trailingMargin" secondItem="wPf-ud-UA4" secondAttribute="trailing" id="nlX-IG-Q5j"/>
                             <constraint firstItem="Evg-ih-sqw" firstAttribute="centerX" secondItem="JmW-kD-2Zf" secondAttribute="centerX" id="qZp-IP-XPm"/>
                             <constraint firstItem="5Uc-6P-h8o" firstAttribute="centerX" secondItem="JmW-kD-2Zf" secondAttribute="centerX" id="rXO-4h-9CP"/>
                             <constraint firstAttribute="trailing" secondItem="Evg-ih-sqw" secondAttribute="trailing" constant="20" symbolic="YES" id="sBU-zb-k9s"/>
                             <constraint firstItem="5Uc-6P-h8o" firstAttribute="top" secondItem="Evg-ih-sqw" secondAttribute="bottom" constant="8" symbolic="YES" id="sjg-0u-JZ5"/>
                             <constraint firstItem="ZJC-fz-Bjk" firstAttribute="top" secondItem="JmW-kD-2Zf" secondAttribute="top" id="t80-Pn-jIj"/>
-                            <constraint firstItem="xIA-aC-359" firstAttribute="leading" secondItem="JmW-kD-2Zf" secondAttribute="leading" id="uJ9-TF-fhr"/>
-                            <constraint firstItem="tUO-Cq-n5x" firstAttribute="top" secondItem="xIA-aC-359" secondAttribute="bottom" id="uqq-Tu-W8O"/>
                             <constraint firstItem="ZJC-fz-Bjk" firstAttribute="leading" secondItem="JmW-kD-2Zf" secondAttribute="leading" symbolic="YES" id="v1y-Il-gKy"/>
                             <constraint firstAttribute="trailing" secondItem="ZJC-fz-Bjk" secondAttribute="trailing" symbolic="YES" id="yIl-Sd-9hi"/>
                         </constraints>
@@ -371,6 +355,7 @@
                                                 </userDefinedRuntimeAttributes>
                                                 <connections>
                                                     <action selector="checkMyPolls:" destination="Sm8-mC-gbV" eventType="touchUpInside" id="Ybc-yA-9Ga"/>
+                                                    <segue destination="xhw-ye-bYr" kind="show" id="zEu-42-fNU"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -451,7 +436,6 @@
                     <connections>
                         <outlet property="logOutButton" destination="Ufc-A0-bF0" id="d3I-pw-4tO"/>
                         <segue destination="BYZ-38-t0r" kind="show" identifier="LogIn" id="LHy-ZU-jbn"/>
-                        <segue destination="Akn-Xn-Wmu" kind="show" identifier="ShowPollTableView" id="jeg-yw-qwz"/>
                         <segue destination="7ss-cf-HKf" kind="show" identifier="MakeAPoll" id="FWD-XV-7MZ"/>
                         <segue destination="x1P-3a-8ZJ" kind="show" identifier="ContactVoterApp" id="57q-HM-3wJ"/>
                     </connections>
@@ -681,69 +665,50 @@
             </objects>
             <point key="canvasLocation" x="4066" y="-962"/>
         </scene>
-        <!--Poll List-->
-        <scene sceneID="TIn-jT-pnO">
+        <!--Check my Polls!-->
+        <scene sceneID="jWZ-UJ-z4c">
             <objects>
-                <viewController id="Akn-Xn-Wmu" customClass="PollListViewController" customModule="VoterApp" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="9Xn-OF-GNy"/>
-                        <viewControllerLayoutGuide type="bottom" id="tBO-XR-WSu"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="mz3-Nr-QGv">
+                <tableViewController id="xhw-ye-bYr" customClass="PollTableViewController" customModule="VoterApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="Owa-u0-h4S">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="1uV-d8-XbZ">
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="detailDisclosureButton" indentationWidth="10" reuseIdentifier="PollTableItem" textLabel="fH5-Qg-ofd" detailTextLabel="GJ9-aC-ZG2" style="IBUITableViewCellStyleSubtitle" id="9df-eA-yrD">
-                                        <rect key="frame" x="0.0" y="119.5" width="335" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="9df-eA-yrD" id="TfU-JG-fjM">
-                                            <frame key="frameInset" width="268" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="fH5-Qg-ofd">
-                                                    <frame key="frameInset" minX="15" minY="5" width="33.5" height="20.5"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="GJ9-aC-ZG2">
-                                                    <frame key="frameInset" minX="15" minY="25.5" width="33" height="14.5"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </prototypes>
-                            </tableView>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="tBO-XR-WSu" firstAttribute="top" secondItem="1uV-d8-XbZ" secondAttribute="bottom" constant="8" symbolic="YES" id="n1f-QC-xGA"/>
-                            <constraint firstAttribute="trailing" secondItem="1uV-d8-XbZ" secondAttribute="trailing" constant="20" symbolic="YES" id="pMj-3X-FPl"/>
-                            <constraint firstItem="1uV-d8-XbZ" firstAttribute="leading" secondItem="mz3-Nr-QGv" secondAttribute="leading" constant="20" symbolic="YES" id="tm2-vV-sDb"/>
-                            <constraint firstItem="1uV-d8-XbZ" firstAttribute="top" secondItem="9Xn-OF-GNy" secondAttribute="bottom" constant="8" symbolic="YES" id="xYx-is-8Ig"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" title="Poll List" id="ig4-rA-531">
-                        <barButtonItem key="backBarButtonItem" title="Go Back" id="0wK-4p-ttR"/>
-                    </navigationItem>
-                    <connections>
-                        <outlet property="pollTable1" destination="1uV-d8-XbZ" id="HwL-dY-HOQ"/>
-                        <segue destination="pwN-mP-fa4" kind="show" identifier="showPollResults" id="be5-jl-I5J"/>
-                        <segue destination="qhe-x6-Yqm" kind="show" identifier="showVote2" id="coE-8l-utR"/>
-                        <segue destination="A2T-lt-G7p" kind="show" identifier="showVoteMore" id="QO9-e2-C9X"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Oa8-Lh-nsd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="detailDisclosureButton" indentationWidth="10" textLabel="aUs-qo-K4r" detailTextLabel="DCU-f9-Mrp" style="IBUITableViewCellStyleValue1" id="dlh-f1-bDY">
+                                <rect key="frame" x="0.0" y="92" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dlh-f1-bDY" id="r80-wx-UDs">
+                                    <frame key="frameInset" width="308" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="aUs-qo-K4r">
+                                            <frame key="frameInset" minX="15" minY="11" width="34" height="21"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="DCU-f9-Mrp">
+                                            <frame key="frameInset" minX="264" minY="11" width="44" height="21"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="xhw-ye-bYr" id="2m9-Eo-6ao"/>
+                            <outlet property="delegate" destination="xhw-ye-bYr" id="VhP-ow-Bl2"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Check my Polls!" id="c8a-At-Oh6"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="f1v-bL-qkT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2294" y="-1476"/>
+            <point key="canvasLocation" x="2599" y="-1780"/>
         </scene>
         <!--Poll Results-->
         <scene sceneID="Atm-2b-OoH">
@@ -780,13 +745,13 @@
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="next" secureTextEntry="YES"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="252" verticalHuggingPriority="252" horizontalCompressionResistancePriority="752" verticalCompressionResistancePriority="752" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Repeat Password" textAlignment="natural" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="CXT-Yq-nWY">
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="send" secureTextEntry="YES"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date of Birth:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h1f-nv-WuB">
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -845,7 +810,7 @@
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="next"/>
                                 <connections>
                                     <action selector="textDidChange:" destination="GyR-4f-vKg" eventType="editingDidEnd" id="vBO-iu-Nwb"/>
                                     <action selector="textWillChange:" destination="GyR-4f-vKg" eventType="editingDidBegin" id="3hJ-za-ju4"/>
@@ -937,6 +902,5 @@
     </scenes>
     <resources>
         <image name="VImage" width="300" height="300"/>
-        <image name="tumblr2" width="1080" height="1920"/>
     </resources>
 </document>

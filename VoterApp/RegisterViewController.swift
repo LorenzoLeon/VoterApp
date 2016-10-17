@@ -13,6 +13,8 @@ class RegisterViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     
     //TODO
     var maker: Poller?
+    var lastUpdated: Date?
+    
     @IBOutlet weak var genderPicker: UIPickerView!
     
     @IBOutlet weak var password: UITextField!
@@ -22,13 +24,11 @@ class RegisterViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     
     @IBOutlet weak var dateofBirth: UIDatePicker!
     
-    @IBOutlet weak var scrollView: UIScrollView!
-    
     @IBOutlet var maxView: UIView!
     
     @IBOutlet weak var emailVerificationLabel: UILabel!
     
-    let pickerOptions = [["Male", "Female"], Division.allValues(), (0...20).map {
+    private let pickerOptions = [["Male", "Female"], Division.allValues(), (0...20).map {
         if $0 == 0 {
             return "No es estudiante"
         }else if $0 < 9 {
@@ -51,12 +51,12 @@ class RegisterViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     @IBAction func signUp(_ sender: UIButton) {
         if email.hasText && password.hasText && passwordRepeat.hasText {
             if password.text! != passwordRepeat.text! {
-                presentModalView(textForAlert: "Passwords don't match")
+                presentModalView(textForAlert: "Passwords don't match", title: "Hold your horses!")
                 return
             }
             if !email.text!.hasSuffix("@cide.edu") && !email.text!.hasSuffix("@alumnos.cide.edu")
             {
-                presentModalView(textForAlert: "Please input a valid CIDE address")
+                presentModalView(textForAlert: "Please input a valid CIDE address", title: "Are you from around?")
                 return
             }
             let user = email.text!
@@ -67,26 +67,18 @@ class RegisterViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
             let division = Division.allValuesD()[genderPicker.selectedRow(inComponent: 1)]
             let semester = genderPicker.selectedRow(inComponent: 2)
             let dateChosen = dateofBirth.date
-            let _ = FullUser(newUsername: username, newPassword: password.text!, newIsVerified: false, newGender: gender, newDivision: division, newSemester: semester, newBday: dateChosen, newEmail: email.text!)
-            //TODO: check php response
-            let message = "maker"//maker?.getPHPConnector().signUp(newUser: fullUser)
-            let successfullAlert = UIAlertController(title: "Alert", message: message, preferredStyle: UIAlertControllerStyle.alert)
-            let okAction = UIAlertAction(title: "ok", style: UIAlertActionStyle.default) { _ in
-                self.performSegue(withIdentifier: "GoBackToLogIn", sender: self)
-                
-            }
-            successfullAlert.addAction(okAction)
-            self.present(successfullAlert, animated: true, completion: nil)
+            let fullUser = FullUser(newUsername: username, newPassword: password.text!, newIsVerified: false, newGender: gender, newDivision: division, newSemester: semester, newBday: dateChosen, newEmail: email.text!)
             
+            maker!.pollConnector!.signUp(newUser: fullUser, delegate: self)
             
         } else {
-            presentModalView(textForAlert: "Please fill in all input fields!")
+            presentModalView(textForAlert: "Please fill in all input fields!", title: "Not so fast, Johnny!")
         }
         
     }
     
-    func presentModalView(textForAlert text: String) {
-        let cancellationAlert = UIAlertController(title: "Alert", message: text, preferredStyle: UIAlertControllerStyle.alert)
+    func presentModalView(textForAlert text: String, title: String = "Alert!") {
+        let cancellationAlert = UIAlertController(title: title, message: text, preferredStyle: UIAlertControllerStyle.alert)
         let okAction = UIAlertAction(title: "ok", style: UIAlertActionStyle.default, handler: nil)
         cancellationAlert.addAction(okAction)
         self.present(cancellationAlert, animated: true, completion: nil)
@@ -104,17 +96,10 @@ class RegisterViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         
     }
     
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let login = segue.destination as? LoginViewController {
-            login.username.text = email.text
-        }
-    }
-    
- 
     @IBAction func textDidChange(_ sender: AnyObject) {
         print("textdidChange")
-        if let input = email.text {                checkIfEmailIsAvailable(with: input)
+        if let input = email.text {
+            checkIfEmailIsAvailable(with: input)
         }
     }
     
@@ -128,6 +113,35 @@ class RegisterViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         emailVerificationLabel.isHidden = true
     }
     
+    func receiveAnnouncement(id: String, announcement data: Any) {
+        switch id {
+        case "Sign Up":
+            if let message = data as? String {
+                if message.contains("successful") {
+                    let successfullAlert = UIAlertController(title: "Alert", message: (data as! String), preferredStyle: UIAlertControllerStyle.alert)
+                    let okAction = UIAlertAction(title: "ok", style: UIAlertActionStyle.default) { _ in
+                        self.performSegue(withIdentifier: "GoBackToLogIn", sender: self)
+                    }
+                    successfullAlert.addAction(okAction)
+                    self.present(successfullAlert, animated: true, completion: nil)
+                } else {
+                    presentModalView(textForAlert: "Unsuccessful registration, please try again")
+                }
+            }
+        case "Availability":
+            let announcement = String(data: data as! Data, encoding: .utf8)!
+            emailVerificationLabel.text = announcement
+            emailVerificationLabel.isHidden = false
+            if announcement.hasSuffix("is OK") {
+                emailVerificationLabel.textColor = UIColor.green
+            } else {
+                emailVerificationLabel.textColor = UIColor.red
+            }
+        default:
+            presentModalView(textForAlert: data as! String, title: "Network Error")
+        }
+    }
+    
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return pickerOptions[component][row]
@@ -139,17 +153,9 @@ class RegisterViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return pickerOptions[component].count
     }
-    
-    func receiveAnnouncement(id: String, announcement: String) {
-        if id == "Availability" {
-            emailVerificationLabel.text = announcement
-            emailVerificationLabel.isHidden = false
-            if announcement.hasSuffix("is OK") {
-                emailVerificationLabel.textColor = UIColor.green
-            } else {
-                emailVerificationLabel.textColor = UIColor.red
-            }
-            
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let login = segue.destination as? LoginViewController {
+            login.username.text = email.text
         }
     }
     

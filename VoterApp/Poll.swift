@@ -14,7 +14,7 @@ struct Values {
     static let oneWeek: Double = 60*60*24*7 //one week in seconds
 }
 
-class Poll: Hashable
+class Poll: Hashable, CustomStringConvertible
 {
     var pollID: String
     private var creator: String?
@@ -23,9 +23,9 @@ class Poll: Hashable
     private var vote:  [[Int]]
     private var voters = [String]()
     private var canChangeVote = false
-    private var updateTime: Date
-    private var creationDate: Date
-    private var hasVoted: Bool
+    var updateTime: Date
+    var creationDate: Date
+    var hasVoted: Bool
     private var isOpen: Bool
     private var userID: String
     private let type: PollMethod
@@ -81,6 +81,9 @@ class Poll: Hashable
      return isOpen
      }*/
     
+    func isMine() -> Bool {
+        return creator == userID
+    }
     
     func isFinished() -> Bool { //check if it is still open, close if not
         isOpen = !(creationDate.timeIntervalSince(Foundation.Date.init()) > Values.oneWeek) //older than  1 week
@@ -107,7 +110,7 @@ class Poll: Hashable
             vote = newVotes
             if !hasVoted { voters += [userID] }
             hasVoted = true
-            return hasVoted
+            return true
         }
         return false
     }
@@ -136,5 +139,12 @@ class Poll: Hashable
     
     static func == (lhs: Poll, rhs: Poll) -> Bool {
         return lhs.pollID == rhs.pollID
+    }
+    
+    var description: String {
+        get {
+            let date = DateFormatter.localizedString(from: updateTime, dateStyle: DateFormatter.Style.short, timeStyle: DateFormatter.Style.none).replacingOccurrences(of: "/", with: "-")
+            return "pollID=\(pollID)&lastupdated=\(date)"
+        }
     }
 }
