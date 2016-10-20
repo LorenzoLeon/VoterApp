@@ -1,0 +1,159 @@
+
+/* Class = "UITextField"; placeholder = "Password"; ObjectID = "1qo-A3-017"; */
+"1qo-A3-017.placeholder" = "Password";
+
+/* Class = "UITextField"; placeholder = "Email"; ObjectID = "5Uc-6P-h8o"; */
+"5Uc-6P-h8o.placeholder" = "Email";
+
+/* Class = "UINavigationItem"; title = "Forgot you Password"; ObjectID = "8GS-RR-mUx"; */
+"8GS-RR-mUx.title" = "Forgot you Password";
+
+/* Class = "UINavigationItem"; title = "Contact VoterApp"; ObjectID = "8Qn-Aw-gCq"; */
+"8Qn-Aw-gCq.title" = "Contact VoterApp";
+
+/* Class = "UILabel"; text = "Answers"; ObjectID = "9nf-at-WgU"; */
+"9nf-at-WgU.text" = "Answers";
+
+/* Class = "UIButton"; normalTitle = "Sign Up"; ObjectID = "AzB-3r-T8p"; */
+"AzB-3r-T8p.normalTitle" = "Sign Up";
+
+/* Class = "UITextField"; placeholder = "Repeat Password"; ObjectID = "CXT-Yq-nWY"; */
+"CXT-Yq-nWY.placeholder" = "Repeat Password";
+
+/* Class = "UITextField"; placeholder = "Name"; ObjectID = "Cl1-dS-DZu"; */
+"Cl1-dS-DZu.placeholder" = "Name";
+
+/* Class = "UILabel"; text = "Gender:"; ObjectID = "EI1-ET-huG"; */
+"EI1-ET-huG.text" = "Gender:";
+
+/* Class = "UILabel"; text = "A verification code will be sent to your email to reset your password. Please input your account's email."; ObjectID = "Evg-ih-sqw"; */
+"Evg-ih-sqw.text" = "A verification code will be sent to your email to reset your password. Please input your account's email.";
+
+/* Class = "UINavigationItem"; title = "Edit Profile"; ObjectID = "FmC-a3-70t"; */
+"FmC-a3-70t.title" = "Edit Profile";
+
+/* Class = "UINavigationItem"; title = "Vote 2 options"; ObjectID = "GIb-dO-VLz"; */
+"GIb-dO-VLz.title" = "Vote 2 options";
+
+/* Class = "UIButton"; normalTitle = "Submit New Poll"; ObjectID = "GJ2-DS-Im1"; */
+"GJ2-DS-Im1.normalTitle" = "Submit New Poll";
+
+/* Class = "UITextField"; placeholder = "Email as @cide.edu or @alumnos.cide.edu"; ObjectID = "Gfc-TG-U5Q"; */
+"Gfc-TG-U5Q.placeholder" = "Email as @cide.edu or @alumnos.cide.edu";
+
+/* Class = "UINavigationItem"; title = "Make a New Poll"; ObjectID = "I60-75-SYd"; */
+"I60-75-SYd.title" = "Make a New Poll";
+
+/* Class = "UINavigationItem"; title = "VoterApp"; ObjectID = "Jdh-V3-kbh"; */
+"Jdh-V3-kbh.title" = "VoterApp";
+
+/* Class = "UIButton"; normalTitle = "About VoterApp"; ObjectID = "JxQ-J1-NzZ"; */
+"JxQ-J1-NzZ.normalTitle" = "About VoterApp";
+
+/* Class = "UINavigationItem"; title = "Registration"; ObjectID = "KXb-8B-JRs"; */
+"KXb-8B-JRs.title" = "Registration";
+
+/* Class = "UIButton"; normalTitle = "Rate this App ★"; ObjectID = "Mw0-Gp-ri5"; */
+"Mw0-Gp-ri5.normalTitle" = "Rate this App ★";
+
+/* Class = "UINavigationItem"; title = "Vote more options"; ObjectID = "Q70-IF-ctB"; */
+"Q70-IF-ctB.title" = "Vote more options";
+
+/* Class = "UIButton"; normalTitle = "Sign up"; ObjectID = "SQp-rE-0pY"; */
+"SQp-rE-0pY.normalTitle" = "Sign up";
+
+/* Class = "UIButton"; normalTitle = "Log In"; ObjectID = "Ufc-A0-bF0"; */
+"Ufc-A0-bF0.normalTitle" = "Log In";
+
+/* Class = "UILabel"; text = "Please input your email and password to log in to VoterApp"; ObjectID = "ZG5-G7-I8u"; */
+"ZG5-G7-I8u.text" = "Please input your email and password to log in to VoterApp";
+
+/* Class = "UIButton"; normalTitle = "Forgot Password"; ObjectID = "Zg1-gN-0FE"; */
+"Zg1-gN-0FE.normalTitle" = "Forgot Password";
+
+/* Class = "UINavigationItem"; title = "Check my Polls!"; ObjectID = "c8a-At-Oh6"; */
+"c8a-At-Oh6.title" = "Check my Polls!";
+
+/* Class = "UINavigationItem"; title = "Forgot your Password"; ObjectID = "cvg-ux-gng"; */
+"cvg-ux-gng.title" = "Forgot your Password";
+
+/* Class = "UINavigationItem"; title = "Log in"; ObjectID = "d8U-ks-VZk"; */
+"d8U-ks-VZk.title" = "Log in";
+
+/* Class = "UINavigationItem"; title = "Poll Results"; ObjectID = "gDn-yl-bsG"; */
+"gDn-yl-bsG.title" = "Poll Results";
+
+/* Class = "UIButton"; normalTitle = "Cancel"; ObjectID = "gEh-M0-kX6"; */
+"gEh-M0-kX6.normalTitle" = "Cancel";
+
+/* Class = "UIButton"; normalTitle = "Vote"; ObjectID = "gQR-Af-387"; */
+"gQR-Af-387.normalTitle" = "Vote";
+
+/* Class = "UILabel"; text = "Date of Birth:"; ObjectID = "h1f-nv-WuB"; */
+"h1f-nv-WuB.text" = "Date of Birth:";
+
+/* Class = "UIButton"; normalTitle = "Contact VoterApp"; ObjectID = "h8O-Wk-zYO"; */
+"h8O-Wk-zYO.normalTitle" = "Contact VoterApp";
+
+/* Class = "UITextField"; placeholder = "Password"; ObjectID = "hTQ-Ut-BXK"; */
+"hTQ-Ut-BXK.placeholder" = "Password";
+
+/* Class = "UIButton"; normalTitle = "Make a new Poll"; ObjectID = "hb9-Ig-ynV"; */
+"hb9-Ig-ynV.normalTitle" = "Make a new Poll";
+
+/* Class = "UITextView"; text = "Please tell us what you think or of any problems you have had!."; ObjectID = "hi9-zH-SAa"; */
+"hi9-zH-SAa.text" = "Please tell us what you think or of any problems you have had!.";
+
+/* Class = "UIButton"; normalTitle = "Check My Polls"; ObjectID = "iuh-Kz-U1W"; */
+"iuh-Kz-U1W.normalTitle" = "Check My Polls";
+
+/* Class = "UILabel"; text = "Welcome"; ObjectID = "jLc-z2-W39"; */
+"jLc-z2-W39.text" = "Welcome";
+
+/* Class = "UITextField"; placeholder = "Email"; ObjectID = "k7U-TI-ULa"; */
+"k7U-TI-ULa.placeholder" = "Email";
+
+/* Class = "UINavigationItem"; title = "Register"; ObjectID = "ls5-Ez-7u4"; */
+"ls5-Ez-7u4.title" = "Register";
+
+/* Class = "UILabel"; text = "Division:"; ObjectID = "nBW-DB-jsl"; */
+"nBW-DB-jsl.text" = "Division:";
+
+/* Class = "UILabel"; text = "Poll Question:"; ObjectID = "nOM-rq-vBh"; */
+"nOM-rq-vBh.text" = "Poll Question:";
+
+/* Class = "UILabel"; text = "Semestre:"; ObjectID = "ooU-x5-thM"; */
+"ooU-x5-thM.text" = "Semestre:";
+
+/* Class = "UILabel"; text = "|"; ObjectID = "pkG-C8-lLf"; */
+"pkG-C8-lLf.text" = "|";
+
+/* Class = "UINavigationItem"; title = "About VoterApp"; ObjectID = "pky-dW-6Np"; */
+"pky-dW-6Np.title" = "About VoterApp";
+
+/* Class = "UIButton"; normalTitle = "Send a Comment ★"; ObjectID = "qSy-mg-4ud"; */
+"qSy-mg-4ud.normalTitle" = "Send a Comment ★";
+
+/* Class = "UITextView"; text = "VoterApp is a student developed platform for web assisted voting and polling. It is intentended as a way to facilitate any group decision making and opinion polling. By integrating different choice making mechanisms it helps illustrate the different ways a group can make a choice. Also, by integrating with social media it enables any group to share their decision or opinion and makes it a truly transparent process. "; ObjectID = "rCu-Br-mIR"; */
+"rCu-Br-mIR.text" = "VoterApp is a student developed platform for web assisted voting and polling. It is intentended as a way to facilitate any group decision making and opinion polling. By integrating different choice making mechanisms it helps illustrate the different ways a group can make a choice. Also, by integrating with social media it enables any group to share their decision or opinion and makes it a truly transparent process. ";
+
+/* Class = "UILabel"; text = "Sender:"; ObjectID = "rgu-sa-4yN"; */
+"rgu-sa-4yN.text" = "Sender:";
+
+/* Class = "UIButton"; normalTitle = "Log In"; ObjectID = "tBT-id-r6R"; */
+"tBT-id-r6R.normalTitle" = "Log In";
+
+/* Class = "UITextView"; text = "Please input the Poll Question Here."; ObjectID = "tvN-YV-VYT"; */
+"tvN-YV-VYT.text" = "Please input the Poll Question Here.";
+
+/* Class = "UILabel"; text = "Comment:"; ObjectID = "vTH-Ty-2vw"; */
+"vTH-Ty-2vw.text" = "Comment:";
+
+/* Class = "UIButton"; normalTitle = "Send Password Reset Link"; ObjectID = "wPf-ud-UA4"; */
+"wPf-ud-UA4.normalTitle" = "Send Password Reset Link";
+
+/* Class = "UIButton"; normalTitle = "Vote"; ObjectID = "wUn-cM-6Xq"; */
+"wUn-cM-6Xq.normalTitle" = "Vote";
+
+/* Class = "UIBarButtonItem"; title = "Edit Profile"; ObjectID = "xlT-YM-sfe"; */
+"xlT-YM-sfe.title" = "Edit Profile";

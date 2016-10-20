@@ -10,6 +10,7 @@ import UIKit
 
 class VoteMoreOptionsViewController: UIViewController {
 
+    var poll : Poll?
     override func viewDidLoad() {
         super.viewDidLoad()
 

@@ -14,19 +14,26 @@ class User {
     var userID: String?
     var isVerified: Bool?
     
-    init(newUsername: String, newPassword: String, newUserID: String?, newIsVerified: Bool?) {
-        username = newUsername
-        password = newPassword
-        userID = newUserID
-        isVerified = newIsVerified
+    init?(newUsername: String?, newPassword: String?, newUserID: String?, newIsVerified: Bool?) {
+        let check =  newUsername != nil && newPassword != nil && (!newUsername!.hasSuffix("@cide.edu") && !newUsername!.hasSuffix("@alumnos.cide.edu"))
+        
+        if check {
+            username = newUsername!
+            password = newPassword!
+            userID = newUserID
+            isVerified = newIsVerified
+        } else {
+            return nil
+        }
     }
     
     func addToRequest(newRequest: URLRequest) -> URLRequest {
         var request = newRequest
-        request.addValue(username, forHTTPHeaderField: "u")
-        request.addValue(password, forHTTPHeaderField: "p")
+        request.httpMethod  = "POST"
+        request.httpBody = "u=\(username)&p=\(password)".data(using: .utf8)
         return request
     }
+
     
 }
 
@@ -39,7 +46,7 @@ class FullUser: User, CustomStringConvertible{
     private static let num = Set<Int>(0...20)
     
     
-    init(newUsername: String, newPassword: String, newIsVerified: Bool?, newGender: Gender, newDivision: Division, newSemester: Int, newBday: Date, newEmail: String) {
+    init?(newUsername: String, newPassword: String, newIsVerified: Bool?, newGender: Gender, newDivision: Division, newSemester: Int, newBday: Date, newEmail: String) {
         gender = newGender
         division = newDivision
         semester = FullUser.semester(newNum: newSemester)
@@ -59,13 +66,18 @@ class FullUser: User, CustomStringConvertible{
     
     func putInURLRequest(newRequest: URLRequest) -> URLRequest {
         //"u="+u+"&e="+e+"&p="+p1+"&g="+g+"&b="+b+"&d="+d+"&s="+s
-        let age = DateFormatter.localizedString(from: bday, dateStyle: DateFormatter.Style.short, timeStyle: DateFormatter.Style.none).replacingOccurrences(of: "/", with: "-")
-        var request = addToRequest(newRequest: newRequest)
-        request.addValue("\(email)", forHTTPHeaderField: "e")
-        request.addValue("\(gender)", forHTTPHeaderField: "g")
-        request.addValue("\(division)", forHTTPHeaderField: "d")
-        request.addValue("\(semester)", forHTTPHeaderField: "s")
-        request.addValue("\(age)", forHTTPHeaderField: "b")
+        let age = DateFormatter.localizedString(from: bday, dateStyle: DateFormatter.Style.short, timeStyle: DateFormatter.Style.none)
+        var request = newRequest
+        var g: String
+        switch gender {
+        case .Female:
+            g = "F"
+        default:
+            g = "M"
+        }
+        request.httpMethod  = "POST"
+       // let div = Division.allValuesD().index(of: division)
+        request.httpBody = "u=\(username)&e=\(email)&p=\(password)&g=\(g)&b=\(age)&d=\(division)&s=\(semester)".data(using: .utf8)
         return request
     }
     
@@ -79,9 +91,9 @@ class FullUser: User, CustomStringConvertible{
 }
 
 enum Gender: String {
-    case Male
-    case Female
-    case Else
+    case Male = "m"
+    case Female = "f"
+    case Else = "e"
     
     static func set(gender: String) -> Gender {
         if gender.contains("F"){

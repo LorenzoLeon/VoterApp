@@ -432,8 +432,15 @@
                             <constraint firstItem="wG8-h2-oTj" firstAttribute="leading" secondItem="qm8-2g-NMl" secondAttribute="leading" constant="20" symbolic="YES" id="rlp-CX-YsN"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="VoterApp" id="Jdh-V3-kbh"/>
+                    <navigationItem key="navigationItem" title="VoterApp" id="Jdh-V3-kbh">
+                        <barButtonItem key="rightBarButtonItem" title="Edit Profile" id="xlT-YM-sfe">
+                            <connections>
+                                <segue destination="DM9-ey-8xK" kind="show" id="oNT-v9-q0D"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
+                        <outlet property="editProfileButton" destination="xlT-YM-sfe" id="QHp-et-1yl"/>
                         <outlet property="logOutButton" destination="Ufc-A0-bF0" id="d3I-pw-4tO"/>
                         <segue destination="BYZ-38-t0r" kind="show" identifier="LogIn" id="LHy-ZU-jbn"/>
                         <segue destination="7ss-cf-HKf" kind="show" identifier="MakeAPoll" id="FWD-XV-7MZ"/>
@@ -443,6 +450,25 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="taJ-SW-AH0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="680.79999999999995" y="-1181.5592203898052"/>
+        </scene>
+        <!--Edit Profile-->
+        <scene sceneID="F9h-FP-LRC">
+            <objects>
+                <viewController id="DM9-ey-8xK" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="rGg-W8-mjl"/>
+                        <viewControllerLayoutGuide type="bottom" id="OjJ-xg-kTc"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="19T-mv-adV">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Edit Profile" id="FmC-a3-70t"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="im1-Yc-DJA" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-272" y="-2047"/>
         </scene>
         <!--Make a New Poll-->
         <scene sceneID="Q88-Xh-zx8">
@@ -506,7 +532,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aTl-1C-g2q" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="441" y="-2143"/>
+            <point key="canvasLocation" x="681" y="-2158"/>
         </scene>
         <!--Contact VoterApp-->
         <scene sceneID="ZAN-Eg-oUu">
@@ -628,7 +654,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iWX-3F-D6k" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3362" y="-962"/>
+            <point key="canvasLocation" x="3356" y="-800"/>
         </scene>
         <!--Vote more options-->
         <scene sceneID="chU-L7-p0D">
@@ -663,7 +689,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="290-w4-WIZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4066" y="-962"/>
+            <point key="canvasLocation" x="4110" y="-800"/>
         </scene>
         <!--Check my Polls!-->
         <scene sceneID="jWZ-UJ-z4c">
@@ -673,42 +699,21 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="detailDisclosureButton" indentationWidth="10" textLabel="aUs-qo-K4r" detailTextLabel="DCU-f9-Mrp" style="IBUITableViewCellStyleValue1" id="dlh-f1-bDY">
-                                <rect key="frame" x="0.0" y="92" width="375" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dlh-f1-bDY" id="r80-wx-UDs">
-                                    <frame key="frameInset" width="308" height="43"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="aUs-qo-K4r">
-                                            <frame key="frameInset" minX="15" minY="11" width="34" height="21"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="DCU-f9-Mrp">
-                                            <frame key="frameInset" minX="264" minY="11" width="44" height="21"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="xhw-ye-bYr" id="2m9-Eo-6ao"/>
                             <outlet property="delegate" destination="xhw-ye-bYr" id="VhP-ow-Bl2"/>
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Check my Polls!" id="c8a-At-Oh6"/>
+                    <connections>
+                        <segue destination="pwN-mP-fa4" kind="show" identifier="showResults" action="showDetailViewController:sender:" id="bwT-Tr-meb"/>
+                        <segue destination="qhe-x6-Yqm" kind="show" identifier="showVote2" action="showDetailViewController:sender:" id="3Bx-Ge-lhr"/>
+                        <segue destination="A2T-lt-G7p" kind="show" identifier="showVoteMore" action="showDetailViewController:sender:" id="5qg-bF-Vcp"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="f1v-bL-qkT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2599" y="-1780"/>
+            <point key="canvasLocation" x="1492" y="-1631"/>
         </scene>
         <!--Poll Results-->
         <scene sceneID="Atm-2b-OoH">
@@ -727,7 +732,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7bk-4v-Luy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3367" y="-1701"/>
+            <point key="canvasLocation" x="2386" y="-1631"/>
         </scene>
         <!--Registration-->
         <scene sceneID="Ml5-jB-7uh">
@@ -839,9 +844,16 @@
                                     <navigationItem title="Register" id="ls5-Ez-7u4"/>
                                 </items>
                             </navigationBar>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="lala" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3ID-3L-hFx">
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.22242123420000001" green="0.76358264590000002" blue="0.07528584545" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3ID-3L-hFx">
+                                <attributedString key="attributedText">
+                                    <fragment content="lala">
+                                        <attributes>
+                                            <color key="NSColor" red="0.22242123420000001" green="0.76358264590000002" blue="0.07528584545" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <font key="NSFont" metaFont="system" size="17"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -878,6 +890,7 @@
                             <constraint firstItem="gEh-M0-kX6" firstAttribute="centerX" secondItem="Jt2-7Q-j0S" secondAttribute="centerX" id="mTR-qY-PyD"/>
                             <constraint firstItem="hTQ-Ut-BXK" firstAttribute="centerX" secondItem="Jt2-7Q-j0S" secondAttribute="centerX" id="qcC-d5-xmn"/>
                             <constraint firstItem="DjR-YT-07J" firstAttribute="width" secondItem="CXT-Yq-nWY" secondAttribute="width" id="rFQ-qT-amL"/>
+                            <constraint firstItem="3ID-3L-hFx" firstAttribute="width" secondItem="Gfc-TG-U5Q" secondAttribute="width" id="scC-PX-bee"/>
                             <constraint firstItem="hIE-O5-6Ol" firstAttribute="top" secondItem="nBW-DB-jsl" secondAttribute="bottom" constant="8" symbolic="YES" id="wzE-78-pm8"/>
                             <constraint firstItem="ooU-x5-thM" firstAttribute="trailing" secondItem="DjR-YT-07J" secondAttribute="trailing" id="y5m-Tr-Qj1"/>
                         </constraints>
@@ -886,7 +899,7 @@
                     <connections>
                         <outlet property="dateofBirth" destination="DjR-YT-07J" id="VEb-yq-z8x"/>
                         <outlet property="email" destination="Gfc-TG-U5Q" id="itj-Q7-g8Q"/>
-                        <outlet property="emailVerificationLabel" destination="3ID-3L-hFx" id="DV6-Ki-331"/>
+                        <outlet property="emailVerificationLabel" destination="3ID-3L-hFx" id="AwS-qA-4Tv"/>
                         <outlet property="genderPicker" destination="hIE-O5-6Ol" id="cLc-6B-Lk2"/>
                         <outlet property="maxView" destination="Jt2-7Q-j0S" id="1Te-Wz-N9T"/>
                         <outlet property="password" destination="hTQ-Ut-BXK" id="sLt-dC-Xv1"/>

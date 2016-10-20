@@ -71,6 +71,10 @@ class Poll: Hashable, CustomStringConvertible
         
     }
     
+    
+    func answerCount() -> Int {
+        return answers.count
+    }
     /* TODO
      func addNewAnswers(newAnswers: [String]) -> Bool {
      

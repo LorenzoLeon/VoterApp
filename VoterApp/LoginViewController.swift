@@ -21,28 +21,28 @@ class LoginViewController: UIViewController {
             
             if !username.text!.hasSuffix("@cide.edu") && !username.text!.hasSuffix("@alumnos.cide.edu")
             {
-                showAlert(message: "Please input a valid CIDE address")
+                showAlert(message: NSLocalizedString("Please_Input", comment: "Ask user to input correct email"))
                 return
             }
             
             let email = username.text!
-            let range = email.range(of: "@")
-            let index: Int = email.distance(from: email.startIndex, to: range!.lowerBound)
-            let name = email.substring(to: email.index(email.startIndex, offsetBy: index))
+           // let range = email.range(of: "@")
+           // let index: Int = email.distance(from: email.startIndex, to: range!.lowerBound)
+           // let name = email.substring(to: email.index(email.startIndex, offsetBy: index))
             
-            let user = User(newUsername: name, newPassword: password.text!, newUserID: nil, newIsVerified: false)
+            let user = User(newUsername: email, newPassword: password.text!, newUserID: nil, newIsVerified: false)
             maker!.user = user
             //make a loading wait screen
             self.performSegue(withIdentifier: "goToMain", sender: self)
             
         } else {
-            showAlert(message: "Please Fill in all the fields")
+            showAlert(message: NSLocalizedString("Fill_All", comment: "Ask user to fill all fields"))
         }
     }
     
-    func showAlert(message: String, title: String = "Alert!") {
+    func showAlert(message: String, title: String = NSLocalizedString("Alert", comment: "Alert")) {
         let cancellationAlert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
-        let okAction = UIAlertAction(title: "ok", style: UIAlertActionStyle.default, handler: nil)
+        let okAction = UIAlertAction(title: NSLocalizedString("OK", comment: "OK"), style: UIAlertActionStyle.default, handler: nil)
         cancellationAlert.addAction(okAction)
         self.present(cancellationAlert, animated: true, completion: nil)
     }

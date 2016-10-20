@@ -9,6 +9,8 @@
 import UIKit
 
 class PollResultsViewController: UIViewController {
+    
+    var poll : Poll?
 
     override func viewDidLoad() {
         super.viewDidLoad()

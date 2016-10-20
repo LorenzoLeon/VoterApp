@@ -1,0 +1,51 @@
+/* 
+  DisplayText.strings
+  VoterApp
+
+  Created by Lorenzo Leon Robles on 10/19/16.
+  Copyright © 2016 Lorenzo Leon Robles. All rights reserved.
+*/
+
+Please_Input = "Please input a valid CIDE address";
+Fill_All = "Please Fill in all the fields";
+Alert = "Alert!";
+OK = "OK";
+Male = "Male";
+Female = "Female";
+Not_Student = "Not a Student";
+Bachelor = "Bachelor degree";
+Masters  = "Masters degree";
+PHD = "PhD";
+Pass_NoMatch = "Passwords don't match";
+HoldEm = "Hold your horses!";
+AreYouFrom = "Are you from around?";
+YourRegCancel = "Your registration will cancel";
+AreYouSureRegCancel = "Are you sure you want to cancel? All registration will be stopped and the account won't be created";
+Cancel = "Cancel";
+ReturnToLogin = "Return to login";
+Success = "Success!";
+RegSuccCheckEmail = "Your Registration was successful! Check your email for a verification link.";
+UnsuccReg = "Unsuccessful registration, please try again";
+NetError = "Network Error";
+MyPolls = "My Polls";
+AnsweredPolls = "Polls I've answered";
+UnansweredPolls = "Unanswered Polls";
+SomeWrong = "Something went wrong!";
+SignInSucc = "You were signed in successfully";
+UnableToSignIn = "We could not sign you in.";
+Goodbye = "Goodbye! Sign in to check your polls :D";
+LoggedOut =  "You've been logged out";
+SuccDeletion = "Poll was successfully deleted";
+Yay = "Yay!";
+VoteRegistered = "Your vote was successfully registered";
+Hurray = "Hurray!";
+VoteNotRegisterded = "Your vote was not registered.";
+PollsUpdated = "Polls have been updated";
+AlreadyUpdated = "All polls are up to date";
+Nothing = "Nothing to do!";
+NoLongerExists = "The poll you requested no longer exists or was deleted";
+UnknownNetError =  "Unknown Network Problem; please check your connection status";
+CheckEmail ="Check your email for the password reset link";
+WrongWithEmail = "Something went wrong with the email service. Please try again later.";
+NoSuchAccount =  "There is no such account with that email";
+Sorry = "We're sorry";

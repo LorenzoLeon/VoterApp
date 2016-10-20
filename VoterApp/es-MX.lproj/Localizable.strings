@@ -1,0 +1,51 @@
+/* 
+  DisplayText.strings
+  VoterApp
+
+  Created by Lorenzo Leon Robles on 10/19/16.
+  Copyright © 2016 Lorenzo Leon Robles. All rights reserved.
+*/
+
+Please_Input = "Por favor, ingrese un correo electrónico del CIDE";
+Fill_All = "Por favor, complete el formulario";
+Alert = "¡Alerta!";
+OK = "OK";
+Male = "Masculino";
+Female = "Femenino";
+Not_Student = "No soy estudiante";
+Bachelor = "Licenciatura";
+Masters  = "Maestría";
+PHD = "Doctorado";
+Pass_NoMatch = "Las contraseñas no coinciden";
+HoldEm = "Despacio Vaquero!";
+AreYouFrom = "¿Eres del CIDE?";
+YourRegCancel = "El proceso de registro será cancelado";
+AreYouSureRegCancel = "¿Estás seguro que quieres cancelar? El proceso de registro se detendrá y la nueva cuenta no será creada";
+Cancel = "Cancelar";
+ReturnToLogin = "Regresar a Inicio";
+Success = "¡Excelente!";
+RegSuccCheckEmail = "¡El registro fue completado! Revise su correo electrónico para encontrar el vinculo para verificar su cuenta";
+UnsuccReg = "Registro fallido. Por favor, trate de nuevo";
+NetError = "Error de Conección";
+MyPolls = "Mis Encuestas";
+AnsweredPolls = "Encuestas respondidas";
+UnansweredPolls = "Encuestas sin responder";
+SomeWrong = "¡Algo salió mal!";
+SignInSucc = "¡Ha iniciado su sesión exitósamente!";
+UnableToSignIn = "No ha sido posible iniciar sesión";
+Goodbye = "¡Hasta luego! Inicie sesión para revisar encuestas :D";
+LoggedOut =  "Se ha finalizado la sesión";
+SuccDeletion = "La encuesta fue borrada con exito";
+Yay = "Orale!";
+VoteRegistered = "Su voto ha sido registrado";
+Hurray = "¡Bomba!";
+VoteNotRegisterded = "Su voto no fue registrado";
+PollsUpdated = "Las encuestas se han actualizado";
+AlreadyUpdated = "Todas las encuestas están al día";
+Nothing = "¡Nada que hacer!";
+NoLongerExists = "La encuesta pedida no existe o fue eliminada";
+UnknownNetError =  "Problema de red desconocido; por favor, revise el estado de su conección";
+CheckEmail ="Busque en su correo electrónico el vinculo para reestablecer su contraseña";
+WrongWithEmail = "Halgo falló en el sistema de correos. Por favor, intente después";
+NoSuchAccount =  "No existe ninguna cuenta con ese correo";
+Sorry = "Lo sentimos";

@@ -9,6 +9,7 @@
 import UIKit
 
 class ForgotPasswordViewController: UIViewController, Announcer {
+    var lastUpdated: Date?
     
     @IBOutlet weak var emailField: UITextField!
     
@@ -20,36 +21,53 @@ class ForgotPasswordViewController: UIViewController, Announcer {
             
             if !emailField.text!.hasSuffix("@cide.edu") && !emailField.text!.hasSuffix("@alumnos.cide.edu")
             {
-                showAlert(message: "Please input a valid CIDE address")
+                presentModalView(textForAlert: NSLocalizedString("Please_Input", comment: ""))
                 return
             }
             
-            maker!.pollConnector!.forgotPassword(email: emailField.text!, delegate: self)
+            maker!.pollConnector!.forgotPassword(email: emailField.text!, announceMessageTo: self)
             
             
         }
     }
     
     
-    func showAlert(message: String) {
-        let cancellationAlert = UIAlertController(title: "Alert", message: message, preferredStyle: UIAlertControllerStyle.alert)
-        let okAction = UIAlertAction(title: "ok", style: UIAlertActionStyle.default, handler: nil)
+    func presentModalView(textForAlert text: String, title: String = NSLocalizedString("Alert", comment: "")) {
+        let cancellationAlert = UIAlertController(title: title, message: text, preferredStyle: UIAlertControllerStyle.alert)
+        let okAction = UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: UIAlertActionStyle.default, handler: nil)
         cancellationAlert.addAction(okAction)
         self.present(cancellationAlert, animated: true, completion: nil)
     }
     
-    @IBAction func goBack(_ sender: UIBarButtonItem) {
+    @IBAction func goBack(_ sender: Any) {
         //send alert
         self.performSegue(withIdentifier: "exitToLogin", sender: self)
     }
     
-    func receiveAnnouncement(id: String, announcement: Any) {
+    func receiveAnnouncement(id: String, announcement data: Any) {
         switch id {
         case "Password sent":
-            //check received message
-            self.performSegue(withIdentifier: "exitToLogin", sender: self)
+            if let dat = String(data: data as! Data, encoding: .utf8) {
+                switch dat {
+                case "success":
+                    let successfullAlert = UIAlertController(title: NSLocalizedString("Success", comment: "Success!"), message: NSLocalizedString("CheckEmail", comment: "Check your email for the password reset link"), preferredStyle: UIAlertControllerStyle.alert)
+                    let okAction = UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: UIAlertActionStyle.default) { [unowned self]_ in
+                        self.goBack(self)
+                    }
+                    successfullAlert.addAction(okAction)
+                    self.present(successfullAlert, animated: true, completion: nil)
+                case "email_send_failed":
+                    //something failed with the email service
+                    presentModalView(textForAlert: NSLocalizedString("WrongWithEmail", comment: "Something Went Wrong with email service"), title: NSLocalizedString("SomeWrong", comment: "Something Went Wrong"))
+                    break
+                default:
+                    presentModalView(textForAlert: NSLocalizedString("NoSuchAccount", comment: "There is no such account with that email"), title: NSLocalizedString("Sorry", comment: ""))
+                    break
+                }
+                self.performSegue(withIdentifier: "exitToLogin", sender: self)
+            }
         default:
-            showAlert(message: announcement as! String)
+            presentModalView(textForAlert: data as! String)
         }
     }
     

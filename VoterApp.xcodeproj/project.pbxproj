@@ -17,7 +17,6 @@
 		58CF5F431D9C40A7004C3116 /* MakeAPollViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CF5F421D9C40A7004C3116 /* MakeAPollViewController.swift */; };
 		58CF5F451D9C40D6004C3116 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CF5F441D9C40D6004C3116 /* AboutViewController.swift */; };
 		58CF5F471D9C410A004C3116 /* ContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CF5F461D9C410A004C3116 /* ContactViewController.swift */; };
-		58CF5F491D9C4124004C3116 /* PollListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CF5F481D9C4124004C3116 /* PollListViewController.swift */; };
 		58CF5F4B1D9C4164004C3116 /* PollResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CF5F4A1D9C4164004C3116 /* PollResultsViewController.swift */; };
 		58CF5F4D1D9C418C004C3116 /* VoteForTwoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CF5F4C1D9C418C004C3116 /* VoteForTwoViewController.swift */; };
 		58CF5F4F1D9C41AD004C3116 /* VoteMoreOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CF5F4E1D9C41AD004C3116 /* VoteMoreOptionsViewController.swift */; };
@@ -27,6 +26,7 @@
 		58F3E79B1D8A49DA001E4C65 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 58F3E7991D8A49DA001E4C65 /* LaunchScreen.storyboard */; };
 		58F3E7A41D8A4A29001E4C65 /* Poll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F3E7A31D8A4A29001E4C65 /* Poll.swift */; };
 		58F3E7A61D8A4A65001E4C65 /* PollMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F3E7A51D8A4A65001E4C65 /* PollMethod.swift */; };
+		58F905311DB87F8E003253E2 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 58F905331DB87F8E003253E2 /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,10 +40,13 @@
 		58CF5F421D9C40A7004C3116 /* MakeAPollViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MakeAPollViewController.swift; sourceTree = "<group>"; };
 		58CF5F441D9C40D6004C3116 /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		58CF5F461D9C410A004C3116 /* ContactViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactViewController.swift; sourceTree = "<group>"; };
-		58CF5F481D9C4124004C3116 /* PollListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PollListViewController.swift; sourceTree = "<group>"; };
 		58CF5F4A1D9C4164004C3116 /* PollResultsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PollResultsViewController.swift; sourceTree = "<group>"; };
 		58CF5F4C1D9C418C004C3116 /* VoteForTwoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoteForTwoViewController.swift; sourceTree = "<group>"; };
 		58CF5F4E1D9C41AD004C3116 /* VoteMoreOptionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoteMoreOptionsViewController.swift; sourceTree = "<group>"; };
+		58EDC99E1DB80B9D00B59C29 /* es-MX */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-MX"; path = "es-MX.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
+		58EDC99F1DB80B9F00B59C29 /* es-MX */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-MX"; path = "es-MX.lproj/Main.strings"; sourceTree = "<group>"; };
+		58EDC9A01DB80BB300B59C29 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		58EDC9A11DB80BB400B59C29 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Main.strings; sourceTree = "<group>"; };
 		58F3E78D1D8A49DA001E4C65 /* VoterApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VoterApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		58F3E7901D8A49DA001E4C65 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		58F3E7951D8A49DA001E4C65 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -52,6 +55,8 @@
 		58F3E79C1D8A49DA001E4C65 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		58F3E7A31D8A4A29001E4C65 /* Poll.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Poll.swift; sourceTree = "<group>"; };
 		58F3E7A51D8A4A65001E4C65 /* PollMethod.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PollMethod.swift; sourceTree = "<group>"; };
+		58F905321DB87F8E003253E2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		58F905341DB87FD9003253E2 /* es-MX */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-MX"; path = "es-MX.lproj/Localizable.strings"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,13 +90,20 @@
 				58CF5F421D9C40A7004C3116 /* MakeAPollViewController.swift */,
 				58CF5F441D9C40D6004C3116 /* AboutViewController.swift */,
 				58CF5F461D9C410A004C3116 /* ContactViewController.swift */,
-				58CF5F481D9C4124004C3116 /* PollListViewController.swift */,
 				58CF5F4A1D9C4164004C3116 /* PollResultsViewController.swift */,
 				58CF5F4C1D9C418C004C3116 /* VoteForTwoViewController.swift */,
 				58CF5F4E1D9C41AD004C3116 /* VoteMoreOptionsViewController.swift */,
 				5847B87A1DB4507E00C15FBE /* PollTableViewController.swift */,
 			);
 			name = Controllers;
+			sourceTree = "<group>";
+		};
+		58EDC99B1DB8057E00B59C29 /* Strings */ = {
+			isa = PBXGroup;
+			children = (
+				58F905331DB87F8E003253E2 /* Localizable.strings */,
+			);
+			name = Strings;
 			sourceTree = "<group>";
 		};
 		58F3E7841D8A49DA001E4C65 = {
@@ -113,6 +125,7 @@
 		58F3E78F1D8A49DA001E4C65 /* VoterApp */ = {
 			isa = PBXGroup;
 			children = (
+				58EDC99B1DB8057E00B59C29 /* Strings */,
 				582FE36D1D98A84700990D77 /* Controllers */,
 				582FE36C1D98A83A00990D77 /* PollingModel */,
 				58F3E7A21D8A4A00001E4C65 /* Extras */,
@@ -177,6 +190,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"es-MX",
 			);
 			mainGroup = 58F3E7841D8A49DA001E4C65;
 			productRefGroup = 58F3E78E1D8A49DA001E4C65 /* Products */;
@@ -195,6 +209,7 @@
 			files = (
 				58F3E79B1D8A49DA001E4C65 /* LaunchScreen.storyboard in Resources */,
 				58F3E7981D8A49DA001E4C65 /* Assets.xcassets in Resources */,
+				58F905311DB87F8E003253E2 /* Localizable.strings in Resources */,
 				58F3E7961D8A49DA001E4C65 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -216,7 +231,6 @@
 				58F3E7A41D8A4A29001E4C65 /* Poll.swift in Sources */,
 				58CF5F4D1D9C418C004C3116 /* VoteForTwoViewController.swift in Sources */,
 				58CF5F4F1D9C41AD004C3116 /* VoteMoreOptionsViewController.swift in Sources */,
-				58CF5F491D9C4124004C3116 /* PollListViewController.swift in Sources */,
 				581E47FB1D948BA700CACAB1 /* User.swift in Sources */,
 				58F3E7911D8A49DA001E4C65 /* AppDelegate.swift in Sources */,
 				5847B87B1DB4507E00C15FBE /* PollTableViewController.swift in Sources */,
@@ -233,6 +247,8 @@
 			isa = PBXVariantGroup;
 			children = (
 				58F3E7951D8A49DA001E4C65 /* Base */,
+				58EDC99F1DB80B9F00B59C29 /* es-MX */,
+				58EDC9A11DB80BB400B59C29 /* es */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -241,8 +257,19 @@
 			isa = PBXVariantGroup;
 			children = (
 				58F3E79A1D8A49DA001E4C65 /* Base */,
+				58EDC99E1DB80B9D00B59C29 /* es-MX */,
+				58EDC9A01DB80BB300B59C29 /* es */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		58F905331DB87F8E003253E2 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				58F905321DB87F8E003253E2 /* en */,
+				58F905341DB87FD9003253E2 /* es-MX */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -252,6 +279,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -302,6 +330,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";

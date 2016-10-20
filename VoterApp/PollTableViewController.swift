@@ -19,8 +19,11 @@ class PollTableViewController: UITableViewController,PollListener/*, UITableView
     }
     
     var myPolls : [Poll]?
+    var myPollsCount : Int?
     var votedPolls : [Poll]?
+    var votedPollsCount: Int?
     var openPolls : [Poll]?
+    var openPollsCount : Int?
     var allPolls: [[Poll]?] {
         get  {
             var array = [[Poll]?]()
@@ -36,6 +39,7 @@ class PollTableViewController: UITableViewController,PollListener/*, UITableView
             return array
         }
     }
+    var allPollsCount: Int?
     
     
     
@@ -43,11 +47,18 @@ class PollTableViewController: UITableViewController,PollListener/*, UITableView
         myPolls = pollMaker?.polls.filter { (poll: Poll) -> Bool in
             return poll.isMine()
         }
+        myPollsCount = myPolls?.count
         votedPolls = pollMaker?.polls.filter { (poll: Poll) -> Bool in
             return !poll.isMine() && poll.hasVoted
         }
+        votedPollsCount = votedPolls?.count
         openPolls = pollMaker?.polls.filter { (poll: Poll) -> Bool in
             return !poll.isMine() && !poll.hasVoted
+        }
+        openPollsCount = openPolls?.count
+        var num = 0
+        for list in allPolls {
+            num += list!.count
         }
     }
     
@@ -82,25 +93,47 @@ class PollTableViewController: UITableViewController,PollListener/*, UITableView
     override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
         var array = [String]()
         if myPolls != nil && myPolls!.count > 0 {
-            array += ["My Polls"]
+            array += [NSLocalizedString("MyPolls", comment: "My Polls")]
         }
         if votedPolls != nil && votedPolls!.count > 0 {
-            array += ["Polls I've answered"]
+            array += [NSLocalizedString("AnsweredPolls", comment: "Polls I've answered")]
         }
         if openPolls != nil && openPolls!.count > 0 {
-            array += ["Unanswered Polls"]
+            array += [NSLocalizedString("UnansweredPolls", comment: "Unanswered Polls")]
         }
         return array
     }
-    /*
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let poll = allPolls[indexPath.section]?[indexPath.row] {
+            if poll.hasVoted {
+                performSegue(withIdentifier: "showResults", sender: poll)
+            } else {
+                if poll.answerCount() > 2 {
+                    performSegue(withIdentifier: "showVoteMore", sender: poll)
+                } else {
+                    performSegue(withIdentifier: "showVote2", sender: poll)
+                }
+            }
+        }
+    }
+    
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        var cell =  UITableViewCell()
+        if let poll = allPolls[indexPath.section]?[indexPath.row] {
+            cell = tableView.dequeueReusableCell(withIdentifier: poll.pollID , for: indexPath)
+            
+            return cell
+        }
+        
+        //something wrong happened
+        remakeTable()
 
-        // Configure the cell...
 
         return cell
     }
-    */
+    
 
     /*
     // Override to support conditional editing of the table view.
@@ -122,15 +155,26 @@ class PollTableViewController: UITableViewController,PollListener/*, UITableView
     }
     */
 
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+
+        switch segue.identifier! {
+        case "showResults":
+            if let results = segue.destination as? PollResultsViewController {
+                results.poll = sender as? Poll
+            }
+         case   "showVoteMore":
+            if let results = segue.destination as? VoteMoreOptionsViewController {
+                results.poll = sender as? Poll
+            }
+         case   "showVote2":
+            if let results = segue.destination as? VoteForTwoViewController {
+                results.poll = sender as? Poll
+            }
+        default:
+            return
+        }
+        
     }
-    */
+    
 
 }
