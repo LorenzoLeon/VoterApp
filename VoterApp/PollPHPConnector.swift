@@ -130,6 +130,27 @@ class PollPHPConnector {
         doTask(request: request, announceMessageTo: delegate, idString: "PassWord Forgotten")
     }
     
+    func deleteCookies() {
+        if session != nil {
+            var cookies =  [HTTPCookie]()
+            let strArray = [PollPHPConnector.urlSignIn, PollPHPConnector.urlSignUp, PollPHPConnector.urlVote, PollPHPConnector.urlForgotPassword, PollPHPConnector.urlUpdatePoll, PollPHPConnector.urlDeletePoll, PollPHPConnector.urlSignOut]
+            let urlArray = strArray.map { (urlString) -> URL? in
+                return URL(string: urlString)
+            }
+            for url in urlArray {
+                if url != nil {
+                    if let provCookie = session?.configuration.httpCookieStorage?.cookies(for: url!){
+                        cookies += provCookie
+                    }
+                }
+            }
+            for cookie in cookies {
+                session?.configuration.httpCookieStorage?.deleteCookie(cookie)
+            }
+            
+        }
+    }
+    
     
     
     private func doTask(request: URLRequest, announceMessageTo delegate: Announcer, idString: String) {
@@ -138,7 +159,7 @@ class PollPHPConnector {
         }
         let ss = String(data: request.httpBody!, encoding: .utf8)
         print("request: \(ss)")
-        let task = session!.dataTask(with: request) {  data, response, error in
+        let task = session!.dataTask(with: request) { data, response, error in
             
             guard let data = data, error == nil else {
                 //change error output
@@ -149,6 +170,7 @@ class PollPHPConnector {
                 return
             }
             DispatchQueue.main.async {
+                //self.mainAnnouncer.receiveAnnouncement(id: idString, announcement: data)
                 delegate.receiveAnnouncement(id: idString, announcement: data)
             }
             //Console Output Check Debug

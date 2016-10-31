@@ -115,8 +115,7 @@ class RegisterViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         print("Id String received in Register: \(id)")
         switch id {
         case "Sign Up":
-            let dat = String(data: data as! Data, encoding: .utf8)
-            if let message = dat {
+            if let message = String(data: data as! Data, encoding: .utf8) {
                 if message.contains("success") {
                     let successfullAlert = UIAlertController(title: NSLocalizedString("Success", comment: "Success!"), message: NSLocalizedString("RegSuccCheckEmail", comment: ""), preferredStyle: UIAlertControllerStyle.alert)
                     let okAction = UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: UIAlertActionStyle.default) { _ in
@@ -124,6 +123,9 @@ class RegisterViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
                     }
                     successfullAlert.addAction(okAction)
                     self.present(successfullAlert, animated: true, completion: nil)
+                } else if message.contains("already"){
+                    ///rethink everything!
+                    
                 } else {
                     presentModalView(textForAlert: NSLocalizedString("UnsuccReg", comment: ""))
                 }

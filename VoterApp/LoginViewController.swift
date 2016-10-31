@@ -11,6 +11,7 @@ import UIKit
 class LoginViewController: UIViewController {
     
     var maker: Poller?
+    var user: User?
     
     @IBOutlet weak var username: UITextField!
     @IBOutlet weak var password: UITextField!
@@ -30,9 +31,8 @@ class LoginViewController: UIViewController {
            // let index: Int = email.distance(from: email.startIndex, to: range!.lowerBound)
            // let name = email.substring(to: email.index(email.startIndex, offsetBy: index))
             
-            let user = User(newUsername: email, newPassword: password.text!, newUserID: nil, newIsVerified: false)
-            maker!.user = user
-            //make a loading wait screen
+            user = User(newUsername: email, newPassword: password.text!, newUserID: nil, newIsVerified: false)
+            //TODO: make a loading wait screen
             self.performSegue(withIdentifier: "goToMain", sender: self)
             
         } else {
@@ -62,6 +62,9 @@ class LoginViewController: UIViewController {
                 forgot.emailField.text = email
                 forgot.maker = self.maker
             }
+        }
+        if segue.identifier == "goToMain" {
+            maker!.user = user
         }
     }
     

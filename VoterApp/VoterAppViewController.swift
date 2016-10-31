@@ -43,15 +43,18 @@ class VoterAppViewController: UIViewController, Poller, Announcer {
     var listeners = [PollListener]()
     
     var pollConnector: PollPHPConnector?
+    var color: UIColor?
     
     var user: User? {
         didSet {
             polls = [Poll]()
+            notifyListeners()
             if user == nil {
+                //sign out from server
                 pollConnector?.signOut(announceMessageTo: self)
             } else {
+                //Sign in to server
                 pollConnector?.signIn(with: user!, announceMessageTo: self)
-                pollConnector?.update(announceMessageTo: self)
             }
         }
     }
@@ -71,11 +74,13 @@ class VoterAppViewController: UIViewController, Poller, Announcer {
     
     override func viewDidAppear(_ animated: Bool) {
         //load old sign in data?
+        
         checkLogIn()
     }
     
     override func viewDidLoad() {
         pollConnector = PollPHPConnector(announcer: self)
+        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -122,9 +127,12 @@ class VoterAppViewController: UIViewController, Poller, Announcer {
     
     private func checkLogIn() {
         if isLoggedIn == false {
+            logOutButton.backgroundColor? = color != nil ? color! : .blue
             logOutButton.setTitle("Log In", for: UIControlState.normal)
             editProfileButton.isEnabled = false
         } else {
+            color = logOutButton.backgroundColor!
+            logOutButton.backgroundColor? = .red
             logOutButton.setTitle("Log Out", for: UIControlState.normal)
             if let veryfied =  user?.isVerified {
                 setTouchable(to: veryfied)
@@ -168,30 +176,68 @@ class VoterAppViewController: UIViewController, Poller, Announcer {
         if let da = announcement as? Data {
         if let r = String(data: da, encoding: .utf8) {
             responseString = r
-            }}
-        var showMessage = true
+            }
+        }
         
         var message = responseString
         var title = NSLocalizedString("SomeWrong", comment: "Something went Wrong")
         
         switch id {
+            
+/*
+             Completed tasks that show a pop up alert message if completed. No more work needed
+----------------------------------------------------------------------------------------
+*/
+        //sign in task completion
         case "Sign In":
+            
             if responseString.contains("successful") {
                 if responseString.contains("validated") {
                     validated = true
                 }
                 message = NSLocalizedString("SignInSucc", comment: "You were signed in successfully")
                 title = NSLocalizedString("Success", comment: "")
+                //update poll lists
+                pollConnector?.update(announceMessageTo: self)
                 
+                
+            } else if responseString.contains("already"){
+                message = NSLocalizedString("Youre", comment: "You're already logged in!")
+                title = NSLocalizedString("HoldEm", comment: "")
+               
+                
+                if polls.isEmpty {
+                    //update poll lists
+                    pollConnector?.update(announceMessageTo: self)
+                }
             } else {
                 title = NSLocalizedString("UnableToSignIn", comment: "We could not sign you in.")
-                
             }
-        case "Sign Out":
+            self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
+            presentModalViewMessage(with: message, title: title)
+        case "Sign Out"://sign out task completion
             if responseString.contains("successfully") {
                 message =  NSLocalizedString("Goodbye", comment: "Goodbye! Sign in to check your polls :D")
                 title =  NSLocalizedString("LoggedOut", comment: "You've been logged out")
+            } else {
+                title = NSLocalizedString("Sorry", comment: "")
+                message = NSLocalizedString("LogOutProblem", comment: "")
+                pollConnector?.deleteCookies()
             }
+            self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
+            presentModalViewMessage(with: message, title: title)
+        case "Networking error": //there has been an network error in the app or a bad connection with the server
+            self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
+            message =  NSLocalizedString("UnknownNetError", comment: "Unknown Network Problem; please check your connection status")
+            presentModalViewMessage(with: message, title: title)
+            self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
+            presentModalViewMessage(with: message, title: title)
+
+/*
+             Completed tasks that were started by
+----------------------------------------------------------------------------------------
+*/
+            
         case "PollDelete":
             if responseString.contains("successfully") {
                 //check poll id?
@@ -216,9 +262,6 @@ class VoterAppViewController: UIViewController, Poller, Announcer {
                 title = NSLocalizedString("VoteNotRegisterded", comment: "Your vote was not registered.")
             }
         case "Update":
-            if self.view.window == nil {
-                showMessage = false
-            }
             do {
                 let jsonUpdate = try parseToJSON(with: announcement as! Data)
                 
@@ -244,11 +287,24 @@ class VoterAppViewController: UIViewController, Poller, Announcer {
                 }
             }
             notifyListeners()
+//----------------------------------------------------------------------------------------
+            
         default:
-            message =  NSLocalizedString("UnknownNetError", comment: "Unknown Network Problem; please check your connection status")
-        }
-        if showMessage {
-            presentModalViewMessage(with: message, title: title)
+            if responseString.contains("Please") {//please sign in error message
+                //not signed in
+                title = NSLocalizedString("You're not signed in!", comment: "")
+                message = NSLocalizedString("NotSignedIn", comment: "You're trying to check something out that requires you to be logged in! Please sign in before you continue")
+                self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
+                presentModalViewMessage(with: message, title: title)
+                if user != nil {//in case there is a change in the server session but not in the app
+                    pollConnector = nil //to change user without signout retry
+                    user = nil
+                    pollConnector = PollPHPConnector(announcer: self)
+                }
+            }
+//----------------------------------------------------------------------------------------
+            
+            
         }
     }
     
