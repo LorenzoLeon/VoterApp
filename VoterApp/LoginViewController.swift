@@ -8,14 +8,15 @@
 
 import UIKit
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, Announcer {
     
     var maker: Poller?
     var user: User?
+    var lastUpdated: Date?
     
     @IBOutlet weak var username: UITextField!
     @IBOutlet weak var password: UITextField!
-
+    
     
     @IBAction func signIn(_ sender: AnyObject) {
         if username.hasText && password.hasText {
@@ -27,17 +28,93 @@ class LoginViewController: UIViewController {
             }
             
             let email = username.text!
-           // let range = email.range(of: "@")
-           // let index: Int = email.distance(from: email.startIndex, to: range!.lowerBound)
-           // let name = email.substring(to: email.index(email.startIndex, offsetBy: index))
+            // let range = email.range(of: "@")
+            // let index: Int = email.distance(from: email.startIndex, to: range!.lowerBound)
+            // let name = email.substring(to: email.index(email.startIndex, offsetBy: index))
             
             user = User(newUsername: email, newPassword: password.text!, newUserID: nil, newIsVerified: false)
             //TODO: make a loading wait screen
-            self.performSegue(withIdentifier: "goToMain", sender: self)
+            maker?.pollConnector?.askServer(to: Announcements.SIGNIN, with: user, announceMessageTo: self)
+            
+            //self.performSegue(withIdentifier: "goToMain", sender: self)
             
         } else {
             showAlert(message: NSLocalizedString("Fill_All", comment: "Ask user to fill all fields"))
         }
+    }
+    
+    @IBAction func enterOnPassword(_ sender: UITextField) {
+        signIn(sender)
+    }
+    
+    @IBAction func goBackToLogIn(maker: UIStoryboardSegue) {
+    }
+    @IBAction func comeFromForget(maker: UIStoryboardSegue) {
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "registrationSegue" {
+            if let register = segue.destination as? RegisterViewController {
+                register.maker =  self.maker
+            }
+        }
+        if segue.identifier == "forgotSegue" {
+            if let forgot = segue.destination as? ForgotPasswordViewController, let email = username.text{
+                forgot.emailField.text = email
+                forgot.maker = self.maker
+            }
+        }
+    }
+    
+    private func presentDismissAllert(title: String, message: String) {
+        let successfullAlert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
+        let okAction = UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: UIAlertActionStyle.default) { _ in
+            self.performSegue(withIdentifier: "goToMain", sender: self)
+        }
+        successfullAlert.addAction(okAction)
+        self.present(successfullAlert, animated: true, completion: nil)
+    }
+    
+    func receiveAnnouncement(id: Announcements, announcement: Any) {
+        var responseString = ""
+        if let data = announcement as? Data {
+            if let tempResponse = String(data: data, encoding: .utf8) {
+                responseString = tempResponse
+            }
+        }
+        
+        var message = responseString
+        var title = NSLocalizedString("SomeWrong", comment: "Something went Wrong")
+        
+        
+        switch id {
+        case .SIGNIN:
+            if responseString.contains("successful") {
+                
+                presentDismissAllert(title: NSLocalizedString("Success", comment: ""), message: NSLocalizedString("SignInSucc", comment: "You were signed in successfully"))
+                print("Login view succesfull login")
+                
+            } else if message.contains("already"){
+                
+                presentDismissAllert(title: NSLocalizedString("HoldEm", comment: ""), message: NSLocalizedString("AlreadySignedIn", comment: "You were already signed in"))
+                print("Login view already login")
+                
+            } else {
+                print("Login view unable to login")
+                title = NSLocalizedString("UnableToSignIn", comment: "We could not sign you in.")
+                showAlert(message: message, title: title)
+            }
+        case .USERMALFORMED:
+            showAlert(message: NSLocalizedString("Fill_All", comment: "Ask user to fill all fields"))
+        case .NETWORKINGERROR:
+            title = NSLocalizedString("SomeWrong", comment: "Something went Wrong")
+            message =  NSLocalizedString("UnknownNetError", comment: "Unknown Network Problem; please check your connection status")
+            showAlert(message: message, title: title)
+        default:
+            break
+        }
+        
+        
     }
     
     func showAlert(message: String, title: String = NSLocalizedString("Alert", comment: "Alert")) {
@@ -47,29 +124,4 @@ class LoginViewController: UIViewController {
         self.present(cancellationAlert, animated: true, completion: nil)
     }
     
-    @IBAction func enterOnPassword(_ sender: UITextField) {
-        signIn(sender)
-    }
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "registrationSegue" {
-            if let register = segue.destination as? RegisterViewController {
-                register.maker =  self.maker
-            }
-        }
-        if segue.identifier == "Forgot you Password" {
-            if let forgot = segue.destination as? ForgotPasswordViewController, let email = username.text{
-                forgot.emailField.text = email
-                forgot.maker = self.maker
-            }
-        }
-        if segue.identifier == "goToMain" {
-            maker!.user = user
-        }
-    }
-    
-    @IBAction func goBackToLogIn(maker: UIStoryboardSegue) {
-    }
-    @IBAction func comeFromForget(maker: UIStoryboardSegue) {
-    }
 }

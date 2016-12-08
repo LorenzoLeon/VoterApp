@@ -39,13 +39,25 @@ class RegisterViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
             return String($0 - 12) + "º " + NSLocalizedString("PHD", comment: "")
         }}]
     
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return pickerOptions[component][row]
+    }
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return pickerOptions.count
+    }
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return pickerOptions[component].count
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         genderPicker.delegate = self
         genderPicker.dataSource = self
         //email.inputDelegate = self
-       emailVerificationLabel.isHidden = true
+        emailVerificationLabel.isHidden = true
     }
     
     @IBAction func signUp(_ sender: UIButton) {
@@ -69,19 +81,12 @@ class RegisterViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
             let dateChosen = dateofBirth.date
             let fullUser = FullUser(newUsername: username, newPassword: password.text!, newIsVerified: false, newGender: gender, newDivision: division, newSemester: semester, newBday: dateChosen, newEmail: email.text!)
             
-            maker!.pollConnector!.signUp(newUser: fullUser, announceMessageTo: self)
+            maker!.pollConnector!.askServer(to: .SIGNUP, with: fullUser, announceMessageTo: self)
             
         } else {
             presentModalView(textForAlert: NSLocalizedString("Fill_All", comment: "Please Fill in all the fields"), title: NSLocalizedString("HoldEm", comment: "Hold your Horses"))
         }
         
-    }
-    
-    func presentModalView(textForAlert text: String, title: String = NSLocalizedString("Alert", comment: "")) {
-        let cancellationAlert = UIAlertController(title: title, message: text, preferredStyle: UIAlertControllerStyle.alert)
-        let okAction = UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: UIAlertActionStyle.default, handler: nil)
-        cancellationAlert.addAction(okAction)
-        self.present(cancellationAlert, animated: true, completion: nil)
     }
     
     @IBAction func dismiss(_ sender: UIButton) {
@@ -103,62 +108,73 @@ class RegisterViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         }
     }
     
-    func checkIfEmailIsAvailable(with email: String) {
-        maker!.pollConnector!.checkEmailAvailability(with: email, announceMessageTo: self)
-    }
-    
     @IBAction func textWillChange(_ sender: AnyObject) {
         emailVerificationLabel.isHidden = true
     }
     
-    func receiveAnnouncement(id: String, announcement data: Any) {
+    func presentModalView(textForAlert text: String, title: String = NSLocalizedString("Alert", comment: "")) {
+        let cancellationAlert = UIAlertController(title: title, message: text, preferredStyle: UIAlertControllerStyle.alert)
+        let okAction = UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: UIAlertActionStyle.default, handler: nil)
+        cancellationAlert.addAction(okAction)
+        self.present(cancellationAlert, animated: true, completion: nil)
+    }
+    
+    func checkIfEmailIsAvailable(with email: String) {
+        maker!.pollConnector!.askServer(to: .CHECKEMAIL, with: email, announceMessageTo: self)
+    }
+    
+    func receiveAnnouncement(id: Announcements, announcement data: Any) {
         print("Id String received in Register: \(id)")
+        let message = String(data: data as! Data, encoding: .utf8)
+        if message!.contains("already"){
+            // kill registration
+            let successfullAlert = UIAlertController(title: NSLocalizedString("HoldEm", comment: ""), message: NSLocalizedString("AlreadySignedIn", comment: "You were already signed in"), preferredStyle: UIAlertControllerStyle.alert)
+            let okAction = UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: UIAlertActionStyle.default) { _ in
+                self.performSegue(withIdentifier: "goToMain", sender: self)
+            }
+            successfullAlert.addAction(okAction)
+            print("Login view already login")
+            self.present(successfullAlert, animated: true, completion: nil)
+            return
+        }
+        
         switch id {
-        case "Sign Up":
-            if let message = String(data: data as! Data, encoding: .utf8) {
-                if message.contains("success") {
+        case .SIGNUP:
+            if message != nil {
+                if message!.contains("success") {
                     let successfullAlert = UIAlertController(title: NSLocalizedString("Success", comment: "Success!"), message: NSLocalizedString("RegSuccCheckEmail", comment: ""), preferredStyle: UIAlertControllerStyle.alert)
                     let okAction = UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: UIAlertActionStyle.default) { _ in
                         self.performSegue(withIdentifier: "GoBackToLogIn", sender: self)
                     }
                     successfullAlert.addAction(okAction)
                     self.present(successfullAlert, animated: true, completion: nil)
-                } else if message.contains("already"){
-                    ///rethink everything!
-                    
                 } else {
                     presentModalView(textForAlert: NSLocalizedString("UnsuccReg", comment: ""))
                 }
             }
-        case "Availability":
-            let dat = data as! Data
-            let announcement = String(data: dat, encoding: .utf8)!
-            print("Announcement Register View: \(announcement)")
-            emailVerificationLabel.text = announcement
-            emailVerificationLabel.isHidden = false
-            if announcement.hasSuffix("is OK") {
-                print("is ok")
-                emailVerificationLabel.textColor = UIColor.green
-            } else {
-                print("is not ok; change to red")
-                emailVerificationLabel.textColor = UIColor.red
+        case .CHECKEMAIL:
+            if message != nil {
+                print("Announcement Register View: \(message)")
+                emailVerificationLabel.text = message!
+                emailVerificationLabel.isHidden = false
+                if message!.hasSuffix("is OK") {
+                    print("is ok")
+                    emailVerificationLabel.textColor = UIColor.green
+                    //unblock button
+                } else {
+                    print("is not ok; change to red")
+                    emailVerificationLabel.textColor = UIColor.red
+                    //block button
+                }
             }
-        default:
+        case .NETWORKINGERROR:
             presentModalView(textForAlert: data as! String, title: NSLocalizedString("NetError", comment: "Network Error"))
+            
+        default:
+            break
         }
     }
     
-    
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return pickerOptions[component][row]
-    }
-    
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return pickerOptions.count
-    }
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return pickerOptions[component].count
-    }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let login = segue.destination as? LoginViewController {
             login.username.text = email.text

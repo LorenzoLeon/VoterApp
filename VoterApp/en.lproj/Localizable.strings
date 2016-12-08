@@ -52,3 +52,6 @@ Sorry =                 "We're sorry";
 Youre =                 "You're already logged in! Please check your account status. If this isn't the account you wanted, log out then log in again.";
 LogOutProblem =         "There has been a server error, please try again. If the problem persists, contact us.";
 NotSignedIn =           "You're trying to check something out that requires you to be logged in! Please sign in before you continue";
+PollIncorrect =         "You still haven't filled all the necesary information to create the poll! Check all the fields one more time and try again.";
+BadPoll =               "Incorrect submit entry";
+AlreadySignedIn=        "Wait a sec. You were already signed in. Something just went blergh. If this isn't your account, sign out then sign in please";

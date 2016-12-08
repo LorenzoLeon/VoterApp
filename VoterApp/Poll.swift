@@ -17,20 +17,21 @@ struct Values {
 class Poll: Hashable, CustomStringConvertible
 {
     var pollID: String
-    private var creator: String?
+    private var creator: String
+    private var creatorID: Int?
     private var question: String
     private var answers:  [String]
     private var vote:  [[Int]]
-    private var voters = [String]()
+    private var voters = [Int]()
     private var canChangeVote = false
     var updateTime: Date
     var creationDate: Date
     var hasVoted: Bool
     private var isOpen: Bool
-    private var userID: String
+    private var userID: Int
     private let type: PollMethod
     
-    init(newPollID: String, newCreator: String?, newQuestion: String, newAnswers: [String], canChange: Bool, newCreationDate: Date, newHasVoted: Bool, newVote: [[Int]], newUserID: String, newIsOpen: Bool, newVoters: [String]?, newType: PollMethod) {
+    init(newPollID: String, newCreator: String, newQuestion: String, newAnswers: [String], canChange: Bool, newCreationDate: Date, newHasVoted: Bool, newVote: [[Int]], newUserID: Int, newIsOpen: Bool, newVoters: [Int]?, newType: PollMethod) {
         creationDate = newCreationDate
         updateTime = Date()
         userID = newUserID
@@ -42,18 +43,18 @@ class Poll: Hashable, CustomStringConvertible
         hasVoted = newHasVoted
         canChangeVote = canChange
         isOpen = newIsOpen
-        voters = newVoters!.isEmpty ? (hasVoted ? [userID] : [String](repeating: "", count: vote.count)) : newVoters! // if anonymous, voters is only current user (if he has voted)
+        voters = newVoters!.isEmpty ? (hasVoted ? [userID] : [Int](repeating: 0, count: vote.count)) : newVoters! // if anonymous, voters is only current user (if he has voted)
         type = newType
     }
     
-    convenience init(newPollID: String, newQuestion: String, newAnswers: [String], newcreationDate: Date, newHasVoted: Bool, newVote: [[Int]], newUserID: String, newType: PollMethod) {
-        self.init(newPollID: newPollID, newCreator: nil, newQuestion: newQuestion, newAnswers: newAnswers, canChange: false, newCreationDate: Date() , newHasVoted: newHasVoted, newVote: newVote, newUserID: newUserID, newIsOpen: false, newVoters: [String](), newType: newType)
-        voters = hasVoted ? [userID] : [String](repeating: "", count: vote.count) // if anonymous, voters is only current user (if he has voted)
+    convenience init(newPollID: String, newCreator: String, newQuestion: String, newAnswers: [String], newcreationDate: Date, newHasVoted: Bool, newVote: [[Int]], newUserID: Int, newType: PollMethod) {
+        self.init(newPollID: newPollID, newCreator: newCreator, newQuestion: newQuestion, newAnswers: newAnswers, canChange: false, newCreationDate: Date() , newHasVoted: newHasVoted, newVote: newVote, newUserID: newUserID, newIsOpen: false, newVoters: [Int](), newType: newType)
+        voters = hasVoted ? [userID] : [Int](repeating: 0, count: vote.count) // if anonymous, voters is only current user (if he has voted)
         isOpen = false
         creationDate  = newcreationDate
     }
     
-    convenience init(jsonResults: [String: Any], nuserID: String) {
+    convenience init(jsonResults: [String: Any], nuserID: Int) {
         let npollID = jsonResults["PollID"] as! String
         let ncreator = jsonResults["Creator"] as! String
         let nquestion = jsonResults["Question"] as! String
@@ -63,7 +64,7 @@ class Poll: Hashable, CustomStringConvertible
         let nhasVoted = jsonResults["HasVoted"] as! Bool
         let nvote = jsonResults["Vote"] as! [[Int]]
         let nisOpen = jsonResults["IsOpen"] as! Bool
-        let nvoters = jsonResults["Voters"] as! [String]
+        let nvoters = jsonResults["Voters"] as! [Int]
         let nType = jsonResults["Type"] as! PollMethod
         
         self.init(newPollID: npollID, newCreator: ncreator, newQuestion: nquestion, newAnswers: nanswers, canChange: nchange, newCreationDate: ncreationDate, newHasVoted: nhasVoted, newVote: nvote, newUserID: nuserID, newIsOpen: nisOpen, newVoters: nvoters, newType: nType)
@@ -86,7 +87,7 @@ class Poll: Hashable, CustomStringConvertible
      }*/
     
     func isMine() -> Bool {
-        return creator == userID
+        return creatorID == userID
     }
     
     func isFinished() -> Bool { //check if it is still open, close if not
@@ -98,12 +99,12 @@ class Poll: Hashable, CustomStringConvertible
         return updateTime.timeIntervalSince(lastUpdateInServer) > Values.timeToUpdate
     }
     
-    func updateWith(newTime: Date, newAnswers: [String], newHasVoted: Bool, newVoters: [String]?, newVote: [[Int]] ) {
+    func updateWith(newTime: Date, newAnswers: [String], newHasVoted: Bool, newVoters: [Int]?, newVote: [[Int]] ) {
         if hasBeenUpdated(since: newTime) {
             updateTime = newTime
             answers = newAnswers
             hasVoted = newHasVoted
-            voters = newVoters!.isEmpty ? (hasVoted ? [userID] : [String]()) : newVoters! // if anonymous, voters is only current user (if he has voted)
+            voters = newVoters!.isEmpty ? (hasVoted ? [userID] : [Int]()) : newVoters! // if anonymous, voters is only current user (if he has voted)
             vote = newVote
         }
     }
@@ -123,7 +124,7 @@ class Poll: Hashable, CustomStringConvertible
     func getMappedVotes() -> [String:[Int]] {
         var mappedVotes = [String:[Int]]()
         for (i, voter) in voters.enumerated() {
-            mappedVotes[voter] = vote[i]
+            mappedVotes[String(voter)] = vote[i]
         }
         return mappedVotes
     }

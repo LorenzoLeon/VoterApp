@@ -8,8 +8,16 @@
 
 import UIKit
 
-protocol Poller: class {
-    var user: User? {
+protocol Announcer: class {
+    var lastUpdated : Date? {
+        get
+    }
+    func receiveAnnouncement(id: Announcements, announcement: Any)
+}
+
+
+protocol Poller: Announcer {
+    var user: String? {
         get
         set
     }
@@ -30,7 +38,7 @@ protocol PollListener: class {
     func pollsHaveChanged()
 }
 
-class VoterAppViewController: UIViewController, Poller, Announcer {
+class VoterAppViewController: UIViewController, Poller {
     
     @IBOutlet weak var logOutButton: UIButton!
     
@@ -45,31 +53,33 @@ class VoterAppViewController: UIViewController, Poller, Announcer {
     var pollConnector: PollPHPConnector?
     var color: UIColor?
     
-    var user: User? {
+    /*var user: User? {
+     didSet {
+     polls = [Poll]()
+     notifyListeners()
+     if user == nil {
+     //sign out from server
+     pollConnector?.signOut(announceMessageTo: self)
+     } else {
+     //Sign in to server
+     pollConnector?.signIn(with: user!, announceMessageTo: self)
+     }
+     }
+     }*/
+    
+    
+    var user: String? {
         didSet {
             polls = [Poll]()
             notifyListeners()
-            if user == nil {
-                //sign out from server
-                pollConnector?.signOut(announceMessageTo: self)
-            } else {
-                //Sign in to server
-                pollConnector?.signIn(with: user!, announceMessageTo: self)
-            }
         }
     }
+    
+    private var validated = false
+    
     
     var isLoggedIn: Bool {
         return user != nil
-    }
-    
-    var validated: Bool? {
-        get {
-            return user?.isVerified
-        }
-        set {
-            user?.isVerified = newValue
-        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -87,8 +97,10 @@ class VoterAppViewController: UIViewController, Poller, Announcer {
         if let identifier = segue.identifier {
             switch identifier {
             case "ShowPollTableView":
-                let pollListView = segue.destination as? PollTableViewController
-                pollListView?.pollMaker = self
+                if let pollListView = segue.destination as? PollTableViewController {
+                    pollListView.pollMaker = self
+                    listeners.append(pollListView)
+                }
             case "LogIn":
                 let loginview = segue.destination as? LoginViewController
                 loginview?.maker = self
@@ -125,6 +137,9 @@ class VoterAppViewController: UIViewController, Poller, Announcer {
         }
     }
     
+    @IBAction func goToMainView(maker: UIStoryboardSegue) {
+    }
+    
     private func checkLogIn() {
         if isLoggedIn == false {
             logOutButton.backgroundColor? = color != nil ? color! : .blue
@@ -134,18 +149,13 @@ class VoterAppViewController: UIViewController, Poller, Announcer {
             color = logOutButton.backgroundColor!
             logOutButton.backgroundColor? = .red
             logOutButton.setTitle("Log Out", for: UIControlState.normal)
-            if let veryfied =  user?.isVerified {
-                setTouchable(to: veryfied)
-            }
+            setTouchable()
             editProfileButton.isEnabled = true
         }
     }
     
-    @IBAction func goToMainView(maker: UIStoryboardSegue) {
-    }
-    
-    private func setTouchable(to allow: Bool) {
-        
+    private func setTouchable() {
+        //if not validated forbid poll checking and stuff.
     }
     
     func notifyListeners() {
@@ -170,12 +180,51 @@ class VoterAppViewController: UIViewController, Poller, Announcer {
         self.present(cancellationAlert, animated: true, completion: nil)
     }
     
-    func receiveAnnouncement(id: String, announcement: Any) {
+    private func signIn(with responseString: String) {
+        if responseString.contains("successful") || responseString.contains("already"){
+            
+            let rangeOfUsername = Range(uncheckedBounds: (lower: responseString.range(of: "*")!.upperBound, upper: responseString.range(of: "#")!.lowerBound))
+            user = responseString.substring(with: rangeOfUsername)
+            
+            if responseString.contains("validated") {
+                validated = true
+                pollConnector?.askServer(to: .UPDATE)
+            }
+        }
+    }
+    
+    private func signOut(with responseString: String) {
+        var message = responseString
+        var title = NSLocalizedString("SomeWrong", comment: "Something went Wrong")
+        
+        if responseString.contains("successful") {
+            message =  NSLocalizedString("Goodbye", comment: "Goodbye! Sign in to check your polls :D")
+            title =  NSLocalizedString("LoggedOut", comment: "You've been logged out")
+            user = nil
+        } else {
+            title = NSLocalizedString("Sorry", comment: "")
+            message = NSLocalizedString("LogOutProblem", comment: "")
+            //do not
+            pollConnector?.deleteCookies()
+        }
+        self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
+        presentModalViewMessage(with: message, title: title)
+    }
+    
+    private func delete(poll responseString: String) {
+        if responseString.contains("successfully") {
+            //check poll id?
+            presentModalViewMessage(with: "caca", title: "cece")
+        }
+    }
+    
+    
+    func receiveAnnouncement(id: Announcements, announcement: Any) {
         //default is an Alert message with the echo response (or error message) as main text.
         var responseString = ""
         if let da = announcement as? Data {
-        if let r = String(data: da, encoding: .utf8) {
-            responseString = r
+            if let r = String(data: da, encoding: .utf8) {
+                responseString = r
             }
         }
         
@@ -184,67 +233,24 @@ class VoterAppViewController: UIViewController, Poller, Announcer {
         
         switch id {
             
-/*
-             Completed tasks that show a pop up alert message if completed. No more work needed
-----------------------------------------------------------------------------------------
-*/
-        //sign in task completion
-        case "Sign In":
+        case .SIGNIN:
+            signIn(with: responseString)
             
-            if responseString.contains("successful") {
-                if responseString.contains("validated") {
-                    validated = true
-                }
-                message = NSLocalizedString("SignInSucc", comment: "You were signed in successfully")
-                title = NSLocalizedString("Success", comment: "")
-                //update poll lists
-                pollConnector?.update(announceMessageTo: self)
-                
-                
-            } else if responseString.contains("already"){
-                message = NSLocalizedString("Youre", comment: "You're already logged in!")
-                title = NSLocalizedString("HoldEm", comment: "")
-               
-                
-                if polls.isEmpty {
-                    //update poll lists
-                    pollConnector?.update(announceMessageTo: self)
-                }
-            } else {
-                title = NSLocalizedString("UnableToSignIn", comment: "We could not sign you in.")
-            }
-            self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
-            presentModalViewMessage(with: message, title: title)
-        case "Sign Out"://sign out task completion
-            if responseString.contains("successfully") {
-                message =  NSLocalizedString("Goodbye", comment: "Goodbye! Sign in to check your polls :D")
-                title =  NSLocalizedString("LoggedOut", comment: "You've been logged out")
-            } else {
-                title = NSLocalizedString("Sorry", comment: "")
-                message = NSLocalizedString("LogOutProblem", comment: "")
-                pollConnector?.deleteCookies()
-            }
-            self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
-            presentModalViewMessage(with: message, title: title)
-        case "Networking error": //there has been an network error in the app or a bad connection with the server
-            self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
+            
+        case .SIGNOUT:
+            signOut(with: responseString)
+            
+            
+        case .NETWORKINGERROR: //there has been an network error in the app or a bad connection with the server
+            
+            title = NSLocalizedString("SomeWrong", comment: "Something went Wrong")
             message =  NSLocalizedString("UnknownNetError", comment: "Unknown Network Problem; please check your connection status")
             presentModalViewMessage(with: message, title: title)
-            self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
-            presentModalViewMessage(with: message, title: title)
-
-/*
-             Completed tasks that were started by
-----------------------------------------------------------------------------------------
-*/
             
-        case "PollDelete":
-            if responseString.contains("successfully") {
-                //check poll id?
-                message = NSLocalizedString("SuccDeletion", comment: "Poll was successfully deleted")
-                title =  NSLocalizedString("Yay", comment: "yay")
-            }
-        case "Vote":
+        case .DELETE:
+            delete(poll: responseString)
+            
+        case .VOTE:
             do {
                 let jsonVote = try parseToJSON(with: announcement as! Data) as! [String: [[Int]]]
                 for (pollID, votes) in jsonVote {
@@ -257,29 +263,29 @@ class VoterAppViewController: UIViewController, Poller, Announcer {
                         notifyListeners()
                     }
                 }
-                
             } catch {
                 title = NSLocalizedString("VoteNotRegisterded", comment: "Your vote was not registered.")
             }
-        case "Update":
+            
+        case .UPDATE:
             do {
                 let jsonUpdate = try parseToJSON(with: announcement as! Data)
                 
                 if let result = jsonUpdate as? [String: Any] {
-                    let poll = Poll(jsonResults: result, nuserID: user!.userID!)
+                    let poll = Poll(jsonResults: result, nuserID: user!)
                     updatePollList(with: poll)
                 } else if let listOfPolls = jsonUpdate as? [[String: Any]] {
+                    lastUpdated = Date()
                     for result in listOfPolls {
-                        let poll = Poll(jsonResults: result, nuserID: user!.userID!)
+                        let poll = Poll(jsonResults: result, nuserID: user!)
                         updatePollList(with: poll)
                     }
                 }
-                message = NSLocalizedString("PollsUpdated", comment: "Polls have been updated")
-                title = NSLocalizedString("Yay", comment: "")
             } catch {
                 //error while trying to update poll with id
                 //No json data in message => no polls to update or all polls up to date
                 if responseString.contains("up to date") {
+                    lastUpdated = Date()
                     message = NSLocalizedString("AlreadyUpdated", comment: "All polls are up to date")
                     title = NSLocalizedString("Nothing", comment: "Nothing to do")
                 } else {
@@ -287,28 +293,31 @@ class VoterAppViewController: UIViewController, Poller, Announcer {
                 }
             }
             notifyListeners()
-//----------------------------------------------------------------------------------------
-            
+            //----------------------------------------------------------------------------------------
         default:
-            if responseString.contains("Please") {//please sign in error message
-                //not signed in
-                title = NSLocalizedString("You're not signed in!", comment: "")
-                message = NSLocalizedString("NotSignedIn", comment: "You're trying to check something out that requires you to be logged in! Please sign in before you continue")
-                self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
-                presentModalViewMessage(with: message, title: title)
-                if user != nil {//in case there is a change in the server session but not in the app
-                    pollConnector = nil //to change user without signout retry
-                    user = nil
-                    pollConnector = PollPHPConnector(announcer: self)
-                }
-            }
-//----------------------------------------------------------------------------------------
-            
-            
+            break
         }
+        
+        if responseString.contains("Please") {//please sign in error message
+            //not signed in
+            user = nil
+            
+            self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
+            
+            title = NSLocalizedString("You're not signed in!", comment: "")
+            message = NSLocalizedString("NotSignedIn", comment: "You're trying to check something out that requires you to be logged in! Please sign in before you continue")
+            
+            presentModalViewMessage(with: message, title: title)
+            
+        } else if responseString.contains("already"){//can get it when loggin in or registering.
+            signIn(with: responseString)
+        }
+        
+        checkLogIn()
+        setTouchable()
     }
     
-    func updatePollList(with poll: Poll) {
+    private func updatePollList(with poll: Poll) {
         if let index = polls.index(where: { (original: Poll) -> Bool in //if poll exists in list remove? or update
             return original == poll
         }) {
@@ -331,7 +340,7 @@ class VoterAppViewController: UIViewController, Poller, Announcer {
     
     
     //TODO: CHECK
-    func parseToJSON(with data: Data) throws -> Any {
+    private func parseToJSON(with data: Data) throws -> Any {
         return try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments)
     }
     

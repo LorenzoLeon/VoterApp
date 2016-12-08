@@ -8,6 +8,10 @@
 
 import Foundation
 
+enum Announcements: String {
+    case SIGNIN, SIGNOUT, SIGNUP, CHECKEMAIL, VOTE, EDITPROFILE, UPDATE, DELETE, FORGOT, USERMALFORMED, NETWORKINGERROR, ERROR, CREATE, CHECKSTATUS
+}
+
 class PollPHPConnector {
     
     static let mainURL = "http://localhost:8888/"
@@ -29,105 +33,151 @@ class PollPHPConnector {
         mainAnnouncer = main
     }
     
-    
-    //TODO: set response
-    func signIn(with user: User? ,announceMessageTo delegate: Announcer){
-        if user != nil {
-            if session == nil {
-                let url = URL(string: PollPHPConnector.urlSignIn)!
-                let request =  user!.addToRequest(newRequest: URLRequest(url: url))
-                
-                doTask(request: request, announceMessageTo: delegate, idString: "Sign In")
+    func askServer(to taskID: Announcements, with requestObject: Any? = nil, extra requestObject2: Any? = nil, announceMessageTo secondaryDelegate: Announcer? = nil) {
+        switch taskID {
+        case .CHECKSTATUS:
+            self.checkStatus()
+        case .SIGNIN:
+            self.signIn(with: requestObject as? User, announceMessageTo: secondaryDelegate)
+        case .SIGNOUT:
+            self.signOut(announceMessageTo: secondaryDelegate)
+        case .SIGNUP:
+            self.signUp(newUser: requestObject as? FullUser, announceMessageTo: secondaryDelegate)
+        case .CHECKEMAIL:
+            self.checkEmailAvailability(with: requestObject as? String, announceMessageTo: secondaryDelegate)
+        case .VOTE:
+            if let poll = requestObject as? Poll, let vote = requestObject2 as? [Int] {
+                self.vote(poll: poll, vote: vote, announceMessageTo: secondaryDelegate)
             } else {
-                signOut(announceMessageTo: delegate)
-                signIn(with: user, announceMessageTo: delegate)
+                secondaryDelegate?.receiveAnnouncement(id: .VOTE, announcement: "Not registered")
             }
-        } else {
-            delegate.receiveAnnouncement(id: "User Malformed", announcement: "You didn't pass correct user details, try again")
+        case .EDITPROFILE:
+            if let user = requestObject as? User, let fullUser = requestObject2 as? FullUser {
+                self.editProfile(from: user, to: fullUser, announceMessageTo: secondaryDelegate)
+            } else {
+                secondaryDelegate?.receiveAnnouncement(id: .EDITPROFILE, announcement: "Request Malformed")
+            }
+        case .UPDATE:
+            self.update(poll: requestObject as? Poll, announceMessageTo: secondaryDelegate)
+        case .DELETE:
+            if let poll = requestObject as? Poll {
+                self.deletePoll(poll: poll, announceMessageTo: secondaryDelegate)
+            } else {
+                secondaryDelegate?.receiveAnnouncement(id: .DELETE, announcement: "Request Malformed")
+            }
+        case .FORGOT:
+            if let email = requestObject as? String {
+                self.forgotPassword(email: email, announceMessageTo: secondaryDelegate)
+            } else {
+                secondaryDelegate?.receiveAnnouncement(id: .FORGOT, announcement: "Request Malformed")
+            }
+        default:
+            secondaryDelegate?.receiveAnnouncement(id: .ERROR, announcement: "No such action exists in server")
+            break
         }
-        
-        
     }
     
-    func signUp(newUser: FullUser?, announceMessageTo delegate: Announcer){
+    private func checkStatus() {
+        let url = URL(string: PollPHPConnector.urlSignIn)!
+        let request = URLRequest(url: url)
+        doTask(request: request, announceMessageTo: mainAnnouncer, idString: .CHECKSTATUS)
+    }
+    
+    //TODO: set response
+    private func signIn(with user: User? ,announceMessageTo delegate: Announcer?){
+        if user != nil {
+            let url = URL(string: PollPHPConnector.urlSignIn)!
+            let request =  user!.addToRequest(newRequest: URLRequest(url: url))
+            doTask(request: request, announceMessageTo: delegate, idString: .SIGNIN)
+        } else {
+            delegate?.receiveAnnouncement(id: .USERMALFORMED, announcement: "You didn't pass correct user details, try again")
+        }
+    }
+    
+    private func signUp(newUser: FullUser?, announceMessageTo delegate: Announcer?){
         //do we need a session? a shared session?
         //session = nil
         if newUser != nil {
             let url = URL(string: PollPHPConnector.urlSignUp)
             let request = newUser!.putInURLRequest(newRequest: URLRequest(url: url!))
             print("Doing Sign up task")
-            doTask(request: request, announceMessageTo: delegate, idString: "Sign Up")
+            doTask(request: request, announceMessageTo: delegate, idString: .SIGNUP)
             //kill session?
         } else {
-            delegate.receiveAnnouncement(id: "User Malformed", announcement: "You didn't pass correct user details, try again")
+            delegate?.receiveAnnouncement(id: .USERMALFORMED, announcement: "You didn't pass correct user details, try again")
         }
         
     }
     
-    func signOut(announceMessageTo delegate: Announcer) {
-        if session != nil {
-            //signout
-            let url = URL(string: PollPHPConnector.urlSignOut)
-            let request = URLRequest(url: url!)
-            doTask(request: request, announceMessageTo: delegate, idString: "Sign Out")
-            session!.invalidateAndCancel()
-            session = nil
-        } else {
-            //not necessary to sign out
-            //send message to delegate
-            delegate.receiveAnnouncement(id: "No Sign Out", announcement: "user not signed in")
-        }
+    private func signOut(announceMessageTo delegate: Announcer?) {
+        let url = URL(string: PollPHPConnector.urlSignOut)
+        let request = URLRequest(url: url!)
+        doTask(request: request, announceMessageTo: delegate, idString: .SIGNOUT)
+        killSession()
     }
     
-    func checkEmailAvailability(with email: String,announceMessageTo delegate: Announcer){
+    private func killSession() {
+        session!.invalidateAndCancel()
+        session = nil
+    }
+    
+    private func checkEmailAvailability(with email: String?,announceMessageTo delegate: Announcer?){
         //post to usernamecheck2 signup.php
         let url = URL(string: PollPHPConnector.urlSignUp)
         var request = URLRequest(url: url!)
-        print("checking request email check")
         request.httpMethod  = "POST"
         request.httpBody = "usernamecheck2=\(email)".data(using: .utf8)
-        doTask(request: request, announceMessageTo: delegate, idString: "Availability")
+        doTask(request: request, announceMessageTo: delegate, idString: .CHECKEMAIL)
         
     }
     
-    func vote(poll: Poll, vote: [Int], announceMessageTo delegate: Announcer? = nil) {
+    private func vote(poll: Poll, vote: [Int], announceMessageTo delegate: Announcer?) {
         
     }
     
-    func editProfile(from user: User, to newUser: FullUser, announceMessageTo delegate: Announcer) {
+    private func editProfile(from user: User, to newUser: FullUser, announceMessageTo delegate: Announcer?) {
         if newUser.userID == user.userID {
             let url = URL(string: PollPHPConnector.urlVote)
-            let request = newUser.putInURLRequest(newRequest: URLRequest(url: url!))
+            var request = newUser.putInURLRequest(newRequest: URLRequest(url: url!))
             print("Updating user profile")
-            doTask(request: request, announceMessageTo: delegate, idString: "Update Profile")
+            request.httpMethod  = "POST"
+            //add body
+            doTask(request: request, announceMessageTo: delegate, idString: .EDITPROFILE)
         }
         
     }
     
-    func update(poll: Poll? = nil,announceMessageTo delegate: Announcer){
+    private func update(poll: Poll? = nil, announceMessageTo delegate: Announcer?){
         let url = URL(string: PollPHPConnector.urlUpdatePoll)
         var request = URLRequest(url: url!)
-        print("getting update on Polls: \(poll)")
+        var rString = "updateTime="
         if poll != nil {
-            request.httpBody = "\(poll)".data(using: .utf8)
+            let pollUpdateTime = DateFormatter.localizedString(from: poll!.updateTime, dateStyle: DateFormatter.Style.short, timeStyle: DateFormatter.Style.none)
+            rString.append(pollUpdateTime)
+            rString.append("&pollID=\(poll)")
+        } else {
+            let updateTime = DateFormatter.localizedString(from: mainAnnouncer.lastUpdated!, dateStyle: DateFormatter.Style.short, timeStyle: DateFormatter.Style.none)
+            rString.append(updateTime)
         }
-        doTask(request: request, announceMessageTo: delegate, idString: "PollUpdate")
+        request.httpMethod  = "POST"
+        request.httpBody = rString.data(using: .utf8)
+        doTask(request: request, announceMessageTo: delegate, idString: .UPDATE)
     }
     
-    func deletePoll(poll: Poll, announceMessageTo delegate: Announcer) {
+    private func deletePoll(poll: Poll, announceMessageTo delegate: Announcer?) {
         let url = URL(string: PollPHPConnector.urlDeletePoll)
         var request = URLRequest(url: url!)
-        print("Deleting Poll: \(poll)")
-        request.httpBody = "\(poll)".data(using: .utf8)
-        doTask(request: request, announceMessageTo: delegate, idString: "PollDelete")
+        request.httpMethod  = "POST"
+        request.httpBody = "pollID=\(poll)".data(using: .utf8)
+        doTask(request: request, announceMessageTo: delegate, idString: .DELETE)
     }
     
-    func forgotPassword(email: String, announceMessageTo delegate: Announcer) {
+    private func forgotPassword(email: String, announceMessageTo delegate: Announcer?) {
         let url = URL(string: PollPHPConnector.urlForgotPassword)
         var request = URLRequest(url: url!)
-        print("Recovering password for email: \(email)")
+        request.httpMethod  = "POST"
         request.httpBody = "email=\(email)".data(using: .utf8)
-        doTask(request: request, announceMessageTo: delegate, idString: "PassWord Forgotten")
+        doTask(request: request, announceMessageTo: delegate, idString: .FORGOT)
     }
     
     func deleteCookies() {
@@ -147,31 +197,28 @@ class PollPHPConnector {
             for cookie in cookies {
                 session?.configuration.httpCookieStorage?.deleteCookie(cookie)
             }
-            
         }
     }
-    
-    
-    
-    private func doTask(request: URLRequest, announceMessageTo delegate: Announcer, idString: String) {
+
+    private func doTask(request: URLRequest, announceMessageTo delegate: Announcer?, idString: Announcements) {
         if session == nil {
             session = URLSession(configuration: sesConfig, delegate: nil, delegateQueue: nil)
         }
         let ss = String(data: request.httpBody!, encoding: .utf8)
         print("request: \(ss)")
-        let task = session!.dataTask(with: request) { data, response, error in
+        let task = session!.dataTask(with: request) { [unowned self] data, response, error in
             
             guard let data = data, error == nil else {
                 //change error output
                 print("error is: \(error)")
                 DispatchQueue.main.async {
-                    delegate.receiveAnnouncement(id: "Networking error", announcement: "\(error)")
+                    delegate?.receiveAnnouncement(id: .NETWORKINGERROR, announcement: "\(error)")
                 }
                 return
             }
             DispatchQueue.main.async {
-                //self.mainAnnouncer.receiveAnnouncement(id: idString, announcement: data)
-                delegate.receiveAnnouncement(id: idString, announcement: data)
+                self.mainAnnouncer.receiveAnnouncement(id: idString, announcement: data)
+                delegate?.receiveAnnouncement(id: idString, announcement: data)
             }
             //Console Output Check Debug
             let responseString = String(data: data, encoding: .utf8)
@@ -183,9 +230,3 @@ class PollPHPConnector {
     
 }
 
-protocol Announcer: class {
-    var lastUpdated : Date? {
-        get
-    }
-    func receiveAnnouncement(id: String, announcement: Any)
-}

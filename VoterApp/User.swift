@@ -11,10 +11,10 @@ import Foundation
 class User {
     let username: String
     let password: String
-    var userID: String?
+    var userID: Int?
     var isVerified: Bool?
     
-    init?(newUsername: String?, newPassword: String?, newUserID: String?, newIsVerified: Bool?) {
+    init?(newUsername: String?, newPassword: String?, newUserID: Int?, newIsVerified: Bool?) {
         let check =  newUsername != nil && newPassword != nil && (!newUsername!.hasSuffix("@cide.edu") && !newUsername!.hasSuffix("@alumnos.cide.edu"))
         
         if check {

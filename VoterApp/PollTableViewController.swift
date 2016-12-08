@@ -90,6 +90,7 @@ class PollTableViewController: UITableViewController,PollListener/*, UITableView
         }
         return 0
     }
+    
     override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
         var array = [String]()
         if myPolls != nil && myPolls!.count > 0 {
