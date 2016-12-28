@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		581643871E00B9E4006E9E43 /* ChooseOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 581643861E00B9E4006E9E43 /* ChooseOptionsViewController.swift */; };
 		581E47F91D946AE500CACAB1 /* PollPHPConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 581E47F81D946AE500CACAB1 /* PollPHPConnector.swift */; };
 		581E47FB1D948BA700CACAB1 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 581E47FA1D948BA700CACAB1 /* User.swift */; };
 		582FE3651D9898B700990D77 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582FE3641D9898B700990D77 /* LoginViewController.swift */; };
@@ -14,6 +15,9 @@
 		582FE36B1D98A83500990D77 /* VoterAppViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582FE36A1D98A83500990D77 /* VoterAppViewController.swift */; };
 		5847B87B1DB4507E00C15FBE /* PollTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5847B87A1DB4507E00C15FBE /* PollTableViewController.swift */; };
 		585A78F41D9A27F5005839D5 /* ForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 585A78F31D9A27F5005839D5 /* ForgotPasswordViewController.swift */; };
+		5897E8761E1383CE005755C2 /* PollList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5897E8751E1383CE005755C2 /* PollList.swift */; };
+		58CC7DD31E01208600B804F7 /* CreateQuestionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CC7DD21E01208600B804F7 /* CreateQuestionsViewController.swift */; };
+		58CC7DD71E01BDE300B804F7 /* QuestionEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CC7DD61E01BDE300B804F7 /* QuestionEditorViewController.swift */; };
 		58CF5F431D9C40A7004C3116 /* MakeAPollViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CF5F421D9C40A7004C3116 /* MakeAPollViewController.swift */; };
 		58CF5F451D9C40D6004C3116 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CF5F441D9C40D6004C3116 /* AboutViewController.swift */; };
 		58CF5F471D9C410A004C3116 /* ContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CF5F461D9C410A004C3116 /* ContactViewController.swift */; };
@@ -25,11 +29,12 @@
 		58F3E7981D8A49DA001E4C65 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58F3E7971D8A49DA001E4C65 /* Assets.xcassets */; };
 		58F3E79B1D8A49DA001E4C65 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 58F3E7991D8A49DA001E4C65 /* LaunchScreen.storyboard */; };
 		58F3E7A41D8A4A29001E4C65 /* Poll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F3E7A31D8A4A29001E4C65 /* Poll.swift */; };
-		58F3E7A61D8A4A65001E4C65 /* PollMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F3E7A51D8A4A65001E4C65 /* PollMethod.swift */; };
+		58F3E7A61D8A4A65001E4C65 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F3E7A51D8A4A65001E4C65 /* Protocols.swift */; };
 		58F905311DB87F8E003253E2 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 58F905331DB87F8E003253E2 /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		581643861E00B9E4006E9E43 /* ChooseOptionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChooseOptionsViewController.swift; sourceTree = "<group>"; };
 		581E47F81D946AE500CACAB1 /* PollPHPConnector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PollPHPConnector.swift; sourceTree = "<group>"; };
 		581E47FA1D948BA700CACAB1 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		582FE3641D9898B700990D77 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -37,6 +42,9 @@
 		582FE36A1D98A83500990D77 /* VoterAppViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoterAppViewController.swift; sourceTree = "<group>"; };
 		5847B87A1DB4507E00C15FBE /* PollTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PollTableViewController.swift; sourceTree = "<group>"; };
 		585A78F31D9A27F5005839D5 /* ForgotPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewController.swift; sourceTree = "<group>"; };
+		5897E8751E1383CE005755C2 /* PollList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PollList.swift; sourceTree = "<group>"; };
+		58CC7DD21E01208600B804F7 /* CreateQuestionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateQuestionsViewController.swift; sourceTree = "<group>"; };
+		58CC7DD61E01BDE300B804F7 /* QuestionEditorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionEditorViewController.swift; sourceTree = "<group>"; };
 		58CF5F421D9C40A7004C3116 /* MakeAPollViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MakeAPollViewController.swift; sourceTree = "<group>"; };
 		58CF5F441D9C40D6004C3116 /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		58CF5F461D9C410A004C3116 /* ContactViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactViewController.swift; sourceTree = "<group>"; };
@@ -54,7 +62,7 @@
 		58F3E79A1D8A49DA001E4C65 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		58F3E79C1D8A49DA001E4C65 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		58F3E7A31D8A4A29001E4C65 /* Poll.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Poll.swift; sourceTree = "<group>"; };
-		58F3E7A51D8A4A65001E4C65 /* PollMethod.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PollMethod.swift; sourceTree = "<group>"; };
+		58F3E7A51D8A4A65001E4C65 /* Protocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 		58F905321DB87F8E003253E2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		58F905341DB87FD9003253E2 /* es-MX */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-MX"; path = "es-MX.lproj/Localizable.strings"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -70,13 +78,36 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5816438A1E00E62A006E9E43 /* createAPoll */ = {
+			isa = PBXGroup;
+			children = (
+				58CF5F421D9C40A7004C3116 /* MakeAPollViewController.swift */,
+				581643861E00B9E4006E9E43 /* ChooseOptionsViewController.swift */,
+				58CC7DD21E01208600B804F7 /* CreateQuestionsViewController.swift */,
+				58CC7DD61E01BDE300B804F7 /* QuestionEditorViewController.swift */,
+			);
+			name = createAPoll;
+			sourceTree = "<group>";
+		};
+		5816438B1E00E686006E9E43 /* CheckPolls */ = {
+			isa = PBXGroup;
+			children = (
+				5847B87A1DB4507E00C15FBE /* PollTableViewController.swift */,
+				58CF5F4A1D9C4164004C3116 /* PollResultsViewController.swift */,
+				58CF5F4E1D9C41AD004C3116 /* VoteMoreOptionsViewController.swift */,
+				58CF5F4C1D9C418C004C3116 /* VoteForTwoViewController.swift */,
+			);
+			name = CheckPolls;
+			sourceTree = "<group>";
+		};
 		582FE36C1D98A83A00990D77 /* PollingModel */ = {
 			isa = PBXGroup;
 			children = (
 				58F3E7A31D8A4A29001E4C65 /* Poll.swift */,
-				58F3E7A51D8A4A65001E4C65 /* PollMethod.swift */,
+				58F3E7A51D8A4A65001E4C65 /* Protocols.swift */,
 				581E47F81D946AE500CACAB1 /* PollPHPConnector.swift */,
 				581E47FA1D948BA700CACAB1 /* User.swift */,
+				5897E8751E1383CE005755C2 /* PollList.swift */,
 			);
 			name = PollingModel;
 			sourceTree = "<group>";
@@ -87,13 +118,8 @@
 				582FE3641D9898B700990D77 /* LoginViewController.swift */,
 				582FE3681D98A35600990D77 /* RegisterViewController.swift */,
 				585A78F31D9A27F5005839D5 /* ForgotPasswordViewController.swift */,
-				58CF5F421D9C40A7004C3116 /* MakeAPollViewController.swift */,
 				58CF5F441D9C40D6004C3116 /* AboutViewController.swift */,
 				58CF5F461D9C410A004C3116 /* ContactViewController.swift */,
-				58CF5F4A1D9C4164004C3116 /* PollResultsViewController.swift */,
-				58CF5F4C1D9C418C004C3116 /* VoteForTwoViewController.swift */,
-				58CF5F4E1D9C41AD004C3116 /* VoteMoreOptionsViewController.swift */,
-				5847B87A1DB4507E00C15FBE /* PollTableViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -125,6 +151,8 @@
 		58F3E78F1D8A49DA001E4C65 /* VoterApp */ = {
 			isa = PBXGroup;
 			children = (
+				5816438B1E00E686006E9E43 /* CheckPolls */,
+				5816438A1E00E62A006E9E43 /* createAPoll */,
 				58EDC99B1DB8057E00B59C29 /* Strings */,
 				582FE36D1D98A84700990D77 /* Controllers */,
 				582FE36C1D98A83A00990D77 /* PollingModel */,
@@ -223,6 +251,7 @@
 			files = (
 				582FE3651D9898B700990D77 /* LoginViewController.swift in Sources */,
 				58CF5F471D9C410A004C3116 /* ContactViewController.swift in Sources */,
+				58CC7DD31E01208600B804F7 /* CreateQuestionsViewController.swift in Sources */,
 				58CF5F4B1D9C4164004C3116 /* PollResultsViewController.swift in Sources */,
 				582FE3691D98A35600990D77 /* RegisterViewController.swift in Sources */,
 				585A78F41D9A27F5005839D5 /* ForgotPasswordViewController.swift in Sources */,
@@ -235,8 +264,11 @@
 				58F3E7911D8A49DA001E4C65 /* AppDelegate.swift in Sources */,
 				5847B87B1DB4507E00C15FBE /* PollTableViewController.swift in Sources */,
 				581E47F91D946AE500CACAB1 /* PollPHPConnector.swift in Sources */,
+				58CC7DD71E01BDE300B804F7 /* QuestionEditorViewController.swift in Sources */,
+				5897E8761E1383CE005755C2 /* PollList.swift in Sources */,
 				58CF5F451D9C40D6004C3116 /* AboutViewController.swift in Sources */,
-				58F3E7A61D8A4A65001E4C65 /* PollMethod.swift in Sources */,
+				581643871E00B9E4006E9E43 /* ChooseOptionsViewController.swift in Sources */,
+				58F3E7A61D8A4A65001E4C65 /* Protocols.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

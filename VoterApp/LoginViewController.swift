@@ -27,12 +27,12 @@ class LoginViewController: UIViewController, Announcer {
                 return
             }
             
-            let email = username.text!
+            //let email = username.text!
             // let range = email.range(of: "@")
             // let index: Int = email.distance(from: email.startIndex, to: range!.lowerBound)
             // let name = email.substring(to: email.index(email.startIndex, offsetBy: index))
             
-            user = User(newUsername: email, newPassword: password.text!, newUserID: nil, newIsVerified: false)
+            user = User(newUsername: username.text!, newPassword: password.text!, newUserID: nil, newIsVerified: false)
             //TODO: make a loading wait screen
             maker?.pollConnector?.askServer(to: Announcements.SIGNIN, with: user, announceMessageTo: self)
             
@@ -75,41 +75,25 @@ class LoginViewController: UIViewController, Announcer {
         self.present(successfullAlert, animated: true, completion: nil)
     }
     
-    func receiveAnnouncement(id: Announcements, announcement: Any) {
-        var responseString = ""
-        if let data = announcement as? Data {
-            if let tempResponse = String(data: data, encoding: .utf8) {
-                responseString = tempResponse
-            }
-        }
-        
-        var message = responseString
-        var title = NSLocalizedString("SomeWrong", comment: "Something went Wrong")
-        
+    func receiveAnnouncement(id: Announcements, announcement data: [String:Any]?) {
+        let echo = data?["echo"] as? String
         
         switch id {
         case .SIGNIN:
-            if responseString.contains("successful") {
-                
-                presentDismissAllert(title: NSLocalizedString("Success", comment: ""), message: NSLocalizedString("SignInSucc", comment: "You were signed in successfully"))
-                print("Login view succesfull login")
-                
-            } else if message.contains("already"){
-                
-                presentDismissAllert(title: NSLocalizedString("HoldEm", comment: ""), message: NSLocalizedString("AlreadySignedIn", comment: "You were already signed in"))
-                print("Login view already login")
-                
-            } else {
-                print("Login view unable to login")
-                title = NSLocalizedString("UnableToSignIn", comment: "We could not sign you in.")
-                showAlert(message: message, title: title)
-            }
-        case .USERMALFORMED:
+            presentDismissAllert(title: NSLocalizedString("Success", comment: ""), message: NSLocalizedString("SignInSucc", comment: "You were signed in successfully"))
+            print("Login view succesfull login")
+        case .ERROR:
+        if echo != nil {
+            showAlert(message: NSLocalizedString(echo!, comment: ""))
+        } else {
+            showAlert(message: NSLocalizedString("SomeWrong", comment: "Something went Wrong"), title: NSLocalizedString("UnableToSignIn", comment: "We could not sign you in."))
+        }
+        case .REQUESTMALFORMED:
             showAlert(message: NSLocalizedString("Fill_All", comment: "Ask user to fill all fields"))
         case .NETWORKINGERROR:
-            title = NSLocalizedString("SomeWrong", comment: "Something went Wrong")
-            message =  NSLocalizedString("UnknownNetError", comment: "Unknown Network Problem; please check your connection status")
-            showAlert(message: message, title: title)
+            showAlert(message: NSLocalizedString("UnknownNetError", comment: "Unknown Network Problem; please check your connection status"), title: NSLocalizedString("SomeWrong", comment: "Something went Wrong"))
+        case .CHECKSTATUS:
+            presentDismissAllert(title: NSLocalizedString("HoldEm", comment: ""), message: NSLocalizedString("AlreadySignedIn", comment: "You were already signed in"))
         default:
             break
         }

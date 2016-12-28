@@ -123,11 +123,44 @@ class RegisterViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         maker!.pollConnector!.askServer(to: .CHECKEMAIL, with: email, announceMessageTo: self)
     }
     
-    func receiveAnnouncement(id: Announcements, announcement data: Any) {
-        print("Id String received in Register: \(id)")
-        let message = String(data: data as! Data, encoding: .utf8)
-        if message!.contains("already"){
-            // kill registration
+    func receiveAnnouncement(id: Announcements, announcement data: [String:Any]?) {
+        let echo = data?["echo"] as? String
+        switch id {
+        case .SIGNUP:
+            let successfullAlert = UIAlertController(title: NSLocalizedString("Success", comment: "Success!"), message: NSLocalizedString("RegSuccCheckEmail", comment: ""), preferredStyle: UIAlertControllerStyle.alert)
+            let okAction = UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: UIAlertActionStyle.default) { _ in
+                self.performSegue(withIdentifier: "GoBackToLogIn", sender: self)
+            }
+            successfullAlert.addAction(okAction)
+            self.present(successfullAlert, animated: true, completion: nil)
+        case .CHECKEMAIL:
+            //if echo != nil {
+            //TODO: change echo to NSLOCALIZED STRING
+            //print("Announcement Register View: \(echo!)")
+            emailVerificationLabel.text = echo!
+            emailVerificationLabel.isHidden = false
+            if (data?["status"] as! Bool) {
+                //print("is ok")
+                emailVerificationLabel.textColor = UIColor.green
+                //unblock button
+            } else {
+                //print("is not ok; change to red")
+                emailVerificationLabel.textColor = UIColor.red
+                //block button
+            }
+        //}
+        case .NETWORKINGERROR:
+            presentModalView(textForAlert: NSLocalizedString("SomeWrong", comment: "Something Went Wrong"), title: NSLocalizedString("NetError", comment: "Network Error"))
+        case .ERROR:
+            if echo != nil {
+                presentModalView(textForAlert: NSLocalizedString(echo!, comment: ""), title: NSLocalizedString("SomeWrong", comment: "Something Went Wrong"))
+            } else {
+                //unknown error
+                presentModalView(textForAlert: NSLocalizedString("UnsuccReg", comment: ""))
+            }
+        case .REQUESTMALFORMED:
+            presentModalView(textForAlert: NSLocalizedString(echo!, comment: ""), title: NSLocalizedString("Sorry", comment: ""))
+        case .CHECKSTATUS:
             let successfullAlert = UIAlertController(title: NSLocalizedString("HoldEm", comment: ""), message: NSLocalizedString("AlreadySignedIn", comment: "You were already signed in"), preferredStyle: UIAlertControllerStyle.alert)
             let okAction = UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: UIAlertActionStyle.default) { _ in
                 self.performSegue(withIdentifier: "goToMain", sender: self)
@@ -135,41 +168,6 @@ class RegisterViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
             successfullAlert.addAction(okAction)
             print("Login view already login")
             self.present(successfullAlert, animated: true, completion: nil)
-            return
-        }
-        
-        switch id {
-        case .SIGNUP:
-            if message != nil {
-                if message!.contains("success") {
-                    let successfullAlert = UIAlertController(title: NSLocalizedString("Success", comment: "Success!"), message: NSLocalizedString("RegSuccCheckEmail", comment: ""), preferredStyle: UIAlertControllerStyle.alert)
-                    let okAction = UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: UIAlertActionStyle.default) { _ in
-                        self.performSegue(withIdentifier: "GoBackToLogIn", sender: self)
-                    }
-                    successfullAlert.addAction(okAction)
-                    self.present(successfullAlert, animated: true, completion: nil)
-                } else {
-                    presentModalView(textForAlert: NSLocalizedString("UnsuccReg", comment: ""))
-                }
-            }
-        case .CHECKEMAIL:
-            if message != nil {
-                print("Announcement Register View: \(message)")
-                emailVerificationLabel.text = message!
-                emailVerificationLabel.isHidden = false
-                if message!.hasSuffix("is OK") {
-                    print("is ok")
-                    emailVerificationLabel.textColor = UIColor.green
-                    //unblock button
-                } else {
-                    print("is not ok; change to red")
-                    emailVerificationLabel.textColor = UIColor.red
-                    //block button
-                }
-            }
-        case .NETWORKINGERROR:
-            presentModalView(textForAlert: data as! String, title: NSLocalizedString("NetError", comment: "Network Error"))
-            
         default:
             break
         }

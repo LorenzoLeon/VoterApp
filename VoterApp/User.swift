@@ -15,7 +15,7 @@ class User {
     var isVerified: Bool?
     
     init?(newUsername: String?, newPassword: String?, newUserID: Int?, newIsVerified: Bool?) {
-        let check =  newUsername != nil && newPassword != nil && (!newUsername!.hasSuffix("@cide.edu") && !newUsername!.hasSuffix("@alumnos.cide.edu"))
+        let check =  newUsername != nil && newPassword != nil && !(!newUsername!.hasSuffix("@cide.edu") && !newUsername!.hasSuffix("@alumnos.cide.edu"))
         
         if check {
             username = newUsername!
@@ -30,7 +30,7 @@ class User {
     func addToRequest(newRequest: URLRequest) -> URLRequest {
         var request = newRequest
         request.httpMethod  = "POST"
-        request.httpBody = "u=\(username)&p=\(password)".data(using: .utf8)
+        request.httpBody = "e=\(username)&p=\(password)".data(using: .utf8)
         return request
     }
 
@@ -91,9 +91,9 @@ class FullUser: User, CustomStringConvertible{
 }
 
 enum Gender: String {
-    case Male = "m"
-    case Female = "f"
-    case Else = "e"
+    case Male = "M"
+    case Female = "F"
+    case Else = "E"
     
     static func set(gender: String) -> Gender {
         if gender.contains("F"){

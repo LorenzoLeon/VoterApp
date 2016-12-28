@@ -8,31 +8,64 @@
 
 import UIKit
 
-class MakeAPollViewController: UIViewController, Announcer{
-    
-    var lastUpdated: Date?
+class MakeAPollViewController: UIViewController, UITextFieldDelegate{
     
     var maker: Poller?
     
+    
+    @IBOutlet weak var modifiable: UISwitch!
+    
     @IBOutlet weak var pollNameTextField: UITextView!
     
-    @IBAction func submitNewPoll(_ sender: UIButton) {
-        //check for errors input fields
-        //and create poll
-        if pollIsViable() {
-            
-            //fake poll
-            let nPoll = Poll(newPollID: "", newCreator: maker?.user!, newQuestion: "", newAnswers: [String](), canChange: false, newCreationDate: Date(), newHasVoted: false, newVote: [[Int]](), newUserID: "", newIsOpen: true, newVoters: nil, newType: .BORDA)
-            
-            
-            maker?.pollConnector?.askServer(to: .CREATE, with: nPoll, announceMessageTo: self)
-            
+    @IBOutlet weak var anonymous: UISwitch!
+    
+    @IBOutlet weak var nextButton: UIButton!
+    
+    @IBOutlet weak var charactersLeft: UILabel!
+    
+    var start = false
+    
+    override func viewDidAppear(_ animated: Bool) {
+        start = true
+    }
+    
+    var poll = Poll()
+    
+    @IBAction func next(_ sender: UIButton) {
+        if pollNameIsViable() {
+            performSegue(withIdentifier: "checkOptionsSegue", sender: self)
         } else {
-            presentModalView(textForAlert: NSLocalizedString("PollIncorrect", comment: "Poll inputs are incorrect"), title: NSLocalizedString("BadPoll", comment: "Bad Poll fields"))
+            presentModalView(textForAlert: "Your Poll Name is too long!")
         }
     }
     
-    private func pollIsViable() -> Bool {
+
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if start {
+            textField.text = ""
+            start = false
+        }
+    }
+    
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if let count = textField.text?.characters.count {
+            DispatchQueue.main.async{ [unowned self] in
+                if count <= 255 {
+                    
+                    self.charactersLeft.text = "\(count) characters left"
+                    self.charactersLeft.textColor = .black
+                    self.nextButton.isEnabled = true
+                } else {
+                    self.charactersLeft.text = "-\(count) characters over"
+                    self.charactersLeft.textColor = .red
+                    self.nextButton.isEnabled = false
+                }
+            }
+        }
+    }
+    
+    private func pollNameIsViable() -> Bool {
         var check = false
         if pollNameTextField.hasText {
             if ( pollNameTextField.text!.characters.count > 255) {
@@ -46,6 +79,17 @@ class MakeAPollViewController: UIViewController, Announcer{
         return check
     }
     
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "checkOptionsSegue" {
+            let dest = segue.destination as! ChooseOptionsViewController
+            dest.maker = self.maker
+            poll.name = pollNameTextField.text
+            poll.isAnonymous = anonymous.isOn
+            poll.modifiable = modifiable.isOn
+            dest.poll = poll
+        }
+    }
     
     func receiveAnnouncement(id: Announcements, announcement: Any) {
         var responseString = ""

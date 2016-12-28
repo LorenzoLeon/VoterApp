@@ -14,67 +14,88 @@ struct Values {
     static let oneWeek: Double = 60*60*24*7 //one week in seconds
 }
 
-class Poll: Hashable, CustomStringConvertible
-{
-    var pollID: String
-    private var creator: String
-    private var creatorID: Int?
-    private var question: String
-    private var answers:  [String]
-    private var vote:  [[Int]]
-    private var voters = [Int]()
-    private var canChangeVote = false
-    var updateTime: Date
-    var creationDate: Date
-    var hasVoted: Bool
-    private var isOpen: Bool
-    private var userID: Int
-    private let type: PollMethod
+class Poll: Hashable {
+    var pollID: Int?
+    var name: String?
+    var isOpen: Bool?
+    var creationDate: Date?
+    var isAnonymous: Bool?
+    var creatorID: Int?
+
+    var genders: [Gender]?
+    var division: [Division]?
+    var years: [Int]?
+    var modifiable: Bool?
+    var updateTime: Date?
     
-    init(newPollID: String, newCreator: String, newQuestion: String, newAnswers: [String], canChange: Bool, newCreationDate: Date, newHasVoted: Bool, newVote: [[Int]], newUserID: Int, newIsOpen: Bool, newVoters: [Int]?, newType: PollMethod) {
-        creationDate = newCreationDate
-        updateTime = Date()
-        userID = newUserID
-        pollID = newPollID
-        creator = newCreator
-        question = newQuestion
-        answers = newAnswers
-        vote = newVote
-        hasVoted = newHasVoted
-        canChangeVote = canChange
-        isOpen = newIsOpen
-        voters = newVoters!.isEmpty ? (hasVoted ? [userID] : [Int](repeating: 0, count: vote.count)) : newVoters! // if anonymous, voters is only current user (if he has voted)
-        type = newType
-    }
     
-    convenience init(newPollID: String, newCreator: String, newQuestion: String, newAnswers: [String], newcreationDate: Date, newHasVoted: Bool, newVote: [[Int]], newUserID: Int, newType: PollMethod) {
-        self.init(newPollID: newPollID, newCreator: newCreator, newQuestion: newQuestion, newAnswers: newAnswers, canChange: false, newCreationDate: Date() , newHasVoted: newHasVoted, newVote: newVote, newUserID: newUserID, newIsOpen: false, newVoters: [Int](), newType: newType)
-        voters = hasVoted ? [userID] : [Int](repeating: 0, count: vote.count) // if anonymous, voters is only current user (if he has voted)
-        isOpen = false
-        creationDate  = newcreationDate
-    }
+    var questions: [Question]?
+    var voters: [Int]?
     
-    convenience init(jsonResults: [String: Any], nuserID: Int) {
-        let npollID = jsonResults["PollID"] as! String
-        let ncreator = jsonResults["Creator"] as! String
-        let nquestion = jsonResults["Question"] as! String
-        let nanswers = jsonResults["Answers"] as! [String]
-        let nchange = jsonResults["CanChange"] as! Bool
-        let ncreationDate = jsonResults["CreationDate"] as! Date
-        let nhasVoted = jsonResults["HasVoted"] as! Bool
-        let nvote = jsonResults["Vote"] as! [[Int]]
-        let nisOpen = jsonResults["IsOpen"] as! Bool
-        let nvoters = jsonResults["Voters"] as! [Int]
-        let nType = jsonResults["Type"] as! PollMethod
+
+    var hasVoted: Bool?
+    var type: PollMethod?
+
+    
+    func makewith(jsonResults: [String: Any], nuserID: Int) -> Poll {
+        pollID = jsonResults["id"] as? Int
+        name = jsonResults["name"] as? String
+        isOpen = jsonResults["isOpen"] as? Int != 0
+        creationDate = jsonResults["created"] as? Date
+        isAnonymous = jsonResults["anonymous"] as? Int != 0
+        creatorID = jsonResults["creatorID"] as? Int
         
-        self.init(newPollID: npollID, newCreator: ncreator, newQuestion: nquestion, newAnswers: nanswers, canChange: nchange, newCreationDate: ncreationDate, newHasVoted: nhasVoted, newVote: nvote, newUserID: nuserID, newIsOpen: nisOpen, newVoters: nvoters, newType: nType)
-        
-        
+        //TODO: Questions
+        modifiable = jsonResults["modifiable"] as? Int != 0
+        hasVoted = jsonResults["hasVoted"] as? Int != 0
+        //vote = jsonResults["Vote"] as? [Int]
+        return self
     }
     
     
-    func answerCount() -> Int {
-        return answers.count
+    func putInURLRequest(newRequest: URLRequest) throws -> URLRequest {
+        var request = newRequest
+        request.httpMethod  = "POST"
+        request.httpBody = try JSONSerialization.data(withJSONObject: self.toArray(), options: .prettyPrinted)
+        return request
+    }
+    
+    func toArray() -> [String:Any] {
+        let gend = genders!.map({ (gender: Gender) -> String in
+            return gender.rawValue
+        })
+        let div = division!.map({ (division: Division) -> String in
+            return division.rawValue
+        })
+        let yea = years!.map({ (year: Int) -> String in
+            return String(year)
+        })
+        var anon = 0
+        if isAnonymous! {
+            anon = 1
+        }
+        var mod = 0
+        if modifiable! {
+            mod = 1
+        }
+        
+        let dictionary: [String : Any] = [
+            "pollName" : pollID!,
+            "anonymous" : "\(anon)",
+            "modifiable" : "\(mod)",
+            "division" : div.joined(separator: ", "),
+            "gender" : gend.joined(separator: ", "),
+            "semester": yea.joined(separator: ", "),
+            "questions" : questionsToArray() ]
+        return dictionary
+    }
+    
+    func questionsToArray() -> [Any] {
+        var tempArray = [Any]()
+        for question in questions! {
+            tempArray.append(question.toArray())
+        }
+        return tempArray
     }
     /* TODO
      func addNewAnswers(newAnswers: [String]) -> Bool {
@@ -86,70 +107,50 @@ class Poll: Hashable, CustomStringConvertible
      return isOpen
      }*/
     
-    func isMine() -> Bool {
+    func isMine(userID: Int) -> Bool {
         return creatorID == userID
     }
     
-    func isFinished() -> Bool { //check if it is still open, close if not
-        isOpen = !(creationDate.timeIntervalSince(Foundation.Date.init()) > Values.oneWeek) //older than  1 week
-        return isOpen
-    }
-    
-    func hasBeenUpdated(since lastUpdateInServer: Date) -> Bool {
-        return updateTime.timeIntervalSince(lastUpdateInServer) > Values.timeToUpdate
-    }
-    
-    func updateWith(newTime: Date, newAnswers: [String], newHasVoted: Bool, newVoters: [Int]?, newVote: [[Int]] ) {
-        if hasBeenUpdated(since: newTime) {
-            updateTime = newTime
-            answers = newAnswers
-            hasVoted = newHasVoted
-            voters = newVoters!.isEmpty ? (hasVoted ? [userID] : [Int]()) : newVoters! // if anonymous, voters is only current user (if he has voted)
-            vote = newVote
-        }
-    }
-    
-    //TODO
-    func setVotes(to newVotes: [[Int]]) -> Bool{
-        if !hasVoted  || canChangeVote {
-            vote = newVotes
-            if !hasVoted { voters += [userID] }
-            hasVoted = true
-            return true
-        }
-        return false
-    }
-    
-    //TODO
-    func getMappedVotes() -> [String:[Int]] {
-        var mappedVotes = [String:[Int]]()
-        for (i, voter) in voters.enumerated() {
-            mappedVotes[String(voter)] = vote[i]
-        }
-        return mappedVotes
-    }
-    
-    
-    func getPollResults(pollingMethod:([[Int]]) -> [Double]) -> [String:Double] {
-        var results = pollingMethod(vote)
-        var mappedResults =  [String:Double]()
-        for (index, answer) in answers.enumerated() {
-            mappedResults[answer] = results[index]
-        }
-        return mappedResults
-    }
     var hashValue: Int {
-        return pollID.hashValue
+        return pollID!.hashValue
     }
     
     static func == (lhs: Poll, rhs: Poll) -> Bool {
         return lhs.pollID == rhs.pollID
     }
+}
+
+class Question: Equatable{
+    var name: String?
+    var answer: [String]?
+    var pollMethod: PollMethod?
+    var votes: [Int]?
     
-    var description: String {
-        get {
-            let date = DateFormatter.localizedString(from: updateTime, dateStyle: DateFormatter.Style.short, timeStyle: DateFormatter.Style.none).replacingOccurrences(of: "/", with: "-")
-            return "pollID=\(pollID)&lastupdated=\(date)"
+    var hashValue: Int {
+        if name != nil {
+            return name!.hashValue
+        } else {
+            return 0
         }
     }
+    
+    func toArray() -> [String: String] {
+        var tempArray = [String:String]()
+        tempArray["name"] = name!
+        tempArray["system"] = pollMethod!.getServerValue()
+        for (i, answer) in answer!.enumerated() {
+            let count = i + 1
+            tempArray["ans\(count)"] = answer
+        }
+        return tempArray
+    }
+    
+    static func == (lhs: Question, rhs: Question) -> Bool {
+        if lhs.name != nil && rhs.name != nil {
+            return lhs.name == rhs.name
+        } else {
+            return lhs.hashValue == rhs.hashValue
+        }
+    }
+    
 }

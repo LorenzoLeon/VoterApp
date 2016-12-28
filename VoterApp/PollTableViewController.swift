@@ -44,17 +44,11 @@ class PollTableViewController: UITableViewController,PollListener/*, UITableView
     
     
     func remakeTable() {
-        myPolls = pollMaker?.polls.filter { (poll: Poll) -> Bool in
-            return poll.isMine()
-        }
+        myPolls = pollMaker?.pollList?.myPolls()
         myPollsCount = myPolls?.count
-        votedPolls = pollMaker?.polls.filter { (poll: Poll) -> Bool in
-            return !poll.isMine() && poll.hasVoted
-        }
+        votedPolls = pollMaker?.pollList?.votedPolls()
         votedPollsCount = votedPolls?.count
-        openPolls = pollMaker?.polls.filter { (poll: Poll) -> Bool in
-            return !poll.isMine() && !poll.hasVoted
-        }
+        openPolls = pollMaker?.pollList?.openNotVotedPolls()
         openPollsCount = openPolls?.count
         var num = 0
         for list in allPolls {
@@ -64,7 +58,10 @@ class PollTableViewController: UITableViewController,PollListener/*, UITableView
     
     func pollsHaveChanged() {
         remakeTable()
-        self.tableView!.reloadData()
+        DispatchQueue.main.async { [unowned self] in
+            self.tableView!.reloadData()
+        }
+        
     }
     
     
@@ -107,10 +104,10 @@ class PollTableViewController: UITableViewController,PollListener/*, UITableView
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let poll = allPolls[indexPath.section]?[indexPath.row] {
-            if poll.hasVoted {
+            if poll.hasVoted! {
                 performSegue(withIdentifier: "showResults", sender: poll)
             } else {
-                if poll.answerCount() > 2 {
+                if poll.questions!.count > 2 {
                     performSegue(withIdentifier: "showVoteMore", sender: poll)
                 } else {
                     performSegue(withIdentifier: "showVote2", sender: poll)
@@ -123,8 +120,8 @@ class PollTableViewController: UITableViewController,PollListener/*, UITableView
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell =  UITableViewCell()
         if let poll = allPolls[indexPath.section]?[indexPath.row] {
-            cell = tableView.dequeueReusableCell(withIdentifier: poll.pollID , for: indexPath)
-            
+            cell = tableView.dequeueReusableCell(withIdentifier: "PollCell" , for: indexPath)
+            cell.textLabel?.text = String(poll.pollID!)
             return cell
         }
         
